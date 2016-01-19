@@ -1,0 +1,50 @@
+﻿@charset "utf-8";
+article, aside, figure, footer, header,  
+hgroup, nav, section { display:block; }  
+nav ul { list-style:none; }  
+blockquote, q { quotes:none; }  
+blockquote:before, blockquote:after,  
+q:before, q:after { content:''; content:none; } 
+html,body,form,p,ol,ul,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,input{margin:0; padding:0; list-style: none outside none;} 
+a { margin:0; padding:0; font-size:100%; vertical-align:baseline; background:transparent; color:#000; text-decoration:none; }  
+ins { background-color:#ff9; color:#000; text-decoration:none; }  
+mark { background-color:#ff9; color:#000; font-style:italic; font-weight:bold; }  
+del { text-decoration: line-through; }  
+abbr[title], dfn[title] { border-bottom:1px dotted #000; cursor:help; }  
+table { border-collapse:collapse; border-spacing:0; }  
+hr { display:block; height:1px; border:0; border-top:1px solid #ddd; margin:1em 0; padding:0; }  
+input, select { vertical-align:middle; font-family: "方正黑体简体",Helvetica;}  
+em, i, s {font-style: normal; font-weight:normal; padding:0;}
+.eng{ font-family:Verdana, Geneva, sans-serif;}
+.al{ text-align:left;} .ar{ text-align:right;} .ac{ text-align:center;}
+.gray{ color:#999; padding-left:10px;}
+.yellow{ color:#fe9601;}
+.red{ color:#db0014;}
+.green{ color:#4DA318;}
+.fl{ float:left;}
+.fr{ float:right;}
+.mt_10{ margin-top:10px;}
+.mt_20{ margin-top:20px !important;}
+.mt_30{ margin-top:30px !important;}
+.mr_10{ margin-right:10px;}
+.clear{ clear:both;}
+.wrap_box{ min-width:320px;}
+/* END RESET CSS */  
+
+
+.ht_box{ position:relative; margin-bottom:10px;}
+.ht_box h5{ height:40px; line-height:40px; background:#f7f7f7; font-weight:normal; padding:0px 10px; border-bottom:1px solid #ccc;border-top:1px solid #ccc; font-size:16px; position:relative;}
+.htbh{ position:absolute; right:10px; font-size:14px; color:#2bb673;}
+.htnr{ padding:10px; background:#FFF;border-bottom:1px solid #ccc;}
+.htnr p{ height:24px; line-height:24px; color:#666;}
+
+
+
+.qpzz{ position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4) none repeat scroll !important; filter:alpha(opacity=7); color:#FFF; z-index:999999;}
+.qpzz .tip_box{ position:fixed; height:180px; width:420px; left:45%; top:60%; margin-top:-210px; margin-left:-140px; background-color:#FFF;  border-radius:6px;}
+.qpzz .tip_box h3{font-size:20px; border-bottom:1px solid #ddd; height:40px; line-height:40px; text-align:center; color:#0089cf; font-weight:normal;}
+.qpzz .tip_box .con_t{ padding:8px 0 2px;}
+.qpzz .tip_box .con_t p{ font-size:16px; padding:1px 16px; color:#000;}
+.qpzz .tip_box p{ padding:2px 8px; line-height:22px; color:#333; font-size:14px;}
+
+
