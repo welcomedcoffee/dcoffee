@@ -49,7 +49,7 @@ AppAsset::register($this);
             <div class="t_le">欢迎光临趣淘学<b>北京<a href="#">[切换城市]</a></b></div>
             <div class="t_ri">
                 <span><a href="zhuce.html">注册 |</a> <a href="denglu.html" class="a1">登陆</a></span>
-                <span class="mtx"><a href="<?= Url::to(['user/index']); ?>">我的趣淘学</a></span>
+                <span class="mtx"><a href="<?= Url::to(['student/index']); ?>">我的趣淘学</a></span>
                 <span> <a href="#">帮助中心</a></span>
                 <span class="app"><a href="#">APP</a></span>
             </div>
