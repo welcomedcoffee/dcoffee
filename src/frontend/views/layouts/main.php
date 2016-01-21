@@ -23,6 +23,11 @@ AppAsset::register($this);
 <meta name="Keywords" content="" />
 <link rel="stylesheet" href="/public/css/style.css" />
 <link rel="stylesheet" href="/public/css/common.css" />
+<link rel="stylesheet" href="/public/css/shop.css">
+<link rel="stylesheet" href="/public/css/sty.css">
+<link rel="stylesheet" href="/public/css/comm.css">
+<link rel="stylesheet" href="/public/css/css.css">
+<link rel="stylesheet" href="/public/css/ui.css">
 <link rel="stylesheet" type="text/css" href="/public/css/reset.css"/>
 <link rel="stylesheet" type="text/css" href="/public/css/start.css" />
 <script type="text/javascript" src="/public/js/jquery-1.11.3.min.js"></script>
