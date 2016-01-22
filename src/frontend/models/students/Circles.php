@@ -3,7 +3,7 @@ namespace frontend\models\students;
 use Yii;
 use yii\db\ActiveRecord;
 
-class MerType extends ActiveRecord
+class Circles extends ActiveRecord
 {
 
 	
@@ -12,7 +12,7 @@ class MerType extends ActiveRecord
      */
 	public static function tableName()
 	{
-		return '{{%mer_type}}';
+		return '{{%part_type}}';
 	}
 	/**
      * @inheritdoc 
@@ -21,9 +21,10 @@ class MerType extends ActiveRecord
     {
         return ;
     }
-    /*获取分类*/
-    public function getType()
+
+    /*获取商圈信息*/
+    public function getCircle()
     {
-    	return $this->find()->where('is_show=1')->asArray()->all();
+        return $this->find()->where('is_show=1')->asArray()->all();
     }
 }
