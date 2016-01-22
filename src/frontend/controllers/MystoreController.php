@@ -11,7 +11,7 @@ use Yii;
 use yii\web\Controller;
 
 /**
- * 我的门店首页
+ *  我的门店首页
  */
 class MystoreController extends BaseController
 {
