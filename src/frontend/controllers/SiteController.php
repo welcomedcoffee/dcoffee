@@ -68,7 +68,7 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
-     * @return mixed
+     * @return 首页
      */
     public function actionIndex()
     {
@@ -134,7 +134,7 @@ class SiteController extends Controller
     /**
      * Displays about page.
      *
-     * @return mixed
+     * @return 关于我
      */
     public function actionAbout()
     {
@@ -144,7 +144,7 @@ class SiteController extends Controller
     /**
      * Signs user up.
      *
-     * @return mixed
+     * @return 学生注册
      */
     public function actionSignup()
     {
@@ -160,6 +160,34 @@ class SiteController extends Controller
         return $this->render('signup', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * Signs user up.
+     *
+     * @return 企业注册
+     */
+    public function actionEnterprisesignup()
+    {
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->signup()) {
+                if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+                }
+            }
+        }
+
+        return $this->render('enterprisesignup', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     *@return 帮助中心
+     */
+    public function actionHelps(){
+         return $this->render('helps');
     }
 
     /**
