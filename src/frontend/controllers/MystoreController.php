@@ -8,16 +8,12 @@
 namespace frontend\controllers;
 
 use Yii;
-use yii\base\InvalidParamException;
-use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
 /**
  * 我的门店首页
  */
-class MystoreController extends Controller
+class MystoreController extends BaseController
 {
     /* 兼职门店首页 */
     public function actionIndex()
