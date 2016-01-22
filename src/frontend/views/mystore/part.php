@@ -156,10 +156,10 @@
 			<span id="">
 				<m>*</m>
                 <label>截止日期：</label>
-				<input type="text" name="startDateTime" id="ui_timepicker" placeholder="请输入报名截止日期" />
-                <input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}'})" id="logmin" class="input-text Wdate" style="width:120px;">
-		-
-		<input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d'})" id="logmax" class="input-text Wdate" style="width:120px;">
+				<input type="text" name="startDateTime" id="d11" placeholder="请输入报名截止日期" onClick="WdatePicker()" />
+<!--                <input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}'})" id="logmin" class="input-text Wdate" style="width:120px;">-->
+<!--		--->
+<!--		<input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d'})" id="logmax" class="input-text Wdate" style="width:120px;">-->
 			</span>
 			<span id="">
 				<m>*</m><label>兼职日期：</label>
