@@ -57,15 +57,19 @@ AppAsset::register($this);
             </div>
         </div>
     </div>
-    
+
     <!--head end-->
     <!--t_nav-->
     <div class="t_nav">
         <div class="t_navy"></div>
         <div class="t_navi t_min">
             <div class="t_navb"></div>
-            <div class="t_le"><a href="index.html" title="趣淘学"><img src="/public/images/logo.png" width="213" height="90" border="0" /></a></div>
             <div class="t_le">
+             <a href="<?= Url::to(['site/index']); ?>" title="众诚连锁">
+            <img src="/public/images/newlogo1.png" style='margin-left:20px' border="0" alt="众诚连锁" />
+            </a> 
+            </div>
+            <div class="t_le" style='margin-left:-320px'>
                 <ul>
                     <li class="menu bg"><a href="<?= Url::to(['site/index']); ?>">首&nbsp;&nbsp;页</a></li>
                     <li class="menu"><a href="<?= Url::to(['merchants/index']); ?>">优质商家</a></li>
