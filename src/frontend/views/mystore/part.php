@@ -13,8 +13,29 @@
     <link rel="stylesheet" href="public/css/sty.css" />
     <link rel="stylesheet" href="public/css/skin_v2.css" />
     <link rel="stylesheet" href="public/css/publish.css" />
-    <link href="/Scripts/pagekage/utils/widget/validation/css/validationEngine.jquery.css" rel="stylesheet" type="text/css" />
+<!--    <link href="/Scripts/pagekage/utils/widget/validation/css/validationEngine.jquery.css" rel="stylesheet" type="text/css" />-->
 
+    <?//= Html::cssFile('date/bootstrap-datetimepicker.min.css')?>
+    <?//= Html::cssFile('css/time/jquery-ui-1.8.17.custom.css')?>
+    <?//= Html::cssFile('css/time/jquery-ui-timepicker-addon.css')?>
+
+    <?//= Html::jsFile('js/time/jquery-ui-timepicker-addon.js')?>
+    <?//= Html::jsFile('js/time/jquery-ui-timepicker-zh-CN.js')?>
+<!--    <script type="text/javascript">-->
+<!--        $(function () {-->
+<!--            alert($("#ui_timepicker"))-->
+<!--            $("#ui_timepicker").datetimepicker({-->
+<!--                //showOn: "button",-->
+<!--                //buttonImage: "./css/images/icon_calendar.gif",-->
+<!--                //buttonImageOnly: true,-->
+<!--                showSecond: true,-->
+<!--                timeFormat: 'hh:mm:ss',-->
+<!--                stepHour: 1,-->
+<!--                stepMinute: 1,-->
+<!--                stepSecond: 1-->
+<!--            })-->
+<!--        })-->
+<!--    </script>-->
 </head>
 <body>
 <!--head-->
@@ -135,7 +156,10 @@
 			<span id="">
 				<m>*</m>
                 <label>截止日期：</label>
-				<input type="text" name="applyEnd" id="startDate" class="form-datetime" placeholder="请输入报名截止日期" />
+				<input type="text" name="startDateTime" id="ui_timepicker" placeholder="请输入报名截止日期" />
+                <input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}'})" id="logmin" class="input-text Wdate" style="width:120px;">
+		-
+		<input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d'})" id="logmax" class="input-text Wdate" style="width:120px;">
 			</span>
 			<span id="">
 				<m>*</m><label>兼职日期：</label>
@@ -265,13 +289,4 @@
 
 </body>
 </html>
-<?= Html::jsFile('/css/time/bootstrap-datetimepicker.min.css')?>
-<?= Html::jsFile('/js/time/bootstrap-datetimepicker.fr.js')?>
-<?= Html::jsFile('/js/time/bootstrap-datetimepicker.min.js')?>
-<script type="text/javascript">
-    $('.form-datetime').datetimepicker({
-        autoclose: 1,//当选择一个日期之后是否立即关闭此日期时间选择器
-        todayHighlight: 1,//如果为true, 高亮当前日期
-        startView: 2//日期时间选择器打开之后首先显示的视图  控制样式  0~4
-    });
-</script>
+<?= Html::jsFile('public/date/My97DatePicker/WdatePicker.js')?>
