@@ -1,0 +1,44 @@
+@charset "utf-8";
+.frm span{display: block; margin-top: 20px; margin-left: 20px;}
+.frm m{ color: red;}
+.frm input[type="text"]{ margin-left: 10px; color: #aaa;width: 250px; height: 25px;line-height: 25px;}
+.frm select{width: 110px; height: 25px;}
+.frm textarea{ width: 400px; height: 120px;resize: none;}
+.frm h3{ margin-left: 20px; margin-top: 20px; font-size: 20px;}
+.floleft{float: left;}
+.margleft5{ margin-left: 5px;}
+.margleft6{ margin-left: 6px;}
+.margleft8{ margin-left: 8px;}
+.margleft10{ margin-left: 10px;}
+.margleft12{ margin-left: 12px;}
+.margleft45{ margin-left: 45px;}
+.margleft68{ margin-left: 68px; width: 306px;}
+.margleft88{ margin-left: 88px;}
+.margleft80{ margin-left: 80px;}
+.pd55{padding-left:55px;}
+.topdiv{height: 50px;line-height: 50px; border-bottom:solid 1px;}
+.topdivtext{ font-size: 16px; margin-left: 20px; color: #ff5400; font-weight: bold;}
+.w100h25{width: 100px;height: 22px;}
+.fabujianzhisubmit{ height: 50px; width: 200px;font-size: 20px; background-color: #FF5400;color: white;}
+
+#mapAdress {width:500px;height: 300px;overflow: hidden;margin:0;font-family:"微软雅黑";}
+
+.con {
+ text-indent:0.5pc;
+ line-height:10px;
+ width:200px;
+ display: none;
+ z-index:9999;
+ position:absolute;top:790px;
+ left:412px;
+  background-color:#fff;
+  height:150px;
+  border: 1px solid #aaa;
+}
+.conul { width:200px; line-height:25px;}
+.conul li {list-style-type:none;float: left; margin-left: 5px; width:40px;cursor:pointer;}
+.conul li:hover{color:#ff5400;}
+
+
+
+

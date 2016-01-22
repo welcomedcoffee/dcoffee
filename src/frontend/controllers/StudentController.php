@@ -1,16 +1,14 @@
 <?php
+/**
+ * 王文秀
+ * 16-1-22
+ *学生模块
+ */
 namespace frontend\controllers;
 
 use Yii;
-use yii\base\InvalidParamException;
-use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
-/**
- * 学生
- */
 class StudentController extends Controller
 {
     public function actionIndex()
