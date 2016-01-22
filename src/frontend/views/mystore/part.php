@@ -1,5 +1,6 @@
 <?php
     use yii\helpers\Url;
+    use yii\helpers\Html;
     $this->title = "发布兼职";
 ?>
 <html>
@@ -13,6 +14,7 @@
     <link rel="stylesheet" href="public/css/skin_v2.css" />
     <link rel="stylesheet" href="public/css/publish.css" />
     <link href="/Scripts/pagekage/utils/widget/validation/css/validationEngine.jquery.css" rel="stylesheet" type="text/css" />
+
 </head>
 <body>
 <!--head-->
@@ -90,7 +92,9 @@
 			<span id="">
 				<m>*</m><label>兼职类别：</label>
 		    <select id="workType" class="margleft6 validate[required]" placeholder="请输入兼职类别">
-
+                <?php foreach($parttype as $k=>$v){?>
+                    <option><?= $v['part_name'];?></option>
+                <?php }?>
             </select>
 			</span>
 			<span id="">
@@ -99,19 +103,27 @@
 			</span>
 			<span id=" ">
 				<label class="floleft margleft5">上传图片：</label>
-				<img src="images/logo.png" id="myselfpic1"  width="80px" class="margleft10" name="introPic">
+				<img src="images/logo.png" id="myselfpic1"  width="80px" class="margleft10" name="introPic"><br>
+                    <input type="file" name="job_img">
 					只能上传jpg、jpeg、png类型的图片，大小不能超过2M
 			</span>
 			<span id="">
 				<m>*</m><label>工资待遇：</label><input type="text" name="salary" id="salary" value="" data-prompt-position="topRight"  class="validate[required,custom[number]]"  placeholder="请输入工资待遇"/>
 
 			<select id="payUnit" name="payUnit">
-
-
+                <option>元/天</option>
+                <option>元/小时</option>
+                <option>元/周</option>
+                <option>元/月</option>
+                <option>元/次</option>
+                <option>元/个</option>
+                <option>元/单</option>
+                <option>元/面议</option>
             </select>
 			</span>
 			<span id="">
-				<m>*</m><label>结算方式：</label>
+				<m>*</m>
+                <label>结算方式：</label>
 		 <select id="payStyle"  class="margleft6">
              <option selected value="1">当天结算</option>
              <option value="2">周末结算</option>
@@ -119,19 +131,11 @@
              <option value="4">完工结算</option>
          </select>
 			</span>
-			<span style="margin-left: 4em;">标签：
-			<nav class="dis">
-                <div class="dis background wid100 textcenter height30 shou">日结兼职</div>
-                <div  class="dis background wid100 textcenter height30 shou">周末兼职</div>
-                <div  class="dis background wid100 textcenter height30 shou">实习岗位</div>
-                <div  class="dis background wid100 textcenter height30 shou">长期兼职</div>
-                <div  class="dis background wid100 textcenter height30 shou">暑假兼职</div>
-                <div  class="dis background wid100 textcenter height30 shou">寒假兼职</div>
-            </nav>
-			</span>
+
 			<span id="">
-				<m>*</m><label>截止日期：</label>
-				<input type="text" name="applyEnd" id="applyEnd"  value=""  class="Wdate validate[required]" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" placeholder="请输入报名截止日期" />
+				<m>*</m>
+                <label>截止日期：</label>
+				<input type="text" name="applyEnd" id="startDate" class="form-datetime" placeholder="请输入报名截止日期" />
 			</span>
 			<span id="">
 				<m>*</m><label>兼职日期：</label>
@@ -261,3 +265,13 @@
 
 </body>
 </html>
+<?= Html::jsFile('/css/time/bootstrap-datetimepicker.min.css')?>
+<?= Html::jsFile('/js/time/bootstrap-datetimepicker.fr.js')?>
+<?= Html::jsFile('/js/time/bootstrap-datetimepicker.min.js')?>
+<script type="text/javascript">
+    $('.form-datetime').datetimepicker({
+        autoclose: 1,//当选择一个日期之后是否立即关闭此日期时间选择器
+        todayHighlight: 1,//如果为true, 高亮当前日期
+        startView: 2//日期时间选择器打开之后首先显示的视图  控制样式  0~4
+    });
+</script>
