@@ -12,7 +12,7 @@ use yii\web\Controller;
 use app\models\part\FinPartType;
 
 /**
- * 我的门店首页
+ *  我的门店首页
  */
 class MystoreController extends BaseController
 {

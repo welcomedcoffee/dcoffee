@@ -8,7 +8,8 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
-
+use backend\models\student\Students;
+use backend\models\student\Region;
 class StudentController extends Controller
 {
     public function actionIndex()
@@ -18,7 +19,48 @@ class StudentController extends Controller
     //学生基本信息
     public function actionInfo()
     {
-        return $this->render('info');
+        //获取用户id
+        //$session = Yii::$app->session;
+        //$user_id = $session->get('user_id');
+        $user_id = 1;
+        $students = new Students;
+        $student = $students -> Info($user_id);
+        $region = new Region();
+        //省
+        $province = $region->getProvince();
+        if(empty($province)){
+            $provinces['']='请选择';
+        }else{
+            foreach($province as $k=>$v){
+                $provinces[$v['region_id']] = $v['region_name'];
+            }
+        }
+        //城市
+        $city = $region->getCity($student['province_id']);
+        if(empty($city)){
+            $citys[''] = '请选择';
+        }else{
+            foreach($city as $k=>$v){
+                $citys[$v['region_id']] = $v['region_name'];
+            }
+        }
+        //县
+        $area = $region->getArea($student['city_id']);
+        if(empty($area)){
+            $areas[''] = '请选择';
+        }else{
+            foreach($area as $k=>$v){
+                $areas[$v['region_id']] = $v['region_name'];
+            }
+        }
+
+        return $this->render('info',[
+                        'model' => $students,
+                        'student' => $student,
+                        'provinces'=>$provinces,
+                        'city'=>$citys,
+                        'area'=>$areas,
+        ]);
     }
     //商品订单
     public function actionGoodsorder()

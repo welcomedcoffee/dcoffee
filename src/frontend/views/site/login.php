@@ -8,32 +8,42 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 $this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Please fill out the following fields to login:</p>
-
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-
-                <?= $form->field($model, 'username') ?>
-
-                <?= $form->field($model, 'password')->passwordInput() ?>
-
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-                <div style="color:#999;margin:1em 0">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
-                </div>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
-        </div>
+<div class="t_land">
+    <div class="t_landi">
+        <h1>账号登录</h1>
+        
+        <form id="loginForm">
+            <ul>
+                <li>
+                    <span class="wida">账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</span>
+                    <span>
+                        <input name="phone" id="phone" type="text" class="in1 validate[required,custom[logname]] "  placeholder="请输入手机号"/>
+                    </span>
+                    <div class="clear"></div>
+                    
+                </li>
+                <li>
+                    <span class="wida">登录密码：</span>
+                    <span>
+                        <input name="password" id="password" type="password" class="in1 validate[required]" placeholder="请输入密码"/>
+                    </span>
+                    <div class="clear"></div>
+                </li>
+                <li>
+                    <input type="button" id="loginBtn" class="bt1" value="登  录"  />
+                </li>
+                <li style="height: 40px;">
+                    <span>
+                        <a href="/main/findPasswd">忘记密码</a>
+                    </span>
+                    <b><a href="/main/regUser">快速注册</a></b>
+                    <div class="clear"></div>
+                </li>
+        
+            </ul>
+        </form>
+        <div class="clear"></div>
     </div>
 </div>

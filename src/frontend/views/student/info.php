@@ -3,7 +3,10 @@
 /* 
 	学生详情
  */
-
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
 $this->title = '学生详情';
 ?>
 
@@ -38,14 +41,14 @@ $this->title = '学生详情';
 
                     <form class="form" id="merchantinfo">
                         <p class="mar">
-                            真实姓名：<input value="2165" id="sid" type="hidden">
-                            <input id="name" name="name" type="text">
+                            真实姓名：<input value="<?= Html::encode($student['stu_id']) ?>" id="stu_id" type="hidden" name="stu_id">
+                            <input id="stu_name" name="stu_name" type="text" value="<?= Html::encode($student['stu_name']) ?>">
                         </p>
                         <p class="mar" style="text-indent:2em">
-                            昵称：<input id="nick" name="nick" type="text">
+                            昵称：<input id="stu_nickname" name="stu_nickname" type="text" value="<?= Html::encode($student['stu_nickname']) ?>">
                         </p>
                         <p class="mar" style="position:relative;left:-1em">
-                            身份证号码：<input id="idNo" name="idNo" type="text">
+                            身份证号码：<input id="stu_card" name="stu_card" type="text" value="<?= Html::encode($student['stu_card']) ?>">
                         </p>
                         <p style="position:relative;left:-1em;margin-top:10px">
                             <span style="position:relative;top:-4em">身份证照片：</span>
@@ -53,33 +56,33 @@ $this->title = '学生详情';
                             <img class="  " src="/public/images/fanmian.jpg" id="pic2" name="pic2" alt="1" style="width:163px;height:102px">
                         </p>
                          <p class="warm">只能上传jpg、jpeg、png类型的图片，大小不能超过2M</p>
-                        <p class="mar">
-                            出生年月：
-                            <input class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})" name="birth" id="birth" style="cursor: pointer;   padding-left:5px;width:130" type="text">
-                        </p>
                         <p class="mar" style="text-indent:2em">
                             性别：
-                            <select id="gender" name="gender">
-                                <option selected="selected">请选择</option>
-                                <option value="0">男</option>
-                                <option value="1">女</option>
+                            <select id="stu_sex" name="stu_sex">
+                                <?php if($student['stu_sex'] == 1){?>
+                                    <option value="1" selected="selected">男</option>
+                                    <option value="2">女</option>
+                                <?php }else{ ?>
+                                    <option value="1">男</option>
+                                    <option value="2"  selected="selected">女</option>
+                                <?php }?>
                             </select>
 
                         </p>
                         <p class="mar" style="text-indent:2em">
-                            身高：<input id="height" name="height" type="text">cm
+                            身高：<input id="stu_height" name="stu_height" type="text"  value="<?= Html::encode($student['stu_height']) ?>">cm
                         </p>
                         <p class="mar" style="text-indent:2em">
                             学校：
-                            <input value="北京大学" id="school" name="school" type="text">
+                            <input value="北京大学" id="stu_school" name="stu_school" type="text" value="<?= Html::encode($student['stu_school']) ?>">
                         </p>
                         <p class="mar" style="text-indent:2em">
                             专业：
-                            <input id="major" name="major" type="text">
+                            <input id="stu_professional" name="stu_professional" type="text" value="<?= Html::encode($student['stu_professional']) ?>">
                         </p>
                         <p class="mar" style="text-indent:2em">
                             学号：
-                            <input id="studentId" name="studentId" type="text">
+                            <input id="stu_code" name="stu_code" type="text" value="<?= Html::encode($student['stu_code']) ?>">
                         </p>
                         <p class="mar">
                             入学时间：
@@ -88,14 +91,40 @@ $this->title = '学生详情';
                             <input class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})" name="outTime" id="outTime" style="cursor: pointer;   padding-left:5px;width:130" type="text">
 
                         </p>
-              
-                        <p class="mar">
-                            邮箱地址：
-                            <input id="email" name="email" type="text">
-                        </p>
+                        <?php 
+                                $form = ActiveForm::begin([
+                                    'options' => ['class' => 'form-horizontal',
+                                    'id'=>'Users-form'],
+                                    'action'=>Url::to(['user/teachercreate']),
+                                    'method'=>'post',
+                                    'fieldConfig' => [
+                                        'template' => '<div class="form-group"><center><label class="col-md-2 control-label" for="type-name-field">{label}</label></center><div class="col-md-8 controls">{input}{error}</div></div>'
+                                    ], 
+                                ]);
+                            ?>
+                                
+                                <?= $form->field($model, 'stu_name',['inputOptions'=>['placeholder'=>'请输入教师名称']])->textInput(['maxlength' => true]) ?>
+                                
+                                <?= $form->field($model, 'stu_name',['inputOptions'=>['placeholder'=>'请输入邮箱']])->textInput(['maxlength' => true]) ?>
+                                
+                                <?= $form->field($model, 'stu_name',['inputOptions'=>['placeholder'=>'请输入用户名']])->textInput(['maxlength' => true]) ?>
+
+                                <div class="modal-footer">
+                                    <?= Html::submitButton('保存', ['class' => 'btn btn-success','id'=>'user-create-btn']) ?>
+                                    <button data-dismiss="modal" class="btn btn-link pull-right" type="button">取消</button>
+                                </div>
+                            <?php ActiveForm::end(); ?>
+                            <div class="form-group">
+                                <label class="control-label">城市:</label>
+                                <?= Html::dropDownList('province_id', $student['province_id'], ArrayHelper::map($provinces,'id', 'province_id'), ['class' => 'province_id form-control','style'=>'width: 150px;']);?>
+                                <?= Html::dropDownList('city_id', $student['city_id'], ArrayHelper::map($city,'id', 'city_id'), ['class' => 'city_id form-control','id'=>'city_id','style'=>'width: 150px;']);?>
+                                <?= Html::dropDownList('area_id', $student['area_id'], ArrayHelper::map($area,'id', 'area_id'), ['class' => 'area_id form-control','id'=>'area_id','style'=>'width: 150px;']);?>
+                            </div>
                         <p class="mar" style="text-indent:2em">
                             地址：
-                            <select id="province" name="province"> <option selected="selected" value="-1">省</option><option value="110000">北京市</option><option value="120000">天津市</option><option value="130000">河北省</option><option value="140000">山西省</option><option value="150000">内蒙古自治区</option><option value="210000">辽宁省</option><option value="220000">吉林省</option><option value="230000">黑龙江省</option><option value="310000">上海市</option><option value="320000">江苏省</option><option value="330000">浙江省</option><option value="340000">安徽省</option><option value="350000">福建省</option><option value="360000">江西省</option><option value="370000">山东省</option><option value="410000">河南省</option><option value="420000">湖北省</option><option value="430000">湖南省</option><option value="440000">广东省</option><option value="450000">广西壮族自治区</option><option value="460000">海南省</option><option value="500000">重庆市</option><option value="510000">四川省</option><option value="520000">贵州省</option><option value="530000">云南省</option><option value="540000">西藏自治区</option><option value="610000">陕西省</option><option value="620000">甘肃省</option><option value="630000">青海省</option><option value="640000">宁夏回族自治区</option><option value="650000">新疆维吾尔自治区</option><option value="990000">新疆建设兵团</option></select>
+                            <select id="province" name="province">
+                                
+                            </select>
                             <input id="oneCity" class="oneCity" code="" style="display:none" type="text">
 
                             <select id="city" name="city"></select>
