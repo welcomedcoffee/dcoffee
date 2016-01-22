@@ -192,16 +192,16 @@ $this->title = '兼职机会';
 
         <div class="clear"></div>
     </div>
-    <div class="qpzz" style="display:none">
-   <div class="tip_box" style="height:300px;width:500px">
-    <h3>兼职抢单</h3>
-    <img src="/public/images/cross27.png" style="width:25px;height:25px;float: right;position: relative;top:-35px;left:-5px;">
-     <div class="con_t">
-<p>申请理由：<textarea rows="8" cols="42" id="selfInput"></textarea></p>
-     </div>
-     <br>
-     <div style="float: right; margin-right: 20px;">
-     	<input name="" id="btnApplyContent" value="确定" style="width: 70px; height: 30px;border-radius:4px;background-color:#0089cf;color: white;" type="button">
-     </div>
+<div class="qpzz" style="display:none">
+    <div class="tip_box" style="height:300px;width:500px">
+        <h3>兼职抢单</h3>
+        <img src="/public/images/cross27.png" style="width:25px;height:25px;float: right;position: relative;top:-35px;left:-5px;">
+        <div class="con_t">
+            <p>申请理由：<textarea rows="8" cols="42" id="selfInput"></textarea></p>
+        </div>
+        <br>
+        <div style="float: right; margin-right: 20px;">
+            <input name="" id="btnApplyContent" value="确定" style="width: 70px; height: 30px;border-radius:4px;background-color:#0089cf;color: white;" type="button">
+        </div>
    </div>
 </div>
