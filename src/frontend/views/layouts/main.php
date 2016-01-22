@@ -10,7 +10,7 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
-AppAsset::register($this);
+//AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -18,6 +18,10 @@ AppAsset::register($this);
 
 
 <head>
+<meta charset="<?= Yii::$app->charset ?>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<?= Html::csrfMetaTags() ?>
+<title><?= Html::encode($this->title) ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="Description" content="" />
 <meta name="Keywords" content="" />

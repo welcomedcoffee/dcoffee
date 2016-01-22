@@ -3,43 +3,15 @@ namespace backend\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use common\models\LoginForm;
 use yii\filters\VerbFilter;
 
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends BaseController
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['login', 'error'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions' => ['logout', 'index'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
+    
 
     /**
      * @inheritdoc
@@ -53,31 +25,21 @@ class SiteController extends Controller
         ];
     }
 
+    /**
+     * 后台框架
+     */
     public function actionIndex()
     {
         return $this->render('index');
     }
 
-    public function actionLogin()
+    /**
+     * 欢迎界面
+     */
+    public function actionWelcome()
     {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
+        return $this->render('welcome');
     }
 
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
-    }
+    
 }
