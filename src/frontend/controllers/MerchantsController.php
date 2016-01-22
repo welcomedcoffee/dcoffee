@@ -19,7 +19,7 @@ class MerchantsController extends BaseController
 	/*首页*/
     public function actionIndex()
     {
-    	  /*分类*/
+    	/*分类*/
     	$models_ty 	= new MerType;
     	$types 		= $models_ty->getType();
     	/*商圈*/
