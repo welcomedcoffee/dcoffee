@@ -1,12 +1,14 @@
 <?php
+/**
+ * 王文秀
+ * 16-1-22
+ *学生模块
+ */
 namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
 
-/**
- * 学生
- */
 class StudentController extends Controller
 {
     public function actionIndex()
