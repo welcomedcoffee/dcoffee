@@ -40,9 +40,9 @@ html { overflow-y: scroll; background:#f6f3ee;}
 .footer p{ padding:10px;}
 
 /*导航*/
-.t_nav{ background:#ff5400; height:100px; position:relative; z-index:50;}
+.t_nav{ background:#2B2B2B; height:100px; position:relative; z-index:50;}
 .t_navi{position:relative; z-index:100;}
-.t_navy{  background:url(../images/nav_y.png) repeat-x; height:6px; left:0; top:100px; width:100%;z-index:100; position:absolute;}
+.t_navy{  background:; height:6px; left:0; top:100px; width:100%;z-index:100; position:absolute;}
 /* .t_navb{  background:url(../images/nav_b.png) repeat-x; height:23px; left:0px; top:99px; width:100px; z-index:120;position:absolute;} */
 .t_nav .t_le img{ padding-top:15px;}
 .t_nav .t_le ul li{ display:block; float:left; width:100px; text-align:center;font-size:18px; }
