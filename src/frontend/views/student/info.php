@@ -20,7 +20,17 @@ $this->title = '学生详情';
             margin-bottom: 2em;
             margin-top:10px;
         }
+        input{
+            padding-left: 10px;
+        }
+        select{
+            padding-left: 10px;
+        }
+        textarea{
+            padding-left: 10px;
+        }
     </style>
+    <link rel="stylesheet" href="/public/css/calendar.css">
     <div class="t_min t_tit">当前位置：<a href="http://www.qutaoxue.net/">首页</a> &gt; 我的趣淘学</div>
     <!--我的趣淘学-->
     <div class="t_min">
@@ -34,12 +44,17 @@ $this->title = '学生详情';
                     <div class="Pic_header">
                         <ul>
                             <li style=" border-bottom-color:#c40001; color:#c40001"><a href="javascript:void(0)">个人信息</a></li>
-                            <li><a href="http://www.qutaoxue.net/student/studentHeadPortrait">头像照片</a></li>
+                            <li><a href="<?= Url::to(['student/headportrait']); ?>">头像照片</a></li>
                         </ul>
                         <span class="wenxinart">您好，修改资料任意资料都要重新审核，建议您不要频繁修改，以免给您带来不便。</span>
                     </div>
 
-                    <form class="form" id="merchantinfo">
+                   
+                   <?php $form = ActiveForm::begin([
+                        'action' => Url::to(['student/studentupdate']),
+                        'method'=>'post',
+                        'options' => ['enctype' => 'multipart/form-data'],
+                    ])?>
                         <p class="mar">
                             真实姓名：<input value="<?= Html::encode($student['stu_id']) ?>" id="stu_id" type="hidden" name="stu_id">
                             <input id="stu_name" name="stu_name" type="text" value="<?= Html::encode($student['stu_name']) ?>">
@@ -86,69 +101,75 @@ $this->title = '学生详情';
                         </p>
                         <p class="mar">
                             入学时间：
-                            <input class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})" name="inTime" id="inTime" style="cursor: pointer;   padding-left:5px;width:130" type="text">
+                            <input class="Wdate" name="stu_start" id="dt" type="text" value="<?= Html::encode(date('Y-m-d',$student['stu_start'])) ?>">
+                            <div id="dd"></div>
                             毕业时间：
-                            <input class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})" name="outTime" id="outTime" style="cursor: pointer;   padding-left:5px;width:130" type="text">
+                            <input class="Wdate" name="stu_end" id="dts" type="text"  value="<?= Html::encode(date('Y-m-d',$student['stu_end'])) ?>">
+                            <div id="dds"></div>
 
                         </p>
-                        <?php 
-                                $form = ActiveForm::begin([
-                                    'options' => ['class' => 'form-horizontal',
-                                    'id'=>'Users-form'],
-                                    'action'=>Url::to(['user/teachercreate']),
-                                    'method'=>'post',
-                                    'fieldConfig' => [
-                                        'template' => '<div class="form-group"><center><label class="col-md-2 control-label" for="type-name-field">{label}</label></center><div class="col-md-8 controls">{input}{error}</div></div>'
-                                    ], 
-                                ]);
-                            ?>
-                                
-                                <?= $form->field($model, 'stu_name',['inputOptions'=>['placeholder'=>'请输入教师名称']])->textInput(['maxlength' => true]) ?>
-                                
-                                <?= $form->field($model, 'stu_name',['inputOptions'=>['placeholder'=>'请输入邮箱']])->textInput(['maxlength' => true]) ?>
-                                
-                                <?= $form->field($model, 'stu_name',['inputOptions'=>['placeholder'=>'请输入用户名']])->textInput(['maxlength' => true]) ?>
-
-                                <div class="modal-footer">
-                                    <?= Html::submitButton('保存', ['class' => 'btn btn-success','id'=>'user-create-btn']) ?>
-                                    <button data-dismiss="modal" class="btn btn-link pull-right" type="button">取消</button>
-                                </div>
-                            <?php ActiveForm::end(); ?>
-                            <div class="form-group">
-                                <label class="control-label">城市:</label>
-                                <?= Html::dropDownList('province_id', $student['province_id'], ArrayHelper::map($provinces,'id', 'province_id'), ['class' => 'province_id form-control','style'=>'width: 150px;']);?>
-                                <?= Html::dropDownList('city_id', $student['city_id'], ArrayHelper::map($city,'id', 'city_id'), ['class' => 'city_id form-control','id'=>'city_id','style'=>'width: 150px;']);?>
-                                <?= Html::dropDownList('area_id', $student['area_id'], ArrayHelper::map($area,'id', 'area_id'), ['class' => 'area_id form-control','id'=>'area_id','style'=>'width: 150px;']);?>
-                            </div>
-                        <p class="mar" style="text-indent:2em">
+                        <p class="mar" style="text-indent:2em;margin-top: 20px;">
                             地址：
-                            <select id="province" name="province">
-                                
+                            <select id="province" name="province_id" class="province_id">
+                            <?php foreach($provinces as $key=>$val){?>
+                                <?php if($student['province_id'] == $key){?>
+                                    <option value="<?= Html::encode($key) ?>" selected="selected"><?= Html::encode($val) ?></option>
+                                <?php }else{ ?>
+                                     <option value="<?= Html::encode($key) ?>"><?= Html::encode($val) ?></option>
+                                <?php } ?>
+                            <?php } ?>   
                             </select>
-                            <input id="oneCity" class="oneCity" code="" style="display:none" type="text">
-
-                            <select id="city" name="city"></select>
-                            <select id="area" name="area"></select>
+                            <select id="city" name="city" class="city_id">
+                                <?php foreach($city as $key=>$val){?>
+                                    <?php if($student['city_id'] == $key){?>
+                                        <option value="<?= Html::encode($key) ?>" selected="selected"><?= Html::encode($val) ?></option>
+                                    <?php }else{ ?>
+                                         <option value="<?= Html::encode($key) ?>"><?= Html::encode($val) ?></option>
+                                    <?php } ?>
+                                <?php } ?> 
+                            </select>
+                            <select id="area" name="area">
+                                <?php foreach($area as $key=>$val){?>
+                                    <?php if($student['area_id'] == $key){?>
+                                        <option value="<?= Html::encode($key) ?>" selected="selected"><?= Html::encode($val) ?></option>
+                                    <?php }else{ ?>
+                                         <option value="<?= Html::encode($key) ?>"><?= Html::encode($val) ?></option>
+                                    <?php } ?>
+                                <?php } ?> 
+                            </select>
 
                         </p>
-
-                        <p class="mar">
-                            <input id="address" name="address" placeholder="具体到宿舍号" style="margin-left:5.3em;color: #666661;" type="text">
+                        <p class="mar" style="margin-top: 0px;">
+                            <input id="stu_addr" name="stu_addr" placeholder="具体到宿舍号" style="margin-left:5.3em;color: #666661;" type="text" value="<?= Html::encode($student['stu_addr']) ?>">
                         </p>
 
                         <p class="mar" style="text-indent:2em;width:850px">
-                          <span>  技能：</span><span id="ability"><input name="ability1" value="1" style="width: 13px;height: 13px;position:relative;top:2.3px;" type="checkbox">&nbsp;推广/注册&nbsp;&nbsp;<input name="ability1" value="2" style="width: 13px;height: 13px;position:relative;top:2.3px;" type="checkbox">&nbsp;发单/举牌&nbsp;&nbsp;<input name="ability1" value="3" style="width: 13px;height: 13px;position:relative;top:2.3px;" type="checkbox">&nbsp;促销/导购&nbsp;&nbsp;<input name="ability1" value="4" style="width: 13px;height: 13px;position:relative;top:2.3px;" type="checkbox">&nbsp;销售/签单&nbsp;&nbsp;<input name="ability1" value="5" style="width: 13px;height: 13px;position:relative;top:2.3px;" type="checkbox">&nbsp;充场/观众&nbsp;&nbsp;<input name="ability1" value="6" style="width: 13px;height: 13px;position:relative;top:2.3px;" type="checkbox">&nbsp;调研/问卷&nbsp;&nbsp;<input name="ability1" value="7" style="width: 13px;height: 13px;position:relative;top:2.3px;" type="checkbox">&nbsp;话务/客服&nbsp;&nbsp;<input name="ability1" value="8" style="width: 13px;height: 13px;position:relative;top:2.3px;" type="checkbox">&nbsp;店员/服务员&nbsp;&nbsp;<input name="ability1" value="9" style="width: 13px;height: 13px;position:relative;top:2.3px;" type="checkbox">&nbsp;老师/家教&nbsp;&nbsp;<input name="ability1" value="10" style="width: 13px;height: 13px;position:relative;top:2.3px;" type="checkbox">&nbsp;礼仪/模特&nbsp;&nbsp;<input name="ability1" value="11" style="width: 13px;height: 13px;position:relative;top:2.3px;margin-left:5em" type="checkbox">&nbsp;演艺/主持&nbsp;&nbsp;<input name="ability1" value="11" style="width: 13px;height: 13px;position:relative;top:2.3px;" type="checkbox">&nbsp;演艺/主持&nbsp;&nbsp;<input name="ability1" value="12" style="width: 13px;height: 13px;position:relative;top:2.3px;" type="checkbox">&nbsp;校园/代理&nbsp;&nbsp;</span>
-                        </p>
-                        <p class="mar" style="position:relative;left:-1em">
-                            可调整工作： <span id="workState"><input name="workState1" value="1" style="width: 13px;height: 13px;margin: 0;" type="checkbox">&nbsp;发单/举牌&nbsp;&nbsp;<input name="workState1" value="2" style="width: 13px;height: 13px;margin: 0;" type="checkbox">&nbsp;话务/客服&nbsp;&nbsp;<input name="workState1" value="3" style="width: 13px;height: 13px;margin: 0;" type="checkbox">&nbsp;店员/服务生&nbsp;&nbsp;</span>
+                          <table>
+                              <tr>
+                                  <td style="width: 65px;" align="right">技能：</td>
+                                  <td style="width: 830px;">
+                                        <?php foreach($skills as $key=>$val){?>
+                                            <?php if($val['is_checked'] == '1'){?>
+                                                <input name="skills_id[]" value="<?= Html::encode($val['skills_id']) ?>" style="width: 13px;height: 13px;position:relative;top:2.3px;" type="checkbox" checked='checked'>&nbsp;<?= Html::encode($val['skills_name']) ?>&nbsp;&nbsp;
+                                            <?php }else{ ?>
+                                                <input name="skills_id[]" value="<?= Html::encode($val['skills_id']) ?>" style="width: 13px;height: 13px;position:relative;top:2.3px;" type="checkbox">&nbsp;<?= Html::encode($val['skills_name']) ?>&nbsp;&nbsp;
+                                            <?php } ?>
+                                        <?php } ?>
+                                  </td>
+                              </tr>
+                          </table>
                         </p>
 
-                        <p class="mar">
+                        <p class="mar" style="margin-top: 25px;">
                             是否兼职<m>：</m>
-                            <select id="isagree" class="stu_select">
-                                <option selected="selected" value="0">请选择</option>
-                                <option value="1">是</option>
-                                <option value="2">否</option>
+                            <select name="stu_parttime">
+                                <?php if($student['stu_parttime'] == '1'){?>
+                                    <option value="1" selected="selected">是</option>
+                                    <option value="2">否</option>
+                                <?php }else{ ?>
+                                    <option value="1">是</option>
+                                    <option value="2" selected="selected">否</option>
+                                <?php } ?>
                             </select>
                         </p>
 
@@ -158,24 +179,87 @@ $this->title = '学生详情';
                         </div>
                         <div style="border:solid 1px #e6e3e3; height:300px;padding-top:4em">
                             <p>
-                                <span style=" float:left; margin-left:10px;font-size:14px; color:#666666">自我介绍：</span><textarea class="intus" id="introduction" name="introduction"></textarea><br><br><br>
-                                <span style=" float:left; margin-left:10px; font-size:14px; color:#666666">工作经验：</span><textarea class="intus" id="workExp" name="workExp"></textarea>
+                                <span style=" float:left; margin-left:10px;font-size:14px; color:#666666">自我介绍：</span><textarea class="intus" id="stu_introduction" name="stu_introduction"><?= Html::encode($student['stu_introduction']) ?></textarea><br><br><br>
+                                <span style=" float:left; margin-left:10px; font-size:14px; color:#666666">工作经验：</span><textarea class="intus" id="stu_experience" name="stu_experience"><?= Html::encode($student['stu_experience']) ?></textarea>
                             </p>
                         </div>
                         <span>
-                            <input value="提交资料" id="btnSave" style="width: 100px; height: 30px; background: #f39700; color: white; margin-left: 45%;" onclick="GLOBAL.pagebase.bindBtnSaveClick('')" type="button">
+                            <input value="提交资料" style="width: 100px; height: 30px; background: #f39700; color: white; margin-left: 45%;" type="submit">
                         </span>
-
-</form>                </div>
+                    <?php $form = ActiveForm::end()?>
+                </div>
             </div>
         </div>
     </div>
 
-
- 
-<style type="text/css">
-		p{cursor:pointer}
-		
-	</style>
-
-<input style="position: absolute; margin: -5px 0px 0px -175px; padding: 0px; width: 220px; height: 30px; font-size: 14px; opacity: 0; cursor: pointer; display: none; z-index: 2147483583; top: 758px; left: 640px;" name="file" type="file"><input style="position: absolute; margin: -5px 0px 0px -175px; padding: 0px; width: 220px; height: 30px; font-size: 14px; opacity: 0; cursor: pointer; display: none; z-index: 2147483583; top: 763px; left: 750px;" name="file" type="file"><div style="position: absolute; top: -1970px; left: -1970px;" id="_my97DP"><iframe style="width: 186px; height: 198px;" src="/public/images/My97DatePicker.htm" border="0" scrolling="no" frameborder="0"></iframe>
+<script src="/public/js/calendar.js"></script> 
+<script>
+//城市
+$(document).on('change', '.province_id', function(){
+        var id=$(this).val();
+        var objs = $(this);
+        $.ajax({
+            type: "POST",
+            url:"<?= Url::to(['student/region'])?>",
+            data: "id="+id,
+            dataType:"json",
+            success: function(obj){
+                var str="";
+                var i=0;
+                for(i;i<obj.length;i++){
+                    str+="<option value="+obj[i]['region_id']+">"+obj[i]['region_name'];
+                }
+                objs.next().next().html(str);
+                objs.next().next().next().html("<option value=''>请选择...");
+            }
+        });
+    })
+//城市
+$(document).on('click', '.city_id', function(){
+        var id=$(this).val();       
+        var next=$(this).next();
+        $.ajax({
+            type: "POST",
+            url:"<?= Url::to(['student/region'])?>",
+            data: "id="+id,
+            dataType:"json",
+            success: function(obj){
+                var str="";
+                var i=0;
+                for(i;i<obj.length;i++){
+                    str+="<option value="+obj[i]['region_id']+" class='city_id'>"+obj[i]['region_name'];
+                }
+                next.html(str);
+            }
+        });
+    })
+//时间插件
+$('#dd').calendar({
+    trigger: '#dt',
+    zIndex: 999,
+    format: 'yyyy-mm-dd',
+    onSelected: function (view, date, data) {
+        console.log('event: onSelected')
+    },
+    onClose: function (view, date, data) {
+        console.log('event: onClose')
+        console.log('view:' + view)
+        console.log('date:' + date)
+        console.log('data:' + (data || 'None'));
+    }
+});
+$('#dds').calendar({
+    trigger: '#dts',
+    zIndex: 999,
+    format: 'yyyy-mm-dd',
+    onSelected: function (view, date, data) {
+        console.log('event: onSelected')
+    },
+    onClose: function (view, date, data) {
+        console.log('event: onClose')
+        console.log('view:' + view)
+        console.log('date:' + date)
+        console.log('data:' + (data || 'None'));
+    }
+});
+</script>
