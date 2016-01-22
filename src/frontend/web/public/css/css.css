@@ -1,0 +1,31 @@
+@charset "utf-8";
+
+
+#top {width:996px; height:66px; }
+#top ul {  padding-top:24px; height:66px;}
+#top ul li {text-align:center; width:100px; height:40px;float:left; line-height:40px; padding-right:2px; font-family:微锟斤拷锟脚猴拷; font-size:15px; }
+#register{ width:996px; height:400px; padding-left:50px; padding-top:50px;}
+
+#Balance { height:66px; width:760px; margin-left:20px;}
+#Balance span{ margin-left:20px; margin-top:70px;line-height:80px;}
+#Balance .b_sp { font-family:"Microsoft YaHei"; font-weight:bold; font-size:16px;}
+#detail{ padding:0; margin:0; margin-left:20px; margin-top:20px;}
+#detail tr, #detail td{ width:150px; height:32px; padding:0; margin:0; border-top:solid 1px #d0010e;}
+#com_tab tr, #com_tab td { width:80px; height:32px; text-align:center;}
+#com_tab { padding:0; margin:0; margin-left:20px;}
+#job_tab { padding:0; margin:0; margin-top:20px;}
+#job_tab tr, #job_tab td { width:80px; height:40px; text-align:left; border-bottom:solid 1px #f6f6f6; font-size:14px}
+#job_tab th { border-bottom:solid 1px #f6f6f6; font-size: 16px;}
+#contactus {overflow:scroll; overflow-y:hide; overflow-x:auto; width:616px; height:130px; resize : none; border-top:solid 2px #bebebe; border-bottom:solid 1px #bebebe;border-left:solid 1px #bebebe;border-right:solid 1px #bebebe; font-size:14px; font-weight:700 ;margin-left:20px;}
+#safe_tab { margin-left:20px; margin-top:40px; border-bottom:solid 1px #eaeaea; border-top:solid 0.5px #eaeaea; border-left:solid 1px #eaeaea; border-right:solid 1px #eaeaea; }
+#safe_tab tr, #safe_tab td { height:70px; text-align:center; font-size:14px; border-bottom:solid 0.5px #eaeaea; border-top:solid 1px #eaeaea;}
+.Pic_header ul li { list-style-type:none; font-family:"Microsoft YaHei"; border-bottom:solid 3px; float:left; margin-left:10px; padding:10px; margin-right:20px; color: #999999;cursor: pointer;}
+.Pic_header { padding:0; margin:0; border-bottom:solid 1px; height:64px; line-height:20px;}
+#perform form input,#perform form select {  width:160px; height:25px; margin-top: 10px; color:#a9a9b1}
+#perform { margin-left:30px; margin-top:30px; }
+#perform form { font-size:12px; color:#666666}
+.intus { height:100px; width:400px;}
+.job_a tr,.job_a td {  width:100px; height:30px;  text-align:center;}
+#myjobdiv {  height:160px; border-bottom:solid 1px;}
+.job_a { margin-left:40px; margin-top:20px;}
+#imgdiv img { margin-right: 20px;}
