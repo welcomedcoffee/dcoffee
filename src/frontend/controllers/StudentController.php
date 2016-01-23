@@ -92,11 +92,25 @@ class StudentController extends BaseController
     public function actionStudentupdate()
     {
         $data=Yii::$app->request->post();
-        $data['skills_id'] = implode(',',$data['skills_id']);
         $students = new Students;
-        $students -> attributes = $data;
-        $res = $students -> save();
-        if ($res) {
+        $students = $students->findOne($data['stu_id']);
+        $students->stu_name = $data['stu_name'];
+        $students->stu_nickname = $data['stu_nickname'];
+        $students->stu_sex = $data['stu_sex'];
+        $students->stu_height = $data['stu_height'];
+        $students->stu_school = $data['stu_school'];
+        $students->stu_professional = $data['stu_professional'];
+        $students->stu_code = $data['stu_code'];
+        $students->stu_start = strtotime($data['stu_start']);
+        $students->stu_end = strtotime($data['stu_end']);
+        $students->province_id = $data['province_id'];
+        $students->city_id = $data['city_id'];
+        $students->area_id = $data['area_id'];
+        $students->stu_addr = $data['stu_addr'];
+        $students->skills_id = implode(',',$data['skills_id']);
+        $students->stu_introduction = $data['stu_introduction'];
+        $students->stu_experience = $data['stu_experience'];
+        if ($students->save()) {
             $this->success('修改成功!',['student/info']);
         }else{
             $this->error('修改失败!',['student/info']);
@@ -125,7 +139,10 @@ class StudentController extends BaseController
      //修改密码
     public function actionStudentsave()
     {
-        return $this->render('studentsave');
+        $type = Yii::$app->request->get('type','pwd');
+        return $this->render('studentsave',[
+                        'type' => $type
+        ]);
     }
     //我的余额
     public function actionBalance()

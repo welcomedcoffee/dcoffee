@@ -119,7 +119,7 @@ $this->title = '学生详情';
                                 <?php } ?>
                             <?php } ?>   
                             </select>
-                            <select id="city" name="city" class="city_id">
+                            <select id="city" name="city_id">
                                 <?php foreach($city as $key=>$val){?>
                                     <?php if($student['city_id'] == $key){?>
                                         <option value="<?= Html::encode($key) ?>" selected="selected"><?= Html::encode($val) ?></option>
@@ -128,7 +128,7 @@ $this->title = '学生详情';
                                     <?php } ?>
                                 <?php } ?> 
                             </select>
-                            <select id="area" name="area">
+                            <select id="area" name="area_id">
                                 <?php foreach($area as $key=>$val){?>
                                     <?php if($student['area_id'] == $key){?>
                                         <option value="<?= Html::encode($key) ?>" selected="selected"><?= Html::encode($val) ?></option>
