@@ -35,8 +35,7 @@ use yii\helpers\Url;
 		<li>超级管理员</li>
 		<li class="dropDown dropDown_hover"><a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
 			<ul class="dropDown-menu radius box-shadow">
-				<li><a href="<?= Url::to(['center/index']) ?>">个人信息</a></li>
-				<li><a href="<?= Url::to(['center/index']) ?>">切换账户</a></li>
+				<li><a href="<?= Url::to(['public/login']) ?>">切换账户</a></li>
 				<li><a href="<?= Url::to(['public/login']) ?>">退出</a></li>
 			</ul>
 		</li>
@@ -94,7 +93,7 @@ use yii\helpers\Url;
 			<dt><i class="Hui-iconfont">&#xe620;</i> 学生审核管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a _href="<?= Url::to(['studentaudit/info']) ?>" href="javascript:void(0)">信息审核</a></li>
+					<li><a _href="<?= Url::to(['studentaudit/info']) ?>" href="javascript:void(0)">基本信息审核</a></li>
 					<li><a _href="<?= Url::to(['studentaudit/quota']) ?>" href="javascript:void(0)">申请限额审核</a></li>
 				</ul>
 			</dd>
@@ -114,6 +113,15 @@ use yii\helpers\Url;
 				<ul>
 					<li><a _href="<?= Url::to(['system/info']) ?>" href="javascript:void(0)">系统设置</a></li>
 					<li><a _href="<?= Url::to(['system/log']) ?>" href="javascript:void(0)">系统日志</a></li>
+				</ul>
+			</dd>
+		</dl>
+        <dl id="menu-system">
+			<dt><i class="Hui-iconfont">&#xe62e;</i> 任务管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a _href="<?= Url::to(['task/release']) ?>" href="javascript:void(0)">发布任务</a></li>
+					<li><a _href="<?= Url::to(['task/cat']) ?>" href="javascript:void(0)">查看任务</a></li>
 				</ul>
 			</dd>
 		</dl>

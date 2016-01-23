@@ -91,7 +91,7 @@ use common\widgets\Alert;
 <!--t_nav end-->
 </head>
 <!-- body -->
-<body>
+<body style="height:100%">
 <?php $this->beginBody() ?>
 <div class="wrap">
     <div class="container">
