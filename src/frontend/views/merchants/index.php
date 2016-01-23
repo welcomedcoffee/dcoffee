@@ -94,33 +94,11 @@ $this->title = '优质商家';
         <!--t_slist end-->
     </div>
     <!--页码-->
-    <div class="tcdPageCode t_min">
-    <!-- <span class="disabled">上一页</span>
-    <span class="current">1</span>
-    <a href="javascript:;" class="tcdNumber">2</a>
-    <a href="javascript:;" class="tcdNumber">3</a>
-    <a href="javascript:;" class="tcdNumber">4</a>
-    <a href="javascript:;" class="tcdNumber">5</a>
-    <a href="javascript:;" class="nextPage">下一页</a> -->
+    <div class="tcdPageCode t_min" id="pages">
     <?php echo LinkPager::widget([
             'pagination' =>$pages,
             'prevPageLabel'=>'上一页',
             'nextPageLabel'=>'下一页',
             
         ]);?>
-    </div>
-<script type="text/javascript">
-    $(function(){
-        $('.types').click(function(){
-            var type_id     = $(this).attr('atr');
-            $.ajax({
-                type: "POST",
-                url: "<?= Url::to(['merchants/Searchs'])?>",
-                data: "type_id="+type_id,
-                success: function(){
-                    
-                }
-            })
-        })
-    });
-</script>    
+    </div>   

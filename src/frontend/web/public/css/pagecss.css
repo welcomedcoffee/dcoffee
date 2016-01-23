@@ -33,6 +33,8 @@
 	border-radius: 4px;
 	vertical-align: middle;
 }
+
+
 .tcdPageCode li.disabled{
 	display: inline-block;
 	height: 25px;
@@ -44,5 +46,5 @@
 	background: #f2f2f2;
 	border: 1px solid #bfbfbf;
 	border-radius: 4px;
-	vertical-align: middle;
+
 }
