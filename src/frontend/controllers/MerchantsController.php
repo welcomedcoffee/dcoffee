@@ -3,8 +3,7 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
-
-
+use yii\data\Pagination;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use frontend\models\students\MerType;
@@ -16,32 +15,56 @@ use frontend\models\students\MerBase;
  */
 class MerchantsController extends BaseController
 {
-	/*首页*/
+    /*
+     * @inheritdoc 公共部分
+     */
+    public function common()
+    {
+        $models_ty  = new MerType;
+        $types      = $models_ty    ->getType();
+        $models_cir = new Circles;
+        $circles    = $models_cir   ->getCircle();
+        return ['types'=>$types,'circles'=>$circles];
+    }
+	/*
+     * @inheritdoc 首页
+     */
     public function actionIndex()
     {
-    	/*分类*/
-    	$models_ty 	= new MerType;
-    	$types 		= $models_ty->getType();
-    	/*商圈*/
-    	$models_cir = new Circles;
-    	$circles 	=  $models_cir->getCircle();
-    	/*优质商家*/
+        //接受查询分类
+        $keyword = YII::$app->request->get('1');
+        $new_key = YII::$app->request->get('2');
+        if ($new_key) {
+            foreach ($new_key as $key => $value) {
+                $keyword[$key] = $value;
+            }
+        }
     	$models_go 	= new  MerBase;
-    	$mers		= $models_go->getMerInfo();
+        $pages      = new Pagination([
+            'defaultPageSize'   => 12,
+            'totalCount'        => MerBase::find()->count(),
+        ]);
+    	$mers		= $models_go->getMerInfo($pages);
+        $data = $this->common();
         return $this->render('index',
         		[
-        			'types'		=>$type,
-        			'circles'	=>$circles,
-        			'mers'		=>$mers,
+        			'data'	  => $data,
+                    'keyword' => $keyword,
+        			'mers'	  => $mers,
+                    'pages'   => $pages,
         		]);
     }
-    /*商家详细信息*/
-    /*public function actionDetails()
+    /*
+     * @inheritdoc 商家详细信息
+     */
+    public function actionDetails()
     {
-    	$mer_id 	= Yii::$app->request->get('mer_id');
-    	$model 		= new MerBase;
-    	$mer_detail = $model->getDetail($mer_id);
-    	return $this->render();
-    }*/
-
+        if (Yii::$app->request->isGet)
+        {
+            $mer_id         = Yii::$app->request->get('mer_id');
+            $model          = new MerBase;
+            $mer_details    = $model->getDetail($mer_id);
+        }
+    	return $this->render('details',['mer_details'=>$mer_details]);
+    }
 }

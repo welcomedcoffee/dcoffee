@@ -21,16 +21,43 @@ class MerBase extends ActiveRecord
     {
         return ;
     }
-
-    /*获取商圈信息*/
-    public function getMerInfo()
+    /*
+     * @inheritdoc 获取商圈信息
+     */
+    public function getMerInfo($pages)
     {
-        return $this->find()->asArray()->all();
+        return  MerBase::find()
+                    ->offset($pages->offset)
+                    ->limit($pages->limit)
+                    ->asArray()->all();                   
     }
-
-    /*获取商家详细信息*/
+    /*
+     * @inheritdoc 商家搜索数量
+     */
+    public function getCount($keywords)
+    {
+        return  MerBase::find()
+                    ->where("ind_type=$keywords")
+                    ->count();
+    }
+    /*
+     * @inheritdoc 商家搜索
+     */
+    public function getSearchs($pages,$keywords)
+    {
+        return  MerBase::find()
+                    ->where("ind_type=$keywords")
+                    ->offset($pages->offset)
+                    ->limit($pages->limit)
+                    ->asArray()->all();
+    }
+    /*
+     * @inheritdoc 获取商家详细信息
+     */
     public function getDetail($mer_id)
     {
-        return $this->find()->where("mer_id=$mer_id")->asArra()->one();
+        return  MerBase::find()
+                    ->where("mer_id=$mer_id")
+                    ->asArray()->one();
     }
 }
