@@ -3,7 +3,7 @@ namespace backend\controllers;
 
 use Yii;
 /**
- * 用户
+ * 用户管理
  */
 class UserController extends BaseController
 {
