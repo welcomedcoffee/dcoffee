@@ -23,6 +23,10 @@ class SiteController extends BaseController
     public function init() {
         parent::init();
        $this->request = Yii::$app->request; 
+       $session = Yii::$app->session;
+       if (!$session->isActive){
+            $session->open();
+       }
     }
     /**
      * @inheritdoc
@@ -157,13 +161,27 @@ class SiteController extends BaseController
         $model = new User;      
         if ($model->load(Yii::$app->request->post())) {            
             if ($user = $model->registerUser($this->request->post(), $this->request->userIP)) {
-               
+                if($user['code']==1){
+                    $user['title'] = '成功!';
+                    $user['keyname'] = '登陆页';
+                    $user['keyword'] = 'site/login';
+                }else{
+                     $user['title'] = '错误!';
+                     $user['keyname'] = '返回';
+                     $user['keyword'] = 'site/signup';
+                }
+                $this->redirect(['site/transition','info'=>base64_encode(json_encode($user))]);
             }
         }
 
         return $this->render('signup', [
             'model' => $model,
         ]);
+    }
+
+    public function actionTransition() {
+        $info = json_decode(base64_decode($this->request->get('info')),true);       
+        return $this->render('transition', ['res' => $info]);
     }
 
     /**
@@ -242,4 +260,15 @@ class SiteController extends BaseController
             'model' => $model,
         ]);
     }
+
+     
+
+
+
+
+
+
+
+
+
 }

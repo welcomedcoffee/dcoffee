@@ -23,7 +23,7 @@ class User extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%user}}';
+        return '{{%fin_user}}';
     }
 
     /**
@@ -65,31 +65,53 @@ class User extends \yii\db\ActiveRecord
         if($data['agreement']){
             if($data['User']['user_password']==$data['checkpwd']){
                 if($data['User']['user_phone']){
-                    $info = $data['User'];
-                    $info['user_type'] = 1;
-                    $info['user_addtime'] = time();
-                    $info['user_lastlogin'] = time();
-                    $info['user_lastip'] = $userip;
-                    $info['user_status'] = 1;
-                    User::setAttributes = $info;
+                    if(is_null($this->onlyPhone($data['User']['user_phone']))){ 
+                        $info['user_id'] = 0;                      
+                        $info['user_phone'] = $data['User']['user_phone'];                   
+                        $info['user_password'] = $data['User']['user_password'];                   
+                        $info['user_type'] = 1;
+                        $info['user_addtime'] = time();
+                        $info['user_lastlogin'] = time();
+                        $info['user_lastip'] = $userip;
+                        $info['user_status'] = 1;                    
+                        $model = new User;
+                        $model -> setAttributes($info);
+                        if($model -> save()){
+                            return $this->result(1, '注册成功');                       
+                        }else{
+                            return $this->result(5, '注册失败');                         
+                        }  
+                    }else{
+                        return $this->result(6, '手机号已存在');  
+                    }                     
                 }else{
-                    return [
-                        'code' => 3,
-                        'info' => '手机号错误'
-                    ];    
+                    return $this->result(4, '手机号错误');                        
                 }    
             }else{
-                return [
-                    'code' => 2,
-                    'info' => '两次输入密码不一致'
-                ]; 
+                return $this->result(3, '两次输入密码不一致');                
             }
         }else{
-            return [
-                'code' => 1,
-                'info' => '您还没有选择注册协议'
-            ];
+            return $this->result(2, '您还没有选择注册协议');            
         }
+    }    
+
+    /**
+     * @验证手机号唯一
+     */
+    public function onlyPhone($phone) {
+       $res = User::find()->select(['user_id'])->where(['user_phone' => $phone])->asArray()->one();
+       return $res['user_id'];
+    }
+
+    /**
+     * @返回结果 数据处理
+     */
+    public function result($code = null, $msg = null) {
+        $msg = !empty($msg) ? $msg : '数据处理失败！';
+        return [
+            'code' => $code,
+            'data' => $msg
+        ];        
     }
 
 

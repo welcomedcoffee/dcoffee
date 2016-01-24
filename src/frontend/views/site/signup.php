@@ -10,6 +10,7 @@ use yii\bootstrap\ActiveForm;
 $this->title = 'Signup';
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
+    
 <div class="t_reg">
     <div class="t_regtit" id="regType">
         <ul>
@@ -85,10 +86,15 @@ $this->title = 'Signup';
                 </li>
             </ul>
         </div>
-
-    </form>
+    <?php ActiveForm::end(); ?>    
 </div>
-<!--  注册学生成功弹窗
+
+
+
+        <div class="alert alert-danger" role="alert">
+            <?= Yii::$app->session->getFlash('success') ?>
+            <?= Yii::$app->session->getFlash('error') ?>
+        </div>
 
 <!-- 图片验证码 -->
 <div class="verificationTip" id="verificationTipID" atr="0" style="display:none" >
@@ -102,5 +108,5 @@ $this->title = 'Signup';
             <button type="button" class="confirmBut but verificationButWidth butBlue" id="registerverificationBut">确认</button>
             <button type="button" class="cancelBut but verificationButWidth" id="btnCodeEsc">取消</button>
         </div>
-   <?php ActiveForm::end(); ?>
+   
 </div>
