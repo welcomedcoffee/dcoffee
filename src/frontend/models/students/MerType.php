@@ -5,10 +5,12 @@ use yii\db\ActiveRecord;
 
 class MerType extends ActiveRecord
 {
+
+	
 	/**
      * @inheritdoc   select table
      */
-	public function tableName()
+	public static function tableName()
 	{
 		return '{{%mer_type}}';
 	}
@@ -18,5 +20,10 @@ class MerType extends ActiveRecord
     public function rules()
     {
         return ;
+    }
+    /*获取分类*/
+    public function getType()
+    {
+    	return $this->find()->where('is_show=1')->asArray()->all();
     }
 }

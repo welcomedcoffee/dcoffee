@@ -158,13 +158,28 @@ $this->title = '学生详情';
 
                 </div>
             </div>
-
-
-
-
         </div>
     </div>
-<style type="text/css">
-		p{cursor:pointer}
-		
-	</style>
+<!--  进入我的趣淘学弹窗
+    wzl123-->
+<div class="qpzz" style="display: none;"id="qpzz">
+    <div class="tip_box" style="margin-top: 0px; margin-left: 0px;left: 450px; top: 200px;">
+        <h3>温馨提示</h3>
+        <img src="/public/images/cross27.png" style="width:25px;height:25px;float: right;position: relative;top:-35px;left:-5px;" class="close">
+        <div class="con_t">
+            <p id="titleBox">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;尊敬的&nbsp;&nbsp;18511031789&nbsp;&nbsp;您好，完善资料并审核通过后，才可以实现学生兑付和兼职功能！</p>
+
+        </div>
+        <br><br>
+        <div style="float: right; margin-right: 20px;">
+            <input name="" id="studetail" value="完善资料" style="width: 70px; height: 30px;border-radius:4px;background-color:#0089cf;color: white;" type="button">&nbsp;&nbsp;
+            <input class="close" value="确定" style="width: 70px; height: 30px;border-radius:4px;background-color:#0089cf;color: white;" type="button">
+        </div>
+    </div>
+</div>
+<script>
+    //弹窗
+    $(function(){
+        $('#qpzz').show().css('height',document.body.scrollHeight);
+    })
+</script>

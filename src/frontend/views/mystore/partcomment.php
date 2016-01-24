@@ -114,11 +114,11 @@
                         <div class="idDiv" atr='{commentorId}' bid="{toCommentorId}" jid="{orderId}">
                             <img src="images/touxiang.png" style="width:50px;height:50px;position:relative;left:-3em;margin-top:24px;" />
                                 <span style="float:left;position:relative;left:6em;top:0.8em">
-                                    <e>{commentor}</e>
-                                    <br />{content}
+                                    <e>{commentor}</e><br />
+                                    {content}
                                 </span>
                             <span class="score"> {score} </span><br />
-                            <sapn style="position:relative;left:6em;top:-1.8em"> {commentTime}</span>
+                            <span style="position:relative;left:6em;top:-1.8em"> {commentTime}</span>
                         </div>
                     </script>
                     <div style="display:none" id="studentFrm" style="margin-top:50px">

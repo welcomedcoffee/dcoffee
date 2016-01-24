@@ -1,5 +1,6 @@
 <?php
     use yii\helpers\Url;
+    use yii\helpers\Html;
     $this->title = "发布兼职";
 ?>
 <html>
@@ -12,7 +13,29 @@
     <link rel="stylesheet" href="public/css/sty.css" />
     <link rel="stylesheet" href="public/css/skin_v2.css" />
     <link rel="stylesheet" href="public/css/publish.css" />
-    <link href="/Scripts/pagekage/utils/widget/validation/css/validationEngine.jquery.css" rel="stylesheet" type="text/css" />
+<!--    <link href="/Scripts/pagekage/utils/widget/validation/css/validationEngine.jquery.css" rel="stylesheet" type="text/css" />-->
+
+    <?//= Html::cssFile('date/bootstrap-datetimepicker.min.css')?>
+    <?//= Html::cssFile('css/time/jquery-ui-1.8.17.custom.css')?>
+    <?//= Html::cssFile('css/time/jquery-ui-timepicker-addon.css')?>
+
+    <?//= Html::jsFile('js/time/jquery-ui-timepicker-addon.js')?>
+    <?//= Html::jsFile('js/time/jquery-ui-timepicker-zh-CN.js')?>
+<!--    <script type="text/javascript">-->
+<!--        $(function () {-->
+<!--            alert($("#ui_timepicker"))-->
+<!--            $("#ui_timepicker").datetimepicker({-->
+<!--                //showOn: "button",-->
+<!--                //buttonImage: "./css/images/icon_calendar.gif",-->
+<!--                //buttonImageOnly: true,-->
+<!--                showSecond: true,-->
+<!--                timeFormat: 'hh:mm:ss',-->
+<!--                stepHour: 1,-->
+<!--                stepMinute: 1,-->
+<!--                stepSecond: 1-->
+<!--            })-->
+<!--        })-->
+<!--    </script>-->
 </head>
 <body>
 <!--head-->
@@ -90,7 +113,9 @@
 			<span id="">
 				<m>*</m><label>兼职类别：</label>
 		    <select id="workType" class="margleft6 validate[required]" placeholder="请输入兼职类别">
-
+                <?php foreach($parttype as $k=>$v){?>
+                    <option><?= $v['part_name'];?></option>
+                <?php }?>
             </select>
 			</span>
 			<span id="">
@@ -99,19 +124,27 @@
 			</span>
 			<span id=" ">
 				<label class="floleft margleft5">上传图片：</label>
-				<img src="images/logo.png" id="myselfpic1"  width="80px" class="margleft10" name="introPic">
+				<img src="images/logo.png" id="myselfpic1"  width="80px" class="margleft10" name="introPic"><br>
+                    <input type="file" name="job_img">
 					只能上传jpg、jpeg、png类型的图片，大小不能超过2M
 			</span>
 			<span id="">
 				<m>*</m><label>工资待遇：</label><input type="text" name="salary" id="salary" value="" data-prompt-position="topRight"  class="validate[required,custom[number]]"  placeholder="请输入工资待遇"/>
 
 			<select id="payUnit" name="payUnit">
-
-
+                <option>元/天</option>
+                <option>元/小时</option>
+                <option>元/周</option>
+                <option>元/月</option>
+                <option>元/次</option>
+                <option>元/个</option>
+                <option>元/单</option>
+                <option>元/面议</option>
             </select>
 			</span>
 			<span id="">
-				<m>*</m><label>结算方式：</label>
+				<m>*</m>
+                <label>结算方式：</label>
 		 <select id="payStyle"  class="margleft6">
              <option selected value="1">当天结算</option>
              <option value="2">周末结算</option>
@@ -119,19 +152,14 @@
              <option value="4">完工结算</option>
          </select>
 			</span>
-			<span style="margin-left: 4em;">标签：
-			<nav class="dis">
-                <div class="dis background wid100 textcenter height30 shou">日结兼职</div>
-                <div  class="dis background wid100 textcenter height30 shou">周末兼职</div>
-                <div  class="dis background wid100 textcenter height30 shou">实习岗位</div>
-                <div  class="dis background wid100 textcenter height30 shou">长期兼职</div>
-                <div  class="dis background wid100 textcenter height30 shou">暑假兼职</div>
-                <div  class="dis background wid100 textcenter height30 shou">寒假兼职</div>
-            </nav>
-			</span>
+
 			<span id="">
-				<m>*</m><label>截止日期：</label>
-				<input type="text" name="applyEnd" id="applyEnd"  value=""  class="Wdate validate[required]" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" placeholder="请输入报名截止日期" />
+				<m>*</m>
+                <label>截止日期：</label>
+				<input type="text" name="startDateTime" id="d11" placeholder="请输入报名截止日期" onClick="WdatePicker()" />
+<!--                <input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}'})" id="logmin" class="input-text Wdate" style="width:120px;">-->
+<!--		--->
+<!--		<input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d'})" id="logmax" class="input-text Wdate" style="width:120px;">-->
 			</span>
 			<span id="">
 				<m>*</m><label>兼职日期：</label>
@@ -261,3 +289,4 @@
 
 </body>
 </html>
+<?= Html::jsFile('public/date/My97DatePicker/WdatePicker.js')?>

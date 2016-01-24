@@ -9,9 +9,10 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
+use app\models\part\FinPartType;
 
 /**
- * 我的门店首页
+ *  我的门店首页
  */
 class MystoreController extends BaseController
 {
@@ -24,7 +25,10 @@ class MystoreController extends BaseController
     /* 发布兼职 */
     public function actionPart()
     {
-        return $this->render("part");
+        /* 兼职类型数据 */
+        $part = new FinPartType();
+        $parttype = $part->partComment();
+        return $this->render("part",['parttype'=>$parttype]);
     }
 
     /* 兼职列表 */
