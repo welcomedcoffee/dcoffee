@@ -265,8 +265,9 @@
 
 			<span class="pd55" >
 			<div id="mapAdress">
-
+                <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
             </div>
+
 			</span>
 			<span class="pd55">
 				<input type="button"  id="btnPublish" value="发布兼职"  class="fabujianzhisubmit"/>

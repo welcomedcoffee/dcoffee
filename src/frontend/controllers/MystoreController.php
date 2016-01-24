@@ -28,6 +28,9 @@ class MystoreController extends BaseController
         /* 兼职类型数据 */
         $part = new FinPartType();
         $parttype = $part->partComment();
+
+        /* 查询省份 */
+        $province = ;
         return $this->render("part",['parttype'=>$parttype]);
     }
 
