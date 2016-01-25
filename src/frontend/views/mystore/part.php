@@ -1,6 +1,7 @@
 <?php
     use yii\helpers\Url;
     use yii\helpers\Html;
+    use yii\bootstrap\ActiveForm;
     $this->title = "发布兼职";
 ?>
 <html>
@@ -85,12 +86,21 @@
                         发布兼职
                     </p>
                 </div>
-
-                <form  class="frm">
+                <?php
+                $form = ActiveForm::begin([
+                    'options' => ['id'=>'site-form','enctype' => 'multipart/form-data','class' => "frm"],
+                    'action'=>Url::to(['system/defaultsave']),
+                    'method'=>'post',
+                    'fieldConfig' => [
+                        'template' => '<span id=""><m>*</m>{label}{input}{error}</span>'
+                    ],
+                ]);
+                ?>
                     <h3>兼职详情</h3>
 			<span id="">
-				<m>*</m><label>兼职名称：</label>
-				<input type="text" name="name"  value="" class="validate[required,maxSize[30]]" placeholder="请输入兼职名称"/>
+<!--				<m>*</m><label>兼职名称：</label>-->
+<!--				<input type="text" name="name"  value="" class="validate[required,maxSize[30]]" placeholder="请输入兼职名称"/>-->
+                <?= $form->field($model, 'job_name', ['inputOptions'=>['placeholder'=>'请输入兼职名称']])->textInput() ?>
 			</span>
 			<span id="">
 				<m>*</m><label>兼职类别：</label>
@@ -149,36 +159,6 @@
 				<input type="text" name="workEnd"  value="" id="workEnd"   class="Wdate validate[required]" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'workBegin\')}'})" placeholder="请输入兼职日期" />
 			</span>
 
-                    <div class="con" id="begin">
-                        <ul class="conul" >
-                            <li>00:00</li><li>01:00</li><li>02:00</li><li>03:00</li>
-
-                            <li>04:00</li><li>05:00</li><li>06:00</li><li>07:00</li>
-
-                            <li>08:00</li><li>09:00</li><li>10:00</li><li>11:00</li>
-
-                            <li>12:00</li><li>13:00</li><li>14:00</li><li>15:00</li>
-
-                            <li>16:00</li><li>17:00</li><li>18:00</li><li>19:00</li>
-
-                            <li>20:00</li><li>21:00</li><li>22:00</li><li>23:00</li>
-                        </ul>
-                    </div>
-                    <div class="con" id="end">
-                        <ul class="conul" >
-                            <li>00:00</li><li>01:00</li><li>02:00</li><li>03:00</li>
-
-                            <li>04:00</li><li>05:00</li><li>06:00</li><li>07:00</li>
-
-                            <li>08:00</li><li>09:00</li><li>10:00</li><li>11:00</li>
-
-                            <li>12:00</li><li>13:00</li><li>14:00</li><li>15:00</li>
-
-                            <li>16:00</li><li>17:00</li><li>18:00</li><li>19:00</li>
-
-                            <li>20:00</li><li>21:00</li><li>22:00</li><li>23:00</li>
-                        </ul>
-                    </div>
 			<span id="">
 				<m>*</m><label>工作时段：</label>
 				<input type="text" name="workTimeHourBegin" id="workTimeHourBegin"  data-prompt-position="topRight"  onfocus="GLOBAL.pagebase.workTimeShowBegin()"   class="validate[required]" placeholder="请输入工作时段" />
@@ -229,6 +209,21 @@
 				<m>*</m><label>联系电话：</label><input type="text" name="contactTel" id="contactTel" value=""  class=" validate[required,maxSize[100]] " placeholder="请输入联系电话"/>
 			</span>
                     <h3>工作地点</h3>
+            <span id="">
+				<m>*</m><label>工作地点：</label>
+				<select name="province" id="province"  data-prompt-position="topRight" class="validate[required]">
+                    <option value="">请选择省</option>
+                    <?php foreach($province as $k=>$v){ ?>
+                        <option class="province" value="<?= $v['region_id']?>"><?= $v['region_name']?></option>
+                    <?php } ?>
+                </select>
+				<select name="city" id="city" data-prompt-position="topRight"  class="validate[required]">
+                    <option value="">请先选择市</option>
+                </select>
+				<select name="area" id="area"  class="validate[required]">
+                    <option value="">请先选择区</option>
+                </select>
+			</span>
 			<span class="pd55">
 			<div id="r-result">
                 <input type="text" name="address" id="suggestId" size="20" style="width:150px;" placeholder="请输入工作地点"/>
@@ -249,7 +244,7 @@
 			<span id="" class="margleft88">
 				<m>温馨提示：岗位信息发布后将无法修改，请在信息核实无误后再发布！</m>
 			</span>
-                </form>
+                <?php ActiveForm::end();?>
             </div>
         </div>
     </div>
@@ -269,13 +264,31 @@
 <?= Html::jsFile('public/date/My97DatePicker/WdatePicker.js')?>
 <script>
     $(".province").click(function(){
-        var region_id = $(this).attr("id");
+        var region_id = $(this).val();
+        var type = "citys";
         $.ajax({
             type: "GET",
             url: "<?= Url::to(['mystore/region'])?>",
-            data: "region_id="+region_id,
+            data: "region_id="+region_id+"&type="+type,
             success: function(msg){
-                alert( "Data Saved: " + msg );
+                $("#area>option:gt(0)").remove();
+                $("#city").append(msg)
+                //alert( "Data Saved: " + msg );
+            }
+        });
+    })
+
+    $(document).on("click",".citys",function(){
+        var region_id = $(this).val();
+        var type = "area";
+        $.ajax({
+            type: "GET",
+            url: "<?= Url::to(['mystore/region'])?>",
+            data: "region_id="+region_id+"&type="+type,
+            success: function(msg){
+                //$("#city option[index!=0]").remove();
+                $("#area").append(msg)
+                //alert( "Data Saved: " + msg );
             }
         });
     })

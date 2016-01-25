@@ -57,4 +57,16 @@ class FinRegion extends \yii\db\ActiveRecord
                 ->asArray()
                 ->all();
     }
+
+    /**
+     * 根据region_id查询该地区子级
+     */
+    public function getRegion($region_id)
+    {
+        return self::find()
+                ->where(['parent_id' => $region_id])
+                ->select("region_name,region_id,parent_id,region_type")
+                ->asArray()
+                ->all();
+    }
 }

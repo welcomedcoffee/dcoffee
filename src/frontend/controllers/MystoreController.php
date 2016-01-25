@@ -7,6 +7,7 @@
  */
 namespace frontend\controllers;
 
+use app\models\part\FinJobDetails;
 use Yii;
 use yii\web\Controller;
 use app\models\part\FinPartType;
@@ -26,12 +27,20 @@ class MystoreController extends BaseController
     /* 发布兼职 */
     public function actionPart()
     {
+        /* 表单模型 */
+        $model = new FinJobDetails();
+
         /* 兼职类型数据 */
         $part = new FinPartType();
         $parttype = $part->partComment();
 
+        /* 查询省份 */
+        $region = new FinRegion();
+        $province = $region->getProvince();
         return $this->render("part",[
-                                        'parttype'=>$parttype
+                                        'model'=>$model,
+                                        'parttype'=>$parttype,
+                                        'province'=>$province
                                     ]);
     }
 
@@ -41,9 +50,16 @@ class MystoreController extends BaseController
      */
     public function actionRegion()
     {
-        //$data = Yii::$app->request->post();
-        echo 1;die;
-        //print_r($data);
+        $region_id = Yii::$app->request->get("region_id");
+        $type = Yii::$app->request->get("type");
+        $region = new FinRegion();
+        $getregion = $region->getRegion($region_id);
+        $option = "";
+        foreach($getregion as $k=>$v)
+        {
+            $option.="<option class='".$type."' value='".$v['region_id']."'>".$v['region_name']."</option>";
+        }
+        echo $option;
     }
 
     /* 兼职列表 */
