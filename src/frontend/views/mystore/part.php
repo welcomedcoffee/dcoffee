@@ -233,6 +233,7 @@
 			<div id="r-result">
                 <input type="text" name="address" id="suggestId" size="20" style="width:150px;" placeholder="请输入工作地点"/>
             </div>
+                <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
 
 			</span>
 
