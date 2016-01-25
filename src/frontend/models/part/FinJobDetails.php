@@ -106,4 +106,15 @@ class FinJobDetails extends \yii\db\ActiveRecord
             'area_id' => 'Area ID',
         ];
     }
+
+    /**
+     * 查询出所有兼职信息
+     */
+    public function getDetails()
+    {
+        return self::find()
+                ->select("job_name,job_type,work_start,work_end,job_money,job_treatment,job_people,job_status")
+                ->asArray()
+                ->all();
+    }
 }

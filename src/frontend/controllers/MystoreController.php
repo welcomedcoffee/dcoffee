@@ -94,7 +94,11 @@ class MystoreController extends BaseController
     /* 兼职列表 */
     public function actionPartlist()
     {
-        return $this->render("partlist");
+        /* 查询兼职信息 */
+        $job_details = new FinJobDetails();
+        $data = $job_details->getDetails();
+
+        return $this->render("partlist",['']);
     }
 
     /* 兼职评论 */
