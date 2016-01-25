@@ -33,15 +33,40 @@ class MystoreController extends BaseController
         /* 兼职类型数据 */
         $part = new FinPartType();
         $parttype = $part->partComment();
-
+        foreach($parttype as $k=>$v)
+        {
+            $data[$v['part_id']] = $v['part_name'];
+        }
         /* 查询省份 */
         $region = new FinRegion();
         $province = $region->getProvince();
         return $this->render("part",[
                                         'model'=>$model,
-                                        'parttype'=>$parttype,
+                                        'data'=>$data,
                                         'province'=>$province
                                     ]);
+    }
+
+    /**
+     * 添加发布兼职信息
+     */
+    public function actionPartadd()
+    {
+        $model = new FinJobDetails();
+        if ($model->load(Yii::$app->request->post()) && $model->validate())
+        {
+            $model->attributes = yii::$app->request->post("FinJobDetails");
+            $model->
+            $data['FinJobDetails']['province'] = $data['province'];
+            $data['FinJobDetails']['city'] = $data['city'];
+            $data['FinJobDetails']['area'] = $data['area'];
+            unset($data['province']);
+            unset($data['city']);
+            unset($data['area']);
+            $model->save();
+        }
+
+
     }
 
     /**
