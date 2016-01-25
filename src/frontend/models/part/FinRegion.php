@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\models\part;
 
 use Yii;
 
@@ -44,5 +44,17 @@ class FinRegion extends \yii\db\ActiveRecord
             'region_name' => 'Region Name',
             'region_type' => 'Region Type',
         ];
+    }
+
+    /**
+     * 查询省份
+     */
+    public function getProvince()
+    {
+        return self::find()
+                ->where(["region_type" => 1])
+                ->select("region_name,region_id,parent_id,region_type")
+                ->asArray()
+                ->all();
     }
 }

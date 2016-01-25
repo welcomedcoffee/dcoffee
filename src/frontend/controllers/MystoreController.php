@@ -10,6 +10,7 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\part\FinPartType;
+use app\models\part\FinRegion;
 
 /**
  *  我的门店首页
@@ -29,9 +30,20 @@ class MystoreController extends BaseController
         $part = new FinPartType();
         $parttype = $part->partComment();
 
-        /* 查询省份 */
-        $province = ;
-        return $this->render("part",['parttype'=>$parttype]);
+        return $this->render("part",[
+                                        'parttype'=>$parttype
+                                    ]);
+    }
+
+    /**
+     * @return string
+     * 获取地区信息
+     */
+    public function actionRegion()
+    {
+        //$data = Yii::$app->request->post();
+        echo 1;die;
+        //print_r($data);
     }
 
     /* 兼职列表 */
