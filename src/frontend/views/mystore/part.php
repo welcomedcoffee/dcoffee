@@ -1,6 +1,7 @@
 <?php
     use yii\helpers\Url;
     use yii\helpers\Html;
+    use yii\widgets\ActiveForm;
     $this->title = "发布兼职";
 ?>
 <html>
@@ -85,153 +86,106 @@
                         发布兼职
                     </p>
                 </div>
-
-                <form  class="frm">
+                <?php
+                $form = ActiveForm::begin([
+                    'options' => ['id'=>'site-form','enctype' => 'multipart/form-data','class' => "frm"],
+                    'action'=>Url::to(['mystore/partadd']),
+                    'method'=>'post',
+                    'fieldConfig' => [
+                        'template' => '<span id=""><m>*</m>{label}{input}{error}</span>'
+                    ],
+                ]);
+                ?>
                     <h3>兼职详情</h3>
 			<span id="">
-				<m>*</m><label>兼职名称：</label>
-				<input type="text" name="name"  value="" class="validate[required,maxSize[30]]" placeholder="请输入兼职名称"/>
+<!--				<m>*</m><label>兼职名称：</label>-->
+<!--				<input type="text" name="name"  value="" class="validate[required,maxSize[30]]" placeholder="请输入兼职名称"/>-->
+                <?= $form->field($model, 'job_name', ['inputOptions'=>['placeholder'=>'请输入兼职名称']])->textInput() ?>
 			</span>
 			<span id="">
-				<m>*</m><label>兼职类别：</label>
-		    <select id="workType" class="margleft6 validate[required]" placeholder="请输入兼职类别">
-                <?php foreach($parttype as $k=>$v){?>
-                    <option><?= $v['part_name'];?></option>
-                <?php }?>
-            </select>
-			</span>
-			<span id="">
-				<m>*</m><label>招聘人数：</label>
-				<input type="text" name="total" id="" value=""  class="validate[required,custom[integer],min[1]]"  placeholder="请输入招聘人数"/>
-			</span>
-			<span id=" ">
-				<label class="floleft margleft5">上传图片：</label>
-				<img src="images/logo.png" id="myselfpic1"  width="80px" class="margleft10" name="introPic"><br>
-                    <input type="file" name="job_img">
-					只能上传jpg、jpeg、png类型的图片，大小不能超过2M
-			</span>
-			<span id="">
-				<m>*</m><label>工资待遇：</label><input type="text" name="salary" id="salary" value="" data-prompt-position="topRight"  class="validate[required,custom[number]]"  placeholder="请输入工资待遇"/>
 
-			<select id="payUnit" name="payUnit">
-                <option>元/天</option>
-                <option>元/小时</option>
-                <option>元/周</option>
-                <option>元/月</option>
-                <option>元/次</option>
-                <option>元/个</option>
-                <option>元/单</option>
-                <option>元/面议</option>
-            </select>
+                <?= $form->field($model, 'job_type')->dropDownList($data, ['prompt'=>'请选择','style'=>'width:120px;margin-left: 10px']) ?>
+
 			</span>
 			<span id="">
-				<m>*</m>
-                <label>结算方式：</label>
-		 <select id="payStyle"  class="margleft6">
-             <option selected value="1">当天结算</option>
-             <option value="2">周末结算</option>
-             <option value="3">月末结算</option>
-             <option value="4">完工结算</option>
-         </select>
+
+                <?= $form->field($model, 'job_people', ['inputOptions'=>['placeholder'=>'']])->textInput() ?>
+			</span>
+			<span id=" " >
+                <?= $form->field($model, 'job_img',['inputOptions'=>['placeholder'=>''],'template'=>'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{label}<img src="images/logo.png" id="myselfpic1" width="80px" class="margleft10" name="introPic"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{input}{error}'])->fileInput() ?>
+			</span>
+			<span id="">
+				<?= $form->field($model, 'job_money', ['inputOptions'=>['placeholder'=>'']])->textInput() ?>
+                <?= $form->field($model, 'job_treatment',['inputOptions'=>['placeholder'=>''],'template'=>'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{input}{error}'])->dropDownList(['1'=>"元/天",'2'=>"元/小时",'3'=>"元/周","4"=>"元/月","5"=>"元/次","6"=>"元/个","7"=>"元/单","8"=>"元/面议"], ['prompt'=>'请选择','style'=>'width:120px;margin-left: 10px']) ?>
+			</span>
+			<span id="">
+                <?= $form->field($model, 'pay_method')->dropDownList(['1'=>"当天结算",'2'=>"周末结算",'3'=>"月末结算","4"=>"完工结算"], ['prompt'=>'请选择','style'=>'width:120px;margin-left: 10px']) ?>
 			</span>
 
 			<span id="">
-				<m>*</m>
-                <label>截止日期：</label>
-				<input type="text" name="startDateTime" id="d11" placeholder="请输入报名截止日期" onClick="WdatePicker()" />
-<!--                <input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}'})" id="logmin" class="input-text Wdate" style="width:120px;">-->
-<!--		--->
-<!--		<input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d'})" id="logmax" class="input-text Wdate" style="width:120px;">-->
+                <?= $form->field($model, 'end_data', ['inputOptions'=>['placeholder'=>'请输入报名截止日期']])->textInput(['id'=>"d11","onClick"=>"WdatePicker()"]) ?>
 			</span>
 			<span id="">
-				<m>*</m><label>兼职日期：</label>
-				<input type="text" name="workBegin" value="" id="workBegin"  data-prompt-position="topRight" class="Wdate validate[required]" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})" placeholder="请输入兼职日期"  />
-				<input type="text" name="workEnd"  value="" id="workEnd"   class="Wdate validate[required]" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'workBegin\')}'})" placeholder="请输入兼职日期" />
+
+                <?= $form->field($model, 'job_start', ['inputOptions'=>['placeholder'=>'请输入兼职日期']])->textInput(['id'=>"workBegin","data-prompt-position"=>"topRight","class"=>"Wdate validate[required]","onfocus"=>"WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"]) ?>
+
+                <?= $form->field($model, 'job_end', ['inputOptions'=>['placeholder'=>'请输入兼职日期']])->textInput(['id'=>"workEnd","class"=>"Wdate validate[required]","onfocus"=>"WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"]) ?>
 			</span>
 
-                    <div class="con" id="begin">
-                        <ul class="conul" >
-                            <li>00:00</li><li>01:00</li><li>02:00</li><li>03:00</li>
-
-                            <li>04:00</li><li>05:00</li><li>06:00</li><li>07:00</li>
-
-                            <li>08:00</li><li>09:00</li><li>10:00</li><li>11:00</li>
-
-                            <li>12:00</li><li>13:00</li><li>14:00</li><li>15:00</li>
-
-                            <li>16:00</li><li>17:00</li><li>18:00</li><li>19:00</li>
-
-                            <li>20:00</li><li>21:00</li><li>22:00</li><li>23:00</li>
-                        </ul>
-                    </div>
-                    <div class="con" id="end">
-                        <ul class="conul" >
-                            <li>00:00</li><li>01:00</li><li>02:00</li><li>03:00</li>
-
-                            <li>04:00</li><li>05:00</li><li>06:00</li><li>07:00</li>
-
-                            <li>08:00</li><li>09:00</li><li>10:00</li><li>11:00</li>
-
-                            <li>12:00</li><li>13:00</li><li>14:00</li><li>15:00</li>
-
-                            <li>16:00</li><li>17:00</li><li>18:00</li><li>19:00</li>
-
-                            <li>20:00</li><li>21:00</li><li>22:00</li><li>23:00</li>
-                        </ul>
-                    </div>
 			<span id="">
-				<m>*</m><label>工作时段：</label>
-				<input type="text" name="workTimeHourBegin" id="workTimeHourBegin"  data-prompt-position="topRight"  onfocus="GLOBAL.pagebase.workTimeShowBegin()"   class="validate[required]" placeholder="请输入工作时段" />
-				<input type="text" name="workTimeHourEnd" id="workTimeHourEnd"   class="validate[required]"  placeholder="请输入工作时段"  onfocus="GLOBAL.pagebase.workTimeShowEnd()"  />
+
+                <?= $form->field($model, 'work_start', ['inputOptions'=>['placeholder'=>'请输入工作时段']])->textInput() ?>
+
+                <?= $form->field($model, 'work_end', ['inputOptions'=>['placeholder'=>'请输入工作时段']])->textInput() ?>
+
+
 			</span>
 			<span id="" class="margleft45">
-				<m>*</m><label>提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;成：</label>
-				<select name="isDeduct" class="margleft6" id="isDeduct">
-                    <option value="0">无提成</option>
-                    <option value="1">有提成</option>
-                </select>
+                <?= $form->field($model, 'commission')->dropDownList(['0'=>"无提成",'1'=>"有提成"], ['prompt'=>'请选择','style'=>'width:120px;margin-left: 10px']) ?>
 			</span>
-			<span id="deductTypeNameSpan" style="display:none">
-				<m>*</m><label>提成内容：</label>
-				<textarea  name="deductTypeName" id="deductTypeName"  class="w100h25 validate[required,maxSize[200] ]  "  ></textarea>
+			<span id="deductTypeNameSpan" style="display:block">
+
+                <?= $form->field($model, 'cut_way')->textarea(['rows'=>3,"class"=>"w100h25 validate[required,maxSize[200] ]"]) ?>
 
 			</span>
 			<span id="">
-				<label  class="margleft6">性别要求：</label>
-				<select name="sex"  id="sex" class="margleft6 validate[required]">
-                    <option value="0">不限</option>
-                    <option value="1">男</option>
-                    <option value="2">女</option>
-                </select>
+                <?= $form->field($model, 'sex')->dropDownList(['1'=>"男",'2'=>"女"], ['prompt'=>'请选择','style'=>'width:120px;margin-left: 10px']) ?>
 			</span>
 			<span id="">
-				<label class="margleft6">身高要求：</label>
-				<select name="height" class="margleft6  validate[required]"  id="height">
-                    <option value="0">不限</option>
-                    <option value="1">160cm以上</option>
-                    <option value="2">165cm以上</option>
-                    <option value="3">170cm以上</option>
-                    <option value="4">175cm以上</option>
-                    <option value="5">180cm以上</option>
-                </select>
+                <?= $form->field($model, 'height')->dropDownList(['0'=>"不限",'1'=>"160cm以上",'2'=>"165cm以上","3"=>"170cm以上","4"=>"175cm以上","5"=>"180cm以上"], ['prompt'=>'请选择','style'=>'width:120px;margin-left: 10px']) ?>
 			</span>
 			<span id="" style="">
-				<m>*</m><label>工作内容：</label><textarea id="workInfo" name="workInfo" rows="" cols=""  class="margleft12  validate[required,maxSize[600]] " placeholder="请输入工作内容"></textarea>
+                <?= $form->field($model, 'job_content', ['inputOptions'=>['placeholder'=>'请输入工作内容']])->textarea(['rows'=>3,"class"=>"margleft12  validate[required,maxSize[600]]"]) ?>
 			</span>
 			<span id="">
-				<label class="margleft6">工作要求：</label><textarea name="jobDetails" rows="" cols="" class="margleft12  validate[required,maxSize[600]]" value="333" placeholder="请输入工作要求"></textarea>
+                <?= $form->field($model, 'job_require', ['inputOptions'=>['placeholder'=>'请输入工作要求']])->textarea(['rows'=>3,"class"=>"margleft12  validate[required,maxSize[600]]"]) ?>
 			</span>
                     <h3>联系方式</h3>
 			<span id="">
-				<m class="margleft12">*</m><label>联系人：</label><input type="text" name="contact" id="contact" value="" class=" validate[required,maxSize[30]]" placeholder="请输入联系人"/>
+                <?= $form->field($model, 'contact', ['inputOptions'=>['placeholder'=>'请输入联系人']])->textInput() ?>
 			</span>
 			<span id="">
-				<m>*</m><label>联系电话：</label><input type="text" name="contactTel" id="contactTel" value=""  class=" validate[required,maxSize[100]] " placeholder="请输入联系电话"/>
+                <?= $form->field($model, 'contact_phone', ['inputOptions'=>['placeholder'=>'请输入联系电话']])->textInput() ?>
 			</span>
                     <h3>工作地点</h3>
+            <span id="">
+				<m>*</m><label>工作地点：</label>
+				<select name="province" id="province"  data-prompt-position="topRight" class="validate[required]">
+                    <option value="">请选择省</option>
+                    <?php foreach($province as $k=>$v){ ?>
+                        <option class="province" value="<?= $v['region_id']?>"><?= $v['region_name']?></option>
+                    <?php } ?>
+                </select>
+				<select name="city" id="city" data-prompt-position="topRight"  class="validate[required]">
+                    <option value="">请先选择市</option>
+                </select>
+				<select name="area" id="area"  class="validate[required]">
+                    <option value="">请先选择区</option>
+                </select>
+			</span>
 			<span class="pd55">
 			<div id="r-result">
-                <input type="text" name="address" id="suggestId" size="20" style="width:150px;" placeholder="请输入工作地点"/>
+                <?= $form->field($model, 'working_place', ['inputOptions'=>['placeholder'=>'请输入工作地点']])->textInput(['id'=>"suggestId"]) ?>
             </div>
                 <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
 
@@ -244,12 +198,13 @@
 
 			</span>
 			<span class="pd55">
-				<input type="button"  id="btnPublish" value="发布兼职"  class="fabujianzhisubmit"/>
+<!--				<input type="button"  id="btnPublish" value="发布兼职"  class="fabujianzhisubmit"/>-->
+                <?= Html::submitButton('发布兼职', ['class'=>'fabujianzhisubmit','id' =>'']) ?>
 			</span>
 			<span id="" class="margleft88">
 				<m>温馨提示：岗位信息发布后将无法修改，请在信息核实无误后再发布！</m>
 			</span>
-                </form>
+                <?php ActiveForm::end();?>
             </div>
         </div>
     </div>
@@ -269,13 +224,31 @@
 <?= Html::jsFile('public/date/My97DatePicker/WdatePicker.js')?>
 <script>
     $(".province").click(function(){
-        var region_id = $(this).attr("id");
+        var region_id = $(this).val();
+        var type = "citys";
         $.ajax({
             type: "GET",
             url: "<?= Url::to(['mystore/region'])?>",
-            data: "region_id="+region_id,
+            data: "region_id="+region_id+"&type="+type,
             success: function(msg){
-                alert( "Data Saved: " + msg );
+                $("#area>option:gt(0)").remove();
+                $("#city").append(msg)
+                //alert( "Data Saved: " + msg );
+            }
+        });
+    })
+
+    $(document).on("click",".citys",function(){
+        var region_id = $(this).val();
+        var type = "area";
+        $.ajax({
+            type: "GET",
+            url: "<?= Url::to(['mystore/region'])?>",
+            data: "region_id="+region_id+"&type="+type,
+            success: function(msg){
+                //$("#city option[index!=0]").remove();
+                $("#area").append(msg)
+                //alert( "Data Saved: " + msg );
             }
         });
     })
