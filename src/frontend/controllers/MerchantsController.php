@@ -3,7 +3,6 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
-use yii\data\Pagination;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use frontend\models\students\MerType;
@@ -15,40 +14,30 @@ use frontend\models\students\MerBase;
  */
 class MerchantsController extends BaseController
 {
-    /*
-     * @inheritdoc 公共部分
-     */
-    public function common()
-    {
-        $models_ty  = new MerType;
-        $types      = $models_ty    ->getType();
-        $models_cir = new Circles;
-        $circles    = $models_cir   ->getCircle();
-        return ['types'=>$types,'circles'=>$circles];
-    }
 	/*
      * @inheritdoc 首页
      */
     public function actionIndex()
     {
+        $models_ty  = new MerType;      //实例化分类
+        $models_go  = new  MerBase;     //商家
+        $types      = $models_ty->getType();
         //接受查询分类
-        $keyword = YII::$app->request->get('1');
-        $new_key = YII::$app->request->get('2');
-        if ($new_key) {
-            foreach ($new_key as $key => $value) {
+        $keyword    = Yii::$app->request->get('1');
+        $new_key    = Yii::$app->request->get('2');
+        if ($new_key) 
+        {
+            foreach ($new_key as $key => $value) 
+            {
                 $keyword[$key] = $value;
             }
-        }
-    	$models_go 	= new  MerBase;
-        $pages      = new Pagination([
-            'defaultPageSize'   => 12,
-            'totalCount'        => MerBase::find()->count(),
-        ]);
-    	$mers		= $models_go->getMerInfo($pages);
-        $data = $this->common();
+        } 
+    	$mers		= $models_go->getMerchants($keyword);
+        $pages      = $mers['pages'];
+        unset($mers['pages']);
         return $this->render('index',
         		[
-        			'data'	  => $data,
+        			'types'	  => $types,
                     'keyword' => $keyword,
         			'mers'	  => $mers,
                     'pages'   => $pages,
@@ -64,7 +53,22 @@ class MerchantsController extends BaseController
             $mer_id         = Yii::$app->request->get('mer_id');
             $model          = new MerBase;
             $mer_details    = $model->getDetail($mer_id);
+            unset($mer_details['mer_paypassword']);
+            unset($mer_details['mer_position']);
+            unset($mer_details['mer_positive']);
+            unset($mer_details['mer_reverse']);
+            unset($mer_details['register_time']);
+            unset($mer_details['mer_ allow']);
+            return $this->render('details',['mer_details'=>$mer_details]);
         }
-    	return $this->render('details',['mer_details'=>$mer_details]);
+    	
+    }
+    
+    /*
+     * @inheritdoc  支付
+     */
+    public function actionPay()
+    {
+        return $this->render('payment');
     }
 }

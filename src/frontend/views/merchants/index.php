@@ -23,7 +23,7 @@ $this->title = '优质商家';
         <!--t_skey-->
         <div class="t_skey">
             <ul>
-            <?php if($data){?>
+            <?php if($types){?>
                 <li id="hotcategory">
                     <strong>热门分类:</strong>
                     <div style="margin-left:60px">
@@ -34,7 +34,7 @@ $this->title = '优质商家';
                             } ?>
                             >全部</a>   
                     </span>
-                    <?php foreach ($data['types'] as $key => $type) {?>
+                    <?php foreach ($types as $key => $type) {?>
                     <span><a href="<?php echo \Yii::$app->urlManager->createUrl(['merchants/index',$keyword,array('type'=>$type['type_id'])])?>"
                     <?php if($keyword['type']==$type['type_id']){
                             echo "class='bg'";
@@ -68,10 +68,10 @@ $this->title = '优质商家';
         <?php foreach($mers as $key=>$mer){?>
             <li>
             <p>
-                 <a href="<?= Url::to(['merchants/details'])?>?mer_id=<?= Html::encode($mer['mer_id'])?>"><img src="<?= Html::encode($mer['mer_logo'])?>" alt="商家logo" height="205" width="256"></a>
+                 <a href="<?= Url::to(['merchants/details'])?>&mer_id=<?= Html::encode($mer['mer_id'])?>"><img src="<?= Html::encode($mer['mer_logo'])?>" alt="商家logo" height="205" width="256"></a>
             </p>
             <h1>
-                <a href="<?= Url::to(['merchants/details'])?>?mer_id=<?= Html::encode($mer['mer_id'])?>"><?= Html::encode($mer['mer_name'])?></a>
+                <a href="<?= Url::to(['merchants/details'])?>&mer_id=<?= Html::encode($mer['mer_id'])?>"><?= Html::encode($mer['mer_name'])?></a>
             </h1>
             <h2 title=""> </h2>
             <div class="ifo">
