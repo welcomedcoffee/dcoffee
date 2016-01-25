@@ -15,10 +15,30 @@ use yii\web\Controller;
  */
 class StoreController extends BaseController
 {
+	public $enableCsrfValidation = false;
 	/* 门店首页 */
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    /**
+     * 接受临时文件
+     */
+    public function actionUpload()
+    {
+    	if(count($_FILES) > 0)
+		{
+			$f = $_FILES['file'];
+			$filename = 'upload/' . md5(uniqid(rand())) . '_' . $f['name'];
+			move_uploaded_file($f['tmp_name'], $filename);
+			echo $filename;
+		}
+		else
+		{
+			echo 'no files';
+		}
+		21221
     }
 
 

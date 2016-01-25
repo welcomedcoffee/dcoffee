@@ -3,7 +3,7 @@
 namespace app\models\user;
 
 use Yii;
-
+use app\models\students\Students;
 /**
  * This is the model class for table "{{%fin_user}}".
  *
@@ -18,12 +18,16 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord
 {
+    public $user_checkpwd;
+    public $smsValCode;
+    public $agreement;
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%fin_user}}';
+        return '{{%user}}';
     }
 
     /**
@@ -32,10 +36,13 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'user_phone', 'user_password', 'user_type', 'user_addtime', 'user_lastlogin', 'user_lastip', 'user_status'], 'required'],
+            [['user_id', 'user_phone', 'user_password', 'user_type', 'user_addtime', 'user_lastlogin', 'user_lastip', 'user_status','user_checkpwd', 'smsValCode', 'agreement'], 'required'],
             [['user_id', 'user_type', 'user_addtime', 'user_lastlogin', 'user_status'], 'integer'],
+            [['user_phone'],'match','pattern' => '/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/i', 'message'=>'请输入正确的手机号码'],
+            [['user_password', 'user_checkpwd'],'match', 'pattern' => '/^[A-Za-z0-9]{8,15}$/', 'message' =>'请输入8~15位字母或数字'],
+            [['smsValCode'], 'match', 'pattern' =>'/^\d{4}$/', 'message' =>'请输入正确的验证码'],
             [['user_phone'], 'string', 'max' => 11],
-            [['user_password'], 'string', 'max' => 32],
+            [['user_password','user_checkpwd'], 'string', 'max' => 32],
             [['user_lastip'], 'string', 'max' => 15]
         ];
     }
@@ -54,6 +61,9 @@ class User extends \yii\db\ActiveRecord
             'user_lastlogin' => 'User Lastlogin',
             'user_lastip' => 'User Lastip',
             'user_status' => 'User Status',
+            'user_checkpwd' => '确认密码',
+            'smsValCode' => '短信验证码',
+            'agreement' => '协议为必选项',
         ];
     }
 
@@ -75,8 +85,12 @@ class User extends \yii\db\ActiveRecord
                         $info['user_lastip'] = $userip;
                         $info['user_status'] = 1;                    
                         $model = new User;
-                        $model -> setAttributes($info);
+                        $model -> setAttributes($info);                              
                         if($model -> save()){
+                            $user_id = $model->attributes['user_id'];
+                            $stu = new Students;
+                            $stu -> stu_id = $user_id;
+                            $stu ->save();
                             return $this->result(1, '注册成功');                       
                         }else{
                             return $this->result(5, '注册失败');                         

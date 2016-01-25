@@ -7,15 +7,18 @@
 .t_skey ul li{ display:block; padding:10px;}
 .t_skey ul li span,.t_skey ul li strong{ display:block; float:left;}
 .t_skey ul li strong{ margin-right:5px;}
-.t_skey ul li span{ margin:0 5px; padding:2px 5px;}
+/* .t_skey ul li span{ margin:0 5px; padding:2px 5px;}
 .t_skey ul li span.bg{ background:#ff8400;}
-.t_skey ul li span.bg a{ color:#fff;}
+.t_skey ul li span.bg a{ color:#fff;} */
+.t_skey ul li span a {margin: 0px 5px;padding: 2px 5px;}
+.t_skey ul li span a.bg{ color:#fff;}
+
 .t_snav{ background:#f7f7f7;border:1px  solid #eaeaea; margin-top:20px; font-size:14px;}
 .t_snav ul li{border-right:1px  solid #eaeaea; display:block; float:left; width:100px; text-align:center; height:40px; line-height:40px; }
 .t_snav ul li.bg{ background:#fff;}
 .t_snav ul li a.a1{ color:#ff5400;}
 .t_slist{ margin:10px 0 20px 0;}
-.t_slist ul li{ display:block; float:left; background:#fff; margin:16px 16px 0 0; width:256px; height:340px; padding:10px 15px 0 15px;border:1px  solid #eaeaea; overflow:hidden; }
+.t_slist ul li{ display:block; float:left; background:#fff; margin:16px 16px 0 0; width:252px; height:340px; padding:10px 15px 0 15px;border:1px  solid #eaeaea; overflow:hidden; }
 .t_slist ul li h2{height: 34px;
     overflow: hidden;
     width: 256px;

@@ -161,16 +161,12 @@ class SiteController extends BaseController
         $model = new User;      
         if ($model->load(Yii::$app->request->post())) {            
             if ($user = $model->registerUser($this->request->post(), $this->request->userIP)) {
-                if($user['code']==1){
-                    $user['title'] = '成功!';
-                    $user['keyname'] = '登陆页';
-                    $user['keyword'] = 'site/login';
-                }else{
-                     $user['title'] = '错误!';
-                     $user['keyname'] = '返回';
-                     $user['keyword'] = 'site/signup';
+                if($user['code']==1){                   
+                    $this->actionTotrans('成功', '登陆页', 'site/login', $user);
+                }else{                     
+                    $this->actionTotrans('错误', '返回', 'site/signup', $user);
                 }
-                $this->redirect(['site/transition','info'=>base64_encode(json_encode($user))]);
+                //$this->redirect(['site/transition','info'=>base64_encode(json_encode($user))]);
             }
         }
 
@@ -179,7 +175,14 @@ class SiteController extends BaseController
         ]);
     }
 
-    public function actionTransition() {
+    public function actionTotrans($title = null, $key = null, $url = null, $user = null){
+        $user['title'] = $title?$title:'提示';
+        $user['keyname'] = $key?$key:'跳转';
+        $user['keyword'] = $url;
+        return $this->redirect(['site/transition','info'=>base64_encode(json_encode($user))]);
+    }
+
+    public function actionTransition() {        
         $info = json_decode(base64_decode($this->request->get('info')),true);       
         return $this->render('transition', ['res' => $info]);
     }

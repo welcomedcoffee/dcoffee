@@ -2,7 +2,7 @@
 namespace frontend\models\students;
 use Yii;
 use yii\db\ActiveRecord;
-
+use yii\data\Pagination;
 class MerBase extends ActiveRecord
 {
 
@@ -21,16 +21,41 @@ class MerBase extends ActiveRecord
     {
         return ;
     }
-
-    /*获取商圈信息*/
-    public function getMerInfo()
+    /*
+     * @inheritdoc 获取商商家信息
+     */
+    public function getMerchants($keyword)
     {
-        return $this->find()->asArray()->all();
-    }
+    	$cond = "1=1";
+    	if ($keyword['type']) 
+    	{
+    		(int)$type 	 = $keyword['type'];
+    		$cond	    .= " and ind_type = $type";
+    	}
+    	if ($keyword['region']) {
+    		(int)$region = $keyword['region'];
+    		$cond		.= " and mer_area = $region";
+    	}
 
-    /*获取商家详细信息*/
+    	$pages      = new Pagination([
+            'defaultPageSize'   => 12,
+            'totalCount'        => $this->find()->where($cond)->count(),
+        ]);
+        $merchants = MerBase::find()
+        			->where($cond)
+                    ->offset($pages->offset)
+                    ->limit($pages->limit)
+                    ->asArray()->all();
+        $merchants['pages'] = $pages;
+        return $merchants;                               
+    }
+    /*
+     * @inheritdoc 获取商家详细信息
+     */
     public function getDetail($mer_id)
     {
-        return $this->find()->where("mer_id=$mer_id")->asArra()->one();
+        return  MerBase::find()
+                    ->where("mer_id=$mer_id")
+                    ->asArray()->one();
     }
 }

@@ -14,20 +14,28 @@ use yii\helpers\Url;
                 	
                    	<div id="da-error-pin"></div>
                     <div id="da-error-code">
-                    	<!-- error --> <span><?=$res['title']?></span>                    </div>
+                    	<!-- error --> <span id='ttile'><?=$res['title']?></span>                    </div>
                 
-                	<h1 class="da-error-heading"><?=$res['data']?></h1>
+                	<h1 class="da-error-heading"><?=$res['data']?>
+                    <br><span id='ntime'>3</span>秒后自动跳转</h1>
                     <?php
-                        echo $a = $res['keyword'];
+                       $a = $res['keyword'];
                     ?>
-                    <p>大家可以到狗狗没有叼过的地方看看！ <a href="<?= Url::to([$a]); ?>">点击进入<?=$res['keyname']?></a></p>
+                    <p>您可以直接点击这里进行操作哦！ <a href="<?= Url::to([$a]); ?>">点击进入<?=$res['keyname']?></a></p>
                 </div>
             </div>
         </div>
-        
-        <!-- Footer -->
-        <div id="da-footer">
-        	<div class="da-container clearfix">
-           	<p> 2013 17sucai . All Rights Reserved. <a href="http://www.mycodes.net/" target="_blank">源码之家</a></div>
-        </div>
     </div>
+    <script>
+        var i = 3;
+        $(function(){            
+            setInterval(a,1000);
+        });
+        function a(){              
+           i = i-1;
+           $('#ntime').html(i);
+           if(i==1){
+             location.href="<?=Url::to([$a]);?>";                
+           }
+        }
+    </script>

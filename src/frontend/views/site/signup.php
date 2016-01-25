@@ -10,7 +10,9 @@ use yii\bootstrap\ActiveForm;
 $this->title = 'Signup';
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
-    
+<style>
+    #user-agreement {float: left;}
+</style>   
 <div class="t_reg">
     <div class="t_regtit" id="regType">
         <ul>
@@ -32,7 +34,7 @@ $this->title = 'Signup';
     'options'=>['id' => 'studentRegForm'],
     'method'=>'post',
     'fieldConfig' => [
-            'template' => '<li><span class="wida"><label style="color: red;">*</label>&nbsp;&nbsp;{label}：</span><span>{input}</span><font color="red">{error}</font><div class="clear"></div></li>'
+            'template' => '<li><span class="wida"><label style="color: red;">*</label>&nbsp;&nbsp;{label}：</span><span style="padding-right:15px">{input}</span><font color="red">{error}</font><div class="clear"></div></li>'
         ]    
     ]); 
     ?>    
@@ -42,41 +44,29 @@ $this->title = 'Signup';
             <ul>
                 <!-- 用户手机 -->
                 <?php echo $form->field($model, 'user_phone', ['inputOptions' => ['class' => 'in1 validate[required,custom[mobile]]', 'placeholder' => '请输入手机号码']])->textInput(['maxlength' => 11]) ?>  
-
-                <!-- 获取验证码 -->					
                 <li>
-					<span class="wida">
-						<label style="color: red;">*</label>&nbsp;&nbsp;短信验证码：
-					</span>
-					<span>
-						<input name="smsValidCode"  id="smsValidCode" type="hidden" value=""/>
-						<input   name="smsValCode"   id="smsValCode" type="text" data-prompt-position="centerRight:125,0"
-                                 class="in2 validate[required] "  placeholder="请输入验证码"/>
-					</span>
-					<!-- <span class="mag" style="cursor: pointer;" id="smsValidCodeText" atr="0">获取验证码</span> -->
-                    <div class="clear"></div>
+                <!-- 获取验证码 -->		
+                <?php echo $form->field($model, 'smsValCode', ['inputOptions' => ['class' => 'in2 validate[required]', 'placeholder' => '请输入验证码'],'template'=>'<span class="wida"><label style="color: red;">*</label>&nbsp;&nbsp;{label}：</span><span style="padding-right:15px">{input}</span><span class="mag" style="cursor: pointer; margin-top:-1px" id="smsValidCodeText" atr="0">获取验证码</span><font color="red">{error}</font><div class="clear"></div> '])->textInput(['maxlength' => 4]) ?>  			 
                 </li>
                 
                 <!-- 设置密码 -->
-                <?php echo $form->field($model, 'user_password', ['inputOptions' => ['class' => 'in1 validate[required,custom[pwd]]', 'placeholder' => '请输入密码']])->passwordInput(['maxlength' => 15]) ?>                
-
-                
-                <li>
-					<span class="wida">
-						<label style="color: red;">*</label>
-						&nbsp;&nbsp;确认密码：
-					</span>
-					<span>
-                    <?=Html::passwordInput('checkpwd','',['class' => 'in1 validate[condRequired[password],equals[password]]', 'placeholder' => '请输入确认密码'])?>		
-					</span>
+                <?php echo $form->field($model, 'user_password', ['inputOptions' => ['class' => 'in1 validate[required,custom[pwd]]', 'placeholder' => '请输入密码']])->passwordInput(['maxlength' => 15]) ?>                     
+                					
+                <!-- 确认密码 -->
+                <?php echo $form->field($model, 'user_checkpwd', ['inputOptions' => ['class' => 'in1 validate[required,custom[password]]', 'placeholder' => '请再次输入密码']])->passwordInput(['maxlength' => 15]) ?>          
                     <div class="clear"></div>
-                </li>
-                <p>
+                        
+                <!-- 查看协议 -->
+                <?= $form->field($model, 'agreement', ['template' =>'<p style="float:left;"><font color="red">*</font>{input}《<a href="/protocol">趣淘学注册协议</a>》<font color="red">{error}</font></p>', 'inputOptions' =>[ 'data-prompt-position' => 'centerRight:250,0']])->checkboxList(['0'=>'我已阅读并同意']) ?> 
+                
+                <div style='clear:left;'></div> 
+                <!-- <p>
                     <?=Html::checkbox('agreement',true,['id' => 'agreement', 'data-prompt-position' => 'centerRight:250,0', 'class' => 'validate[required]'])?>
                     我已阅读并同意《
-                    <a href="/protocol">趣淘学注册协议</a>
+                    
                     》
-                </p>
+                </p>  -->
+
                 <li>
                     <span class="wida">&nbsp;</span>
 					<span>                      
