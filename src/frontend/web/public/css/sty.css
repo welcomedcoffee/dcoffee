@@ -31,7 +31,7 @@ html { overflow-y: scroll; background:#f6f3ee;}
 
 
 /*底部*/
-.foot{ background:#484848; padding:40px 0; color:#fff;}
+.foot{ background:#484848; padding:40px 0; color:#fff;margin-top:20px;}
 .footi ul li{ height:200px; line-height:30px; font-size:14px; display:block; float:left; width:239px; text-align:center; border-right:1px solid #404040;}
 .footi ul li.nbo{ border:none;}
 .footi ul li h1{ font-size:18px; font-weight:bold; padding-bottom:10px;}

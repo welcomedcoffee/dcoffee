@@ -9,6 +9,15 @@ use yii\web\Controller;
  */
 class ParttimeController extends BaseController
 {
+	/*
+     * @inheritdoc 公共部分
+     */
+    public function common()
+    {
+        $models_ty  = new MerType;
+        $types      = $models_ty    ->getType();
+        return ['types'=>$types];
+    }
     public function actionIndex()
     {
         return $this->render('index');
