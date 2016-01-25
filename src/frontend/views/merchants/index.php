@@ -15,7 +15,7 @@ $this->title = '优质商家';
 </style>
 <div class="t_min t_tit">
         当前位置：
-        <a href="#">首页</a>
+        <a href="<?= Url::to(['site/index'])?>">首页</a>
         &gt; 优质商家
     </div>
     <!--商家 搜索-->
