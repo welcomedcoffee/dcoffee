@@ -19,4 +19,13 @@ class Comment extends ActiveRecord
     {
         return ;
     }
+	//获取商家评论
+	public function getComment($user_id,$pagination)
+	{
+		return $this->find()
+					->offset($pagination->offset)
+					->limit($pagination->limit)
+					->where(['and',['model_id'=>$user_id,'comment_type'=>1,'comment_status'=>1]])
+					->all();
+	}
 }

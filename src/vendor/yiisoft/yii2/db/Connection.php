@@ -518,10 +518,11 @@ class Connection extends Component
                 throw new InvalidConfigException('None of the master DB servers is available.');
             }
         }
-
+        
         if (empty($this->dsn)) {
             throw new InvalidConfigException('Connection::dsn cannot be empty.');
         }
+
         $token = 'Opening DB connection: ' . $this->dsn;
         try {
             Yii::info($token, __METHOD__);

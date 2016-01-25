@@ -6,6 +6,32 @@ use yii\helpers\Url;
 <link rel="stylesheet" href="/public/css/comm.css">
 <link rel="stylesheet" href="/public/css/shop.css">
 <link rel="stylesheet" href="/public/css/sty.css">
+<script type="text/javascript" src="./public/js/ajaxupload.js"></script>
+<style type="text/css">
+span.add {
+	margin-top: 22px;
+	display: inline-block;
+}
+
+.input-file {
+	position: relative; /* 保证子元素的定位 */
+	width: 120px;
+	height: 85px;
+	background: #eee;
+	border: 1px solid #ccc;
+	text-align: center;
+	cursor: pointer;
+	top: -17px;
+}
+
+span {
+	font-size: 12px;
+}
+
+.mar {
+	margin-bottom: 2em;
+}
+</style>
 
 <div class="t_min t_tit">
 		当前位置：<a href="http://www.qutaoxue.net/">首页</a> &gt; 我的趣淘学
@@ -13,9 +39,39 @@ use yii\helpers\Url;
 	<!--我的趣淘学-->
 	<div class="t_min">
 		<div class="mt_ri_1">
-			<div class="mt_rt" id="topmenus"><ul><li class="img"> <img src="./public/images/us.jpg" width="100" height="100"></li><li class="wi1">   <h1>23112312321321321321321321321311111111111111111请问</h1>   <p>手机号：13782519376</p></li><li class="wi2">预收余额：0.00</li><li class="wi3">   <a href="http://www.qutaoxue.net/merchant/merchantQuota"><span class="bg1">额度申请</span></a><a href="http://www.qutaoxue.net/merchant/merchantParttimeList"><span class="bg2">兼职结算</span></a> <a href="http://www.qutaoxue.net/merchant/merchantParttimeList"><span class="bg3">兼职审核</span></a></li></ul> <div class="clear"></div></div>
+			<div class="mt_rt" id="topmenus">
+			<ul>
+				<li class="img"> <img src="./public/images/us.jpg" width="100" height="100"></li>
+				<li class="wi1">
+					<h1>科科</h1>
+					<p>手机号：18514429975</p></li>
+				<li class="wi2">预收余额：1000.00</li>
+				<li class="wi3">
+					<a href="http://www.qutaoxue.net/merchant/merchantQuota">
+						<span class="bg1">额度申请</span></a>
+					<a href="http://www.qutaoxue.net/merchant/merchantParttimeList">
+						<span class="bg2">兼职结算</span></a>
+					<a href="http://www.qutaoxue.net/merchant/merchantParttimeList">
+						<span class="bg3">兼职审核</span></a>
+				</li>
+			</ul>
+			<div class="clear"></div>
+			</div>
 		</div>
-		<div class="mt_le t_le" id="leftmenus">  <a href="http://www.qutaoxue.net/merchant/merchantIndex" atr="home"><h1>我的门店  </h1></a> <ul>     <li><a href="http://www.qutaoxue.net/merchant/merchantOrder" atr="order">我的订单</a></li>     <li><a href="http://www.qutaoxue.net/merchant/merchantComment" atr="comment">我的评论</a></li>     <h2>我的兼职</h2>     <li><a href="http://www.qutaoxue.net/merchant/merchantPublish" atr="publish">发布兼职</a></li>     <li><a href="http://www.qutaoxue.net/merchant/merchantParttimeList" atr="list">兼职列表</a></li>     <h2>企业设置</h2>     <li><a href="./public/images/趣淘学.html" atr="base" class="co">基本资料</a></li>     <li><a href="http://www.qutaoxue.net/merchant/merchantSafe" atr="safe">账户安全</a></li>     <li> <a href="http://www.qutaoxue.net/merchant/merchantBalance" atr="account">账户余额</a></li> </ul></div>
+		<div class="mt_le t_le" id="leftmenus">
+		  <a href="http://www.qutaoxue.net/merchant/merchantIndex" atr="home"><h1>我的门店  </h1></a>
+		  <ul>
+		  	<li><a href="http://www.qutaoxue.net/merchant/merchantOrder" atr="order">我的订单</a></li>
+		  	<li><a href="http://www.qutaoxue.net/merchant/merchantComment" atr="comment">我的评论</a></li>
+		  	<h2>我的兼职</h2>
+		  	<li><a href="http://www.qutaoxue.net/merchant/merchantPublish" atr="publish">发布兼职</a></li>
+		  	<li><a href="http://www.qutaoxue.net/merchant/merchantParttimeList" atr="list">兼职列表</a></li>
+		  	<h2>企业设置</h2>
+		  	<li><a href="./public/images/趣淘学.html" atr="base" class="co">基本资料</a></li>
+		  	<li><a href="http://www.qutaoxue.net/merchant/merchantSafe" atr="safe">账户安全</a></li>
+		  	<li><a href="http://www.qutaoxue.net/merchant/merchantBalance" atr="account">账户余额</a></li>
+		  </ul>
+		</div>
 
 		<div class="mt_ri t_ri">
 			<div class="mt_rli">
@@ -41,7 +97,7 @@ use yii\helpers\Url;
 							<select id="area" name="area"><option value="110100">东城区</option><option value="110200">西城区</option><option value="110500">朝阳区</option><option value="110600">丰台区</option><option value="110700">石景山区</option><option value="110800" selected="selected">海淀区</option><option value="110900">门头沟区</option><option value="111100">房山区</option><option value="111200">通州区</option><option value="111300">顺义区</option><option value="111400">昌平区</option><option value="111500">大兴区</option><option value="111600">怀柔区</option><option value="111700">平谷区</option><option value="112800">密云县</option><option value="112900">延庆县</option></select>
 						</p>
 						<p class="mar">
-							<input class="validate[required]" type="text" id="address" name="address" style="margin-left: 63" placeholder="请输入企业地址">
+							<input class="validate[required]" type="text" id="address" name="address" style="margin-left: 63px" placeholder="请输入企业地址">
 						</p>
 						<p class="mar">
 							行业类型： <select name="industrytype" id="industrytype"> <option value="-1">请选择行业类型</option><option value="1">美食</option><option value="2">住宿</option><option value="3">娱乐</option><option value="4">生活</option><option value="5" selected="selected">其他</option></select> <select id="industChild" name="industChild" style="width: 130px;"><option value="64">旅游</option><option value="65">票务培训</option><option value="67">数码产品</option><option value="68">眼镜店</option><option value="70" selected="selected">其他</option></select>
@@ -52,24 +108,28 @@ use yii\helpers\Url;
 								<w> 企业LOGO</w>
 								<div class="input-file">
 									<img width="120" height="80" id="myselfpic1" class=" " src="./public/images/qiyelogo.png">
+									<input type="hidden" name="mer_logo" value="1111">
 								</div>
 							</div>
 							<div class="image">
 								<w>营业执照</w>
 								<div class="input-file">
 									<img width="120" height="80" id="myselfpic2" class="" src="./public/images/zhizhao.png">
+									<input type="hidden" name="mer_license" value="">
 								</div>
 							</div>
 							<div class="image">
 								<w>税务登记证</w>
 								<div class="input-file">
 									<img width="120" height="80" id="myselfpic3" class="" src="./public/images/shuiwu.png">
+									<input type="hidden" name="mer_registration" value="">
 								</div>
 							</div>
 							<div class="image">
 								<w>组织机构代码证</w>
 								<div class="input-file">
 									<img width="120" height="80" id="myselfpic4" class="" src="./public/images/jigou.jpg">
+									<input type="hidden" name="mer_ allow" value="">
 								</div>
 
 							</div>
@@ -79,13 +139,15 @@ use yii\helpers\Url;
 								<div class="imageq" style="margin: 0; display: inline-block;">
 									<w>身份证背面</w>
 									<div class="input-file">
-										<img src="./public/images/zhenmian.png" width="120" height="85" border="0" id="preview6">
+										<img src="./public/images/zhenmian.png" width="120" height="85" border="0" id="myselfpic6">
+										<input type="hidden" name="mer_reverse" value="">
 									</div>
 								</div>
 								<div class="imageq" style="display: inline-block;">
 									<w>身份证正面</w>
 									<div class="input-file">
-										<img src="./public/images/fanmian.jpg" width="120" height="85" border="0" id="preview5" class=" ">
+										<img src="./public/images/fanmian.jpg" width="120" height="85" border="0" id="myselfpic5" class=" ">
+										<input type="hidden" name="mer_positive" value="">
 									</div>
 								</div>
 								<p class="warm1">只能上传jpg、jpeg、png类型的图片，大小不能超过2M</p>
@@ -100,21 +162,22 @@ use yii\helpers\Url;
 								<div class="imagew" style="display: inline-block;">
 									<w>企业图片</w>
 									<div class="input-file">
-
 										<img width="120" height="80" id="myselfpic7" class="" src="./public/images/logo.png">
-
+										<input type="hidden" name="mer_image1" value="">
 									</div>
 								</div>
 								<div class="imagew" style="display: inline-block;">
 									<w>企业图片</w>
 									<div class="input-file">
 										<img width="120" height="80" id="myselfpic8" class=" " src="./public/images/logo.png">
+										<input type="hidden" name="mer_image2" value="">
 									</div>
 								</div>
 								<div class="imagew" style="display: inline-block;">
 									<w>企业图片</w>
 									<div class="input-file">
 										<img width="120" height="80" id="myselfpic9" class=" " src="./public/images/logo.png">
+										<input type="hidden" name="mer_image3" value="">
 									</div>
 								</div>
 								<p class="warm">只能上传jpg、jpeg、png类型的图片，大小不能超过2M</p>
@@ -158,3 +221,44 @@ use yii\helpers\Url;
      </div>
    </div>
 </div>
+
+<script>
+
+	for (var i = 1; i <= $('.input-file').length; i++) {
+
+		new AjaxUpload(a='#myselfpic'+i, {
+                    // 提交目标
+                    action: "<?php echo Url::to(['store/upload'])?>",
+                    // 服务端接收的名称
+                    name: "file",
+                    // 自动提交
+                    autoSubmit: true,
+                    // 选择文件之后…
+                    onChange: function (file, extension) {
+                        if (new RegExp(/(jpg)|(jpeg)|(bmp)|(gif)|(png)/i).test(extension)) {
+                            $("#filepath").val(file);
+                        } else {
+                            alert("只限上传图片文件，请重新选择！");
+                        }
+                    },
+                    // 开始上传文件
+                    onSubmit: function (file, extension) {
+
+                    },
+
+                    // 上传完成之后
+                    onComplete: function (file, response) {
+                        /*if (response == "Success") $("#state").val("上传完成！");
+                        else $("#state").val(response);*/
+                        console.log(this);
+                        this._button.src = response;
+
+                        $("#"+this._button.id).next("input").val(response);
+
+                    }
+
+                });
+
+	}
+
+</script>
