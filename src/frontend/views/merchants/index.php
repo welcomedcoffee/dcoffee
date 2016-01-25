@@ -44,7 +44,19 @@ $this->title = '优质商家';
                     <div class="clear"></div></div>
                 </li>
             <?php }?>    
-                <li id="areCategory"> <strong>全部区域:</strong><span><a href="javascript:void(0)" atr="">不限</a></span><span><a href="javascript:void(0)" atr="110100"> 东城区</a></span><span><a href="javascript:void(0)" atr="110200"> 西城区</a></span><span><a href="javascript:void(0)" atr="110500"> 朝阳区</a></span><span><a href="javascript:void(0)" atr="110600"> 丰台区</a></span><span><a href="javascript:void(0)" atr="110700"> 石景山区</a></span><span><a href="javascript:void(0)" atr="110800"> 海淀区</a></span><span><a href="javascript:void(0)" atr="110900"> 门头沟区</a></span><span><a href="javascript:void(0)" atr="111100"> 房山区</a></span><span><a href="javascript:void(0)" atr="111200"> 通州区</a></span><span><a href="javascript:void(0)" atr="111300"> 顺义区</a></span><span><a href="javascript:void(0)" atr="111400"> 昌平区</a></span><span><a href="javascript:void(0)" atr="111500"> 大兴区</a></span><span><a href="javascript:void(0)" atr="111600"> 怀柔区</a></span><span><a href="javascript:void(0)" atr="111700"> 平谷区</a></span><span><a href="javascript:void(0)" atr="112800"> 密云县</a></span><span><a href="javascript:void(0)" atr="112900"> 延庆县</a></span><div class="clear"></div></li>
+                <li id="areCategory"> <strong>全部区域:</strong><span><a href="<?php echo \Yii::$app->urlManager->createUrl(['merchants/index',$keyword,array('region'=>0)]); ?>" 
+                <?php if($keyword['region']=='0' || empty($keyword['region'])){
+                            echo "class='bg'";
+                            } ?>>不限</a></span>
+                        <?php foreach ($regions as $key => $region) {?>
+                            <span><a href="<?php echo \Yii::$app->urlManager->createUrl(['merchants/index',$keyword,array('region'=>$region['mer_area'])])?>" 
+                            <?php if($keyword['region']==$region['mer_area']){
+                            echo "class='bg'";
+                            } ?>>
+
+                            <?= Html::encode($region['mer_area'])?></a></span>
+                        <?php }?>            
+                            <div class="clear"></div></li>
             </ul>
         </div>
         <!--t_skey end-->

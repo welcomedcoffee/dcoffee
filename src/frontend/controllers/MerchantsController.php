@@ -35,12 +35,14 @@ class MerchantsController extends BaseController
     	$mers		= $models_go->getMerchants($keyword);
         $pages      = $mers['pages'];
         unset($mers['pages']);
+        $regions = array();
         return $this->render('index',
         		[
         			'types'	  => $types,
                     'keyword' => $keyword,
         			'mers'	  => $mers,
                     'pages'   => $pages,
+                    'regions' => $regions,
         		]);
     }
     /*
