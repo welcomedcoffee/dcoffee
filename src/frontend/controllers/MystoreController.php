@@ -12,6 +12,7 @@ use Yii;
 use yii\web\Controller;
 use app\models\part\FinPartType;
 use app\models\part\FinRegion;
+use app\models\part\FinPartList;
 
 /**
  *  我的门店首页
@@ -97,8 +98,26 @@ class MystoreController extends BaseController
         /* 查询兼职信息 */
         $job_details = new FinJobDetails();
         $data = $job_details->getDetails();
-
-        return $this->render("partlist",['']);
+        /* 查询通过人数 */
+        $part_list = new FinPartList();
+        $part_user = $part_list->throughUser();
+        foreach($data as $k=>$v)
+        {
+            //echo $v['job_id'];die;
+            foreach($part_user as $key=>$val)
+            {
+                if($val['job_id'] == $v['job_id'])
+                {
+                    $data[$k]['user_count'] = $val['user_count'];
+                    unset($part_user[$k]);
+                }
+                else
+                {
+                    $data[$k]['user_count'] = "0";
+                }
+            }
+        }
+        return $this->render("partlist",['data'=>$data]);
     }
 
     /* 兼职评论 */
