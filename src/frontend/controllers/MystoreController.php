@@ -53,19 +53,23 @@ class MystoreController extends BaseController
     public function actionPartadd()
     {
         $model = new FinJobDetails();
-        if ($model->load(Yii::$app->request->post()) && $model->validate())
-        {
-            $model->attributes = yii::$app->request->post("FinJobDetails");
-            $model->
-            $data['FinJobDetails']['province'] = $data['province'];
-            $data['FinJobDetails']['city'] = $data['city'];
-            $data['FinJobDetails']['area'] = $data['area'];
-            unset($data['province']);
-            unset($data['city']);
-            unset($data['area']);
-            $model->save();
+        $data = yii::$app->request->post();
+        $model->attributes = yii::$app->request->post("FinJobDetails");
+        $model->end_data = strtotime($model->attributes['end_data']);
+        $model->job_start = strtotime($model->attributes['job_start']);
+        $model->job_end = strtotime($model->attributes['job_end']);
+        $model->province_id = $data['province'];
+        $model->city_id = $data['city'];
+        $model->area_id = $data['area'];
+        $model->job_status = 3;//审核中
+        $model->add_time = time();
+        $model->merchants_id = 1;//商家ID
+        unset($data);
+        if ($model->save()) {
+            $this->success('保存成功！', ['mystore/part']);
+        } else {
+            $this->error('保存失败！');
         }
-
 
     }
 

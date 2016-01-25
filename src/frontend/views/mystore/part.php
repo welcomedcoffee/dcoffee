@@ -1,7 +1,7 @@
 <?php
     use yii\helpers\Url;
     use yii\helpers\Html;
-    use yii\bootstrap\ActiveForm;
+    use yii\widgets\ActiveForm;
     $this->title = "发布兼职";
 ?>
 <html>

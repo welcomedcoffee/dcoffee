@@ -34,6 +34,9 @@ use Yii;
  * @property double $lng
  * @property double $lat
  * @property integer $add_time
+ * @property integer $province_id
+ * @property integer $city_id
+ * @property integer $area_id
  */
 class FinJobDetails extends \yii\db\ActiveRecord
 {
@@ -51,8 +54,8 @@ class FinJobDetails extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['merchants_id', 'job_name', 'job_type', 'job_people', 'job_img', 'job_money', 'job_treatment', 'pay_method', 'end_data', 'job_start', 'job_end', 'work_start', 'work_end', 'commission', 'cut_way', 'sex', 'height', 'job_content', 'job_require', 'contact', 'contact_phone', 'working_place', 'job_status', 'lng', 'lat', 'add_time'], 'required'],
-            [['merchants_id', 'job_type', 'job_people', 'pay_method', 'end_data', 'job_start', 'job_end', 'work_start', 'work_end', 'commission', 'sex', 'height', 'job_status', 'add_time'], 'integer'],
+            [['merchants_id', 'job_type', 'job_people', 'pay_method', 'end_data', 'job_start', 'job_end', 'work_start', 'work_end', 'commission', 'sex', 'height', 'job_status', 'add_time', 'province_id', 'city_id', 'area_id'], 'integer'],
+            [['job_name', 'job_type', 'job_people'], 'required'],
             [['job_money', 'lng', 'lat'], 'number'],
             [['job_name', 'job_img', 'cut_way'], 'string', 'max' => 60],
             [['job_treatment'], 'string', 'max' => 100],
@@ -98,6 +101,9 @@ class FinJobDetails extends \yii\db\ActiveRecord
             'lng' => 'Lng',
             'lat' => 'Lat',
             'add_time' => 'Add Time',
+            'province_id' => 'Province ID',
+            'city_id' => 'City ID',
+            'area_id' => 'Area ID',
         ];
     }
 }
