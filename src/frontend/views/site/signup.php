@@ -57,7 +57,7 @@ $this->title = 'Signup';
                     <div class="clear"></div>
                         
                 <!-- 查看协议 -->
-                <?= $form->field($model, 'agreement', ['template' =>'<p style="float:left;"><font color="red">*</font>{input}《<a href="/protocol">趣淘学注册协议</a>》<font color="red">{error}</font></p>', 'inputOptions' =>[ 'data-prompt-position' => 'centerRight:250,0']])->checkboxList(['0'=>'我已阅读并同意']) ?> 
+                <?= $form->field($model, 'agreement', ['template' =>'<p style="float:left;"><font color="red">*</font>{input}《<a href="/protocol">淘学友注册协议</a>》<font color="red">{error}</font></p>', 'inputOptions' =>[ 'data-prompt-position' => 'centerRight:250,0']])->checkboxList(['0'=>'我已阅读并同意']) ?> 
                 
                 <div style='clear:left;'></div> 
                 <!-- <p>
@@ -79,12 +79,7 @@ $this->title = 'Signup';
     <?php ActiveForm::end(); ?>    
 </div>
 
-
-
-        <div class="alert alert-danger" role="alert">
-            <?= Yii::$app->session->getFlash('success') ?>
-            <?= Yii::$app->session->getFlash('error') ?>
-        </div>
+     
 
 <!-- 图片验证码 -->
 <div class="verificationTip" id="verificationTipID" atr="0" style="display:none" >
