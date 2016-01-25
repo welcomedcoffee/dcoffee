@@ -11,6 +11,8 @@ use yii\web\Controller;
 use backend\models\student\Students;
 use backend\models\student\Region;
 use backend\models\student\Skills;
+use common\components\Get;
+
 class StudentController extends BaseController
 {
     public function actionIndex()
@@ -115,6 +117,12 @@ class StudentController extends BaseController
         }else{
             $this->error('修改失败!',['student/info']);
         }
+    }
+     //完善或修改个人资料
+    public function actionCard()
+    {
+       $get = new Get;
+       return $get -> get_oss();
     }
     //商品订单
     public function actionGoodsorder()
