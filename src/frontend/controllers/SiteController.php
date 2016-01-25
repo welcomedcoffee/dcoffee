@@ -12,12 +12,22 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-
+use app\models\user\User;
 /**
  * Site controller
  */
 class SiteController extends BaseController
-{
+{    
+    private $request;
+
+    public function init() {
+        parent::init();
+       $this->request = Yii::$app->request; 
+       $session = Yii::$app->session;
+       if (!$session->isActive){
+            $session->open();
+       }
+    }
     /**
      * @inheritdoc
      */
@@ -78,7 +88,7 @@ class SiteController extends BaseController
     /**
      * Logs in a user.
      *
-     * @return mixed
+     * @return 登陆
      */
     public function actionLogin()
     {
@@ -99,7 +109,7 @@ class SiteController extends BaseController
     /**
      * Logs out the current user.
      *
-     * @return mixed
+     * @return 退出
      */
     public function actionLogout()
     {
@@ -148,18 +158,30 @@ class SiteController extends BaseController
      */
     public function actionSignup()
     {
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
+        $model = new User;      
+        if ($model->load(Yii::$app->request->post())) {            
+            if ($user = $model->registerUser($this->request->post(), $this->request->userIP)) {
+                if($user['code']==1){
+                    $user['title'] = '成功!';
+                    $user['keyname'] = '登陆页';
+                    $user['keyword'] = 'site/login';
+                }else{
+                     $user['title'] = '错误!';
+                     $user['keyname'] = '返回';
+                     $user['keyword'] = 'site/signup';
                 }
+                $this->redirect(['site/transition','info'=>base64_encode(json_encode($user))]);
             }
         }
 
         return $this->render('signup', [
             'model' => $model,
         ]);
+    }
+
+    public function actionTransition() {
+        $info = json_decode(base64_decode($this->request->get('info')),true);       
+        return $this->render('transition', ['res' => $info]);
     }
 
     /**
@@ -238,4 +260,15 @@ class SiteController extends BaseController
             'model' => $model,
         ]);
     }
+
+     
+
+
+
+
+
+
+
+
+
 }

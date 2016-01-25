@@ -1,9 +1,5 @@
 <?php echo $this->render('_consumptionHeader') ?>
-<div class="clear"></div>
-</div>
-<style type="text/css">
-</style>
-			<div class="shoppttimejbdetailtop postop1">
+<div class="shoppttimejbdetailtop postop1">
 			<span class="choosen marleft30 " id="partdetailspan" >
 				2015年12月
 			</span>
