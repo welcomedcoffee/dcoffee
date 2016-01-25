@@ -12,7 +12,7 @@ $this->title = 'Helps';
 ?>
 <div class="t_min">
         <!--关于我们-->
-        <div class="t_le t_usl" style='margin-left:-200px'>    
+        <div class="t_le t_usl" >    
             <ul>
                 <li class="first">新手入门</li>
                 <li class="bg" atr="1" style="font-weight:bold;color:#ff8400">学生注册</li>

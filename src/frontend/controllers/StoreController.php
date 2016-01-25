@@ -27,7 +27,6 @@ class StoreController extends BaseController
      */
     public function actionUpload()
     {
-
     	if(count($_FILES) > 0)
 		{
 			$f = $_FILES['file'];
@@ -39,7 +38,8 @@ class StoreController extends BaseController
 		{
 			echo 'no files';
 		}
+		21221
     }
-11545454445454
+
 
 }

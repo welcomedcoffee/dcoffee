@@ -13,8 +13,11 @@
     <link rel="stylesheet" href="public/css/sty.css" />
     <link rel="stylesheet" href="public/css/skin_v2.css" />
     <link rel="stylesheet" href="public/css/publish.css" />
-    <link href="/Scripts/pagekage/utils/widget/validation/css/validationEngine.jquery.css" rel="stylesheet" type="text/css" />
-
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZT4wsbKvt0nB8pvbGAREQisb"></script>
+    <style type="text/css">
+        #l-map{height:300px;width:100%;}
+        #r-result{width:100%;}
+    </style>
 </head>
 <body>
 <!--head-->
@@ -135,7 +138,10 @@
 			<span id="">
 				<m>*</m>
                 <label>截止日期：</label>
-				<input type="text" name="applyEnd" id="startDate" class="form-datetime" placeholder="请输入报名截止日期" />
+				<input type="text" name="startDateTime" id="d11" placeholder="请输入报名截止日期" onClick="WdatePicker()" />
+<!--                <input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}'})" id="logmin" class="input-text Wdate" style="width:120px;">-->
+<!--		--->
+<!--		<input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d'})" id="logmax" class="input-text Wdate" style="width:120px;">-->
 			</span>
 			<span id="">
 				<m>*</m><label>兼职日期：</label>
@@ -223,26 +229,19 @@
 				<m>*</m><label>联系电话：</label><input type="text" name="contactTel" id="contactTel" value=""  class=" validate[required,maxSize[100]] " placeholder="请输入联系电话"/>
 			</span>
                     <h3>工作地点</h3>
-			<span id="">
-				<m>*</m><label>工作地点：</label>
-				<select name="province" id="province"  data-prompt-position="topRight" class="validate[required]">
-                    <option value="">请选择省</option>
-                </select>
-				<select name="city" id="city" data-prompt-position="topRight"  class="validate[required]">
-                    <option value="">请先选择省</option>
-                </select>
-				<select name="area" id="area"  class="validate[required]">
-                    <option value="">请先选择市</option>
-                </select>
-			</span>
 			<span class="pd55">
-			<input type="text" name="address" id="address"  onblur="GLOBAL.pagebase.loadMap(this)" value="" class=" validate[required,maxSize[100] " placeholder="请输入工作地点"/>
+			<div id="r-result">
+                <input type="text" name="address" id="suggestId" size="20" style="width:150px;" placeholder="请输入工作地点"/>
+            </div>
+                <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+
 			</span>
 
 			<span class="pd55" >
 			<div id="mapAdress">
-
+                <div id="l-map"></div>
             </div>
+
 			</span>
 			<span class="pd55">
 				<input type="button"  id="btnPublish" value="发布兼职"  class="fabujianzhisubmit"/>
@@ -265,13 +264,71 @@
 
 </body>
 </html>
-<?= Html::jsFile('/css/time/bootstrap-datetimepicker.min.css')?>
-<?= Html::jsFile('/js/time/bootstrap-datetimepicker.fr.js')?>
-<?= Html::jsFile('/js/time/bootstrap-datetimepicker.min.js')?>
-<script type="text/javascript">
-    $('.form-datetime').datetimepicker({
-        autoclose: 1,//当选择一个日期之后是否立即关闭此日期时间选择器
-        todayHighlight: 1,//如果为true, 高亮当前日期
-        startView: 2//日期时间选择器打开之后首先显示的视图  控制样式  0~4
+
+
+<?= Html::jsFile('public/date/My97DatePicker/WdatePicker.js')?>
+<script>
+    $(".province").click(function(){
+        var region_id = $(this).attr("id");
+        $.ajax({
+            type: "GET",
+            url: "<?= Url::to(['mystore/region'])?>",
+            data: "region_id="+region_id,
+            success: function(msg){
+                alert( "Data Saved: " + msg );
+            }
+        });
+    })
+    // 百度地图API功能
+    function G(id) {
+        return document.getElementById(id);
+    }
+
+    var map = new BMap.Map("l-map");
+    map.centerAndZoom("北京",12);                   // 初始化地图,设置城市和地图级别。
+
+    var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+        {"input" : "suggestId"
+            ,"location" : map
+        });
+
+    ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+        value = "";
+        if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("searchResultPanel").innerHTML = str;
     });
+
+    var myValue;
+    ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+        var _value = e.item.value;
+        myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+        setPlace();
+    });
+
+    function setPlace(){
+        map.clearOverlays();    //清除地图上所有覆盖物
+        function myFun(){
+            var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+            map.centerAndZoom(pp, 18);
+            map.addOverlay(new BMap.Marker(pp));    //添加标注
+        }
+        var local = new BMap.LocalSearch(map, { //智能搜索
+            onSearchComplete: myFun
+        });
+        local.search(myValue);
+    }
 </script>
