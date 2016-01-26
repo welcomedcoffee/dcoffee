@@ -4,8 +4,87 @@
 $this->title = '首页';
 ?>
 <!-- <div class="t_min t_tit">当前位置：<a href="#">首页</a></div> -->
-    <div class="t_img" id="scrolldiv" style='margin-top:-50px;'>
-        <div class="t_imglibt ">
+   <style>
+    #slides,
+    #slides2,
+    #slides3 {
+      display: none;
+      margin-bottom:50px;
+    }
+
+    .slidesjs-navigation {
+      margin-top:3px;
+    }
+
+    .slidesjs-previous {
+      margin-right: 5px;
+      float: left;
+    }
+
+    .slidesjs-next {
+      margin-right: 5px;
+      float: left;
+    }
+
+    .slidesjs-pagination {
+      margin: 6px 0 0;
+      z-index: 200;
+      
+      list-style: none;
+      position: absolute;
+      left: 47%;
+    }
+
+    .slidesjs-pagination li {
+      float: left;
+      margin: 0 1px;
+    }
+
+    .slidesjs-pagination li a {
+      display: block;
+      width: 13px;
+      height: 0;
+      padding-top: 13px;
+      background-image: url(/public/images/banner-logo/pagination.png);
+      background-position: 0 0;
+      float: left;
+      overflow: hidden;
+    }
+
+    .slidesjs-pagination li a.active,
+    .slidesjs-pagination li a:hover.active {
+      background-position: 0 -13px
+    }
+
+    .slidesjs-pagination li a:hover {
+      background-position: 0 -26px
+    }
+
+    a:link,
+    a:visited {
+      color: #333
+    }
+
+    a:hover,
+    a:active {
+      color: #9e2020
+    }
+
+    .navbar {
+      overflow: hidden
+    }  
+
+    .top_roll_pic {
+        position: static;
+        z-index: 99;        
+    }
+
+    .t_imgli1 {
+        z-index: 100;
+    }
+  </style>
+    <div class="t_img" id="scrolldiv" style='height:400px; background: #FFFFFF;'>
+        <!-- <div class="t_imglibt ">
             <span class="bg">
                 <a href="  javascript:;" onclick="setscroll(0);"></a>
             </span> 
@@ -15,12 +94,12 @@ $this->title = '首页';
             <span>
                 <a href="javascript:;" onclick="setscroll(2);"></a>
             </span>
-        </div>
+        </div> -->
 
-        <div id="top_roll_pic">
-            <div class="t_imgli1"></div>
-            <div class="t_imgli2" style="display: none;"></div>
-            <div class="t_imgli3" style="display: none;"></div>
+        <div id="top_roll_pic" style="margin-top: 8px;">
+            <img class='t_imgli1' src="/public/images/banner-logo/1fb51f11cb41355168fd965e34898560.jpg" alt="">
+            <img class='t_imgli1' src="/public/images/banner-logo/2b2781dfd70fee07b83da520bf66e40e.jpg" alt="">
+            <img class='t_imgli1' src="/public/images/banner-logo/fdb1313a1e6c23b009f3fbd634b1825f.jpg" alt="">            
         </div>
 
     </div>
@@ -54,15 +133,16 @@ $this->title = '首页';
     </div>
     
     <!--frdl end-->
-    <!-- <script type='text/javascript' src="/public/js/pagebase.js"></script> -->
-    <script src="/public/js/globl.js" type="text/javascript"></script>
-    <script type='text/javascript' src="/public/js/jsbase.js"></script>
-    <script type='text/javascript' src='/public/js/url.js'></script>
-    <script type='text/javascript' src="/public/js/datahandle.js"></script>
+    <script type='text/javascript' src="/public/js/jquery.slides.min.js"></script>
     
-    <script type="text/javascript" src="/public/js/jquery.tooltip.js"></script>
-    // <script type='text/javascript'>
-    // $(function(){
-    //       GLOBAL.pagebase.GetTop();
-    //       GLOBAL.pagebase.City();
-    // })</script>
+    <script>
+        $('#top_roll_pic').slidesjs({
+        width: 940,
+        height: 260,
+        navigation: false,
+        start: 3,
+        play: {
+          auto: true
+        }
+      });
+    </script>

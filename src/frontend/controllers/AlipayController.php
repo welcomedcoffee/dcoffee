@@ -221,17 +221,17 @@ var_dump($alipay_config);
 			file_put_contents('aaaa.php',"a".$out_trade_no."b".$trade_no."c".$trade_status);
 			//更改订单状态 
 			$orders = new PayOrder;
-			$order = PayOrder::find()->where("order_sn='$out_trade_no'")->one();
             $orders->order_status = '4';
             $orders->order_pay_time = time();
             $orders->save();
-            $order_id = $order->order_id;
-            $user_id  = $order->user_id;
-            $coin = $order->order_price;
+            $order = $orders->sn($out_trade_no);
+            $order_id = $order['order_id'];
+            $user_id  = $order['user_id'];
+            $coin = $order['order_price'];
             //判断购买的类型
 			//if ($order->type=='course') {
             	$student = new Students;
-                $student = Students::find()->where("stu_id=$order->user_id")->one();
+                $student = Students::find()->where(['=','stu_id',$order->user_id])->one();
                 if ($student->stu_money < $coin) {
                     echo "数据异常购买失败，请于管理员联系";die;
                 }
