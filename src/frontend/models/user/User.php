@@ -225,6 +225,18 @@ class User extends \yii\db\ActiveRecord
         ];        
     }
 
+    /**
+     * 查询用户类型
+     */
+    public function usertype($user_id)
+    {
+        return self::find()
+                ->select("user_type")
+                ->where(["user_id"=>$user_id])
+                ->asArray()
+                ->one();
+    }
+
 
 
 

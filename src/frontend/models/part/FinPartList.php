@@ -72,13 +72,15 @@ class FinPartList extends \yii\db\ActiveRecord
     }
 
     /**
-     * 根据兼职ID查询该兼职下的通过审核用户详细信息
+     * 根据兼职ID查询该兼职下的通过审核用户ID
      */
     public function getUserthrough($job_id)
     {
         return self::find()
+            ->select("user_id")
             ->where(['job_id'=>$job_id,'part_status'=>1])
-            ->count();
+            ->asArray()
+            ->all();
     }
 
     /**
@@ -92,12 +94,25 @@ class FinPartList extends \yii\db\ActiveRecord
     }
 
     /**
-     * 根据兼职ID查询该兼职下用户
+     * 根据兼职ID查询该兼职下用户ID
      */
     public function getUser($job_id)
     {
         return self::find()
+            ->select("user_id")
             ->where(['job_id'=>$job_id])
+            ->asArray()
+            ->all();
+    }
+
+    /**
+     * 根据兼职ID查询该兼职下审核未通过的用户ID
+     */
+    public function getrefuseUser($job_id)
+    {
+        return self::find()
+            ->select("user_id")
+            ->where(['job_id'=>$job_id,'part_status'=>2])
             ->asArray()
             ->all();
     }

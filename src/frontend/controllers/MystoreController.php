@@ -13,6 +13,9 @@ use yii\web\Controller;
 use app\models\part\FinPartType;
 use app\models\part\FinRegion;
 use app\models\part\FinPartList;
+use app\models\user\User;
+use app\models\students\Students;
+use app\models\part\FinMerchantBase;
 
 /**
  *  我的门店首页
@@ -147,7 +150,30 @@ class MystoreController extends BaseController
     {
         $job_id = Yii::$app->request->get("job_id");
         $model = new FinPartList();
+        /* 查询用户类型 */
         $data = $model->getUser($job_id);
+        foreach($data as $k=>$v)
+        {
+            $model = new User();
+            $type = $model->usertype($v['user_id']);
+            /* 状态为学生 */
+            if($type['user_type'] == 1)
+            {
+                $stu = new Students();
+                $array[$k] = $stu->getStudent($v['user_id']);
+            }
+            /* 状态为企业兼职 */
+            elseif($type['user_type'] == 3)
+            {
+                $base = new FinMerchantBase();
+                $array[$k] = $base->getMessage($v['user_id']);
+            }
+            else
+            {
+
+            }
+        }
+        return $this->render("applyuser",['array'=>$array]);
     }
 
     /**
@@ -155,7 +181,32 @@ class MystoreController extends BaseController
      */
     public function actionThroughuser()
     {
+        $job_id = Yii::$app->request->get("job_id");
+        $model = new FinPartList();
+        /* 查询用户类型 */
+        $data = $model->getUserthrough($job_id);
+        foreach($data as $k=>$v)
+        {
+            $model = new User();
+            $type = $model->usertype($v['user_id']);
+            /* 状态为学生 */
+            if($type['user_type'] == 1)
+            {
+                $stu = new Students();
+                $array[$k] = $stu->getStudent($v['user_id']);
+            }
+            /* 状态为企业兼职 */
+            elseif($type['user_type'] == 3)
+            {
+                $base = new FinMerchantBase();
+                $array[$k] = $base->getMessage($v['user_id']);
+            }
+            else
+            {
 
+            }
+        }
+        return $this->render("throughuser",['array'=>$array]);
     }
 
     /**
@@ -163,7 +214,32 @@ class MystoreController extends BaseController
      */
     public function actionRefuseuser()
     {
+        $job_id = Yii::$app->request->get("job_id");
+        $model = new FinPartList();
+        /* 查询用户类型 */
+        $data = $model->getrefuseUser($job_id);
+        foreach($data as $k=>$v)
+        {
+            $model = new User();
+            $type = $model->usertype($v['user_id']);
+            /* 状态为学生 */
+            if($type['user_type'] == 1)
+            {
+                $stu = new Students();
+                $array[$k] = $stu->getStudent($v['user_id']);
+            }
+            /* 状态为企业兼职 */
+            elseif($type['user_type'] == 3)
+            {
+                $base = new FinMerchantBase();
+                $array[$k] = $base->getMessage($v['user_id']);
+            }
+            else
+            {
 
+            }
+        }
+        return $this->render("refuseuser",['array'=>$array]);
     }
 
     /**
