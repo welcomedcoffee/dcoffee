@@ -15,8 +15,8 @@ return [
        ],
        'alipay'   =>[
            'seller_email'  =>'li1209@126.com',//必填
-           'notify_url'    =>'http://finance.coffeedou.com/index.php?alipay/notify-url',
-           'return_url'    =>'http://finance.coffeedou.com/index.php?alipay/return-url',//必填
+           'notify_url'    =>'http://finance.coffeedou.com/index.php?r=alipay/notify-url',
+           'return_url'    =>'http://finance.coffeedou.com/index.php?r=alipay/return-url',//必填
            'successpage'   =>'account/list',//处理成功后的页面
            'errorpage'     =>'shopcart/list',//处理失败的页面
        ],

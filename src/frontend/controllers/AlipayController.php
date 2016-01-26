@@ -115,7 +115,7 @@ class AlipayController extends Controller{
 		//计算得出通知验证结果
 		$alipayNotify  = new \AlipayNotify($alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
-		file_put_contents('/actionNotifyUrl.php','actionNotifyUrl');
+		file_put_contents('actionNotifyUrl.php','actionNotifyUrl');
 		if($verify_result) {
 			//验证成功
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -198,7 +198,7 @@ class AlipayController extends Controller{
 		//计算得出通知验证结果
 		$alipayNotify  = new \AlipayNotify($alipay_config);
 		$verify_result = $alipayNotify->verifyReturn();
-		file_put_contents('/actionReturnUrl.php','actionReturnUrl');
+		file_put_contents('actionReturnUrl.php','actionReturnUrl');
 		if($verify_result) {
 			//验证成功
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
