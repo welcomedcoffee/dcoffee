@@ -26,18 +26,16 @@ class MerBase extends ActiveRecord
      */
     public function getMerchants($keyword)
     {
-    	$cond = "1=1";
-    	if ($keyword['type']) 
-    	{
+    	$cond = "1=1 and mer_isshow=1";
+    	if($keyword['type']){
     		(int)$type 	 = $keyword['type'];
     		$cond	    .= " and ind_type = $type";
     	}
-    	if ($keyword['region']) {
+    	if($keyword['region']){
     		(int)$region = $keyword['region'];
     		$cond		.= " and mer_area = $region";
     	}
-
-    	$pages      = new Pagination([
+    	$pages     = new Pagination([
             'defaultPageSize'   => 12,
             'totalCount'        => $this->find()->where($cond)->count(),
         ]);
@@ -47,6 +45,7 @@ class MerBase extends ActiveRecord
                     ->limit($pages->limit)
                     ->asArray()->all();
         $merchants['pages'] = $pages;
+
         return $merchants;                               
     }
     /*

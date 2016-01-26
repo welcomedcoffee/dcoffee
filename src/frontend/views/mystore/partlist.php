@@ -98,24 +98,30 @@
                         <th>操作 </th>
                     </tr>
                     </thead>
-                    <tbody id="parttimedate"></tbody>
+                    <tbody id="parttimedate">
+                        <?php foreach($data as $k=>$v){ ?>
+                            <tr>
+                                <td><?= $k;?></td>
+                                <td><?= $v['job_name'];?></td>
+                                <td><?= $v['job_type'];?></td>
+                                <td><?= $v['work_start'];?>到<?= $v['work_end'];?></td>
+                                <td><?= $v['job_money'];?><?= $v['job_treatment'];?></td>
+                                <td><?= $v['job_people'];?></td>
+                                <td><?= $v['user_count'];?></td>
+                                <td>
+                                    <?php if($v['job_status'] == 1){ ?>
+                                        报名中
+                                    <?php } elseif($v['job_status'] == 2) { ?>
+                                        进行中
+                                    <?php } else { ?>
+                                        已结束
+                                    <?php } ?>
+                                </td>
+                                <td>截止报名 | 结算</td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
                 </table>
-                <script type="text/template" id="parttimedateTemplate">
-                    <tr class="tr">
-                        <td>{number}</td>
-                        <td><a href='javascript:void(0)' onclick='GLOBAL.pagebase.searchStudentInfo({jobId})'>{name}</a></td>
-                        <td>{workTypeName}</td>
-                        <td>
-                            {workBegin}
-                            </br>到{workEnd}
-                        </td>
-                        <td>{salary}{salaryTypeName}</td>
-                        <td>{total}</td>
-                        <td>{applyCount}</td>
-                        <td>{status}</td>
-                        <td class="pay" style="cursor: pointer;color: red;" >{options} </td>
-                    </tr>
-                </script>
                 <div id="kkpager"></div>
             </div>
         </div>

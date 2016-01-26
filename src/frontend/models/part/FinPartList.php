@@ -54,7 +54,7 @@ class FinPartList extends \yii\db\ActiveRecord
     public function throughUser()
     {
         return self::find()
-                ->select("count(user_id)")
+                ->select("count(user_id) as user_count,job_id")
                 ->where(['part_status'=>1])
                 ->groupBy("job_id")
                 ->asArray()

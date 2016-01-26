@@ -113,7 +113,7 @@ class FinJobDetails extends \yii\db\ActiveRecord
     public function getDetails()
     {
         return self::find()
-                ->select("job_name,job_type,work_start,work_end,job_money,job_treatment,job_people,job_status")
+                ->select("job_id,job_name,job_type,work_start,work_end,job_money,job_treatment,job_people,job_status")
                 ->asArray()
                 ->all();
     }
