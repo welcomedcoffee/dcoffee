@@ -102,10 +102,10 @@ class AlipayController extends Controller{
     /**
      * 支付宝服务器异步通知页面
      */
-    public $enableCsrfValidation = false; 
+
     public function actionNotifyUrl()
     {
-
+    	$this->enableCsrfValidation = false;
     	require_once('../../vendor/alipay/lib/alipay_core.function.php');
         require_once('../../vendor/alipay/lib/alipay_md5.function.php');
         require_once('../../vendor/alipay/lib/alipay_notify.class.php');
@@ -115,7 +115,7 @@ class AlipayController extends Controller{
 		//计算得出通知验证结果
 		$alipayNotify  = new \AlipayNotify($alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
-		file_put_contents('/actionNotifyUrl.php','actionNotifyUrl')
+		file_put_contents('/actionNotifyUrl.php','actionNotifyUrl');
 		if($verify_result) {
 			//验证成功
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
