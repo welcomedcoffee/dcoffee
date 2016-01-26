@@ -51,10 +51,9 @@ class Code extends \yii\db\ActiveRecord
     */
     public function getCode($code_phone)
     {
-        $sysconfig = new SysConfig();
         $old_code = $this->find()->where(['code_phone'=>$code_phone])->asarray()->one();
         if(!empty($old_code)){
-            if(time()-$old_code['set_time']>600){
+            if(time()-$old_code['code_addtime']>600){
                 $this->deleteAll(['code_phone'=>$code_phone]); 
             }else{
                 $code_rand = $old_code['code_rand'];
@@ -65,13 +64,11 @@ class Code extends \yii\db\ActiveRecord
                 $code_rand = rand(111111,999999);
                 $this->code_rand=$code_rand;
                 $this->code_phone=$code_phone;
-                $this->set_time=time();
+                $this->code_addtime=time();
                 $this->save();
             }
-            $sysconfig->config_key = "phone_content";
-            $phone_content = $sysconfig->getValueBykey();
-            $content = str_replace("{{verifyurl}}",$code_rand,$phone_content['config_value']);
-            $curlPost = "account=cf_bwedu&password=education123&mobile=".$code_phone."&content=".rawurlencode("$content");
+            $content = str_replace("{{verifyurl}}",$code_rand,"您的验证码是：{{verifyurl}}。请不要把验证码泄露给其他人。");
+            $curlPost = "account=cf_596600892&password=wangzhe596600&mobile=".$code_phone."&content=".rawurlencode("$content");
             $url = "http://106.ihuyi.cn/webservice/sms.php?method=Submit";
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, $url);
@@ -93,7 +90,7 @@ class Code extends \yii\db\ActiveRecord
     public function getUsercode($code_phone)
     {
         $re = $this->find()->where(['code_phone'=>$code_phone])->asarray()->one();
-        if(time()-$re['set_time']>600){
+        if(time()-$re['code_addtime']>600){
             return '';
         }else{
             return $re['code_rand'];

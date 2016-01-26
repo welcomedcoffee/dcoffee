@@ -11,7 +11,7 @@ class Get {
         $expiration = substr($dtStr, 0, $pos);
         return $expiration."Z";
     }
-	public function get_oss(){
+	public function get_oss($str){
 		require_once 'oss_php_sdk_20140625/sdk.class.php';
 		
 		
@@ -34,7 +34,7 @@ class Get {
 		
 
 		//$oss_sdk_service = new alioss($id, $key, $host);
-		$dir = 'user-dir/';
+		$dir = 'user-dir/'.$str;
 
 		//最大文件大小.用户可以自己设置
 		$condition = array(0=>'content-length-range', 1=>0, 2=>1048576000);

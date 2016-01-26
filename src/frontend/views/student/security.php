@@ -43,7 +43,7 @@ $this->title = '账户安全';
                         <div class="phone">
                             <img src="/public/images/zhengquetishi.png"><span>手机验证</span>
                             <m>
-                                已验证手机：123*****123若已丢失或停用，
+                                已验证手机：<?= Html::encode($student['stu_phone']) ?>  若已丢失或停用，
                                 <p>请立即更换，避免账户被盗。</p>
                             </m>
                             <div>

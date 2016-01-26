@@ -42,8 +42,8 @@ function get_signature()
     console.log('get_signature ...');
     console.log('expire:' + expire.toString());
     console.log('now:', + now.toString())
-    if (expire < now + 3)
-    {
+    //if (expire < now + 3)
+    //{
         console.log('get new sign')
         body = send_request()
         var obj = eval ("(" + body + ")");
@@ -55,8 +55,8 @@ function get_signature()
         callbackbody = obj['callback'] 
         key = obj['dir']
         return true;
-    }
-    return false;
+    //}
+    //return false;
 };
 
 function set_upload_param(up)
@@ -124,6 +124,7 @@ var uploader = new plupload.Uploader({
             console.log('uploaded')
             console.log(info.status)
             set_upload_param(up);
+            console.log(file);
             if (info.status == 200)
             {
                 document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = 'success';

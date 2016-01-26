@@ -11,6 +11,7 @@ use yii\web\Controller;
 use backend\models\student\Students;
 use backend\models\student\Region;
 use backend\models\student\Skills;
+use backend\models\student\Code;
 use common\components\Get;
 
 class StudentController extends BaseController
@@ -80,7 +81,27 @@ class StudentController extends BaseController
     //头像
     public function actionHeadportrait()
     {
-        return $this->render('headportrait');
+        //获取用户id
+        //$session = Yii::$app->session;
+        //$user_id = $session->get('user_id');
+        $user_id = 1;
+        $students = new Students;
+        $student = $students -> HeaderInfo($user_id);
+        return $this->render('headportrait',[
+                        'student' => $student,
+        ]);
+    }
+    //修改头像
+    public function actionHeaderupdate(){
+        $data=Yii::$app->request->post();
+        $students = new Students;
+        $students = $students->findOne($data['stu_id']);
+        $students->stu_avatar = $data['stu_avatar'];
+        if ($students->save()) {
+            $this->success('修改成功!',['student/info']);
+        }else{
+            $this->error('修改失败!',['student/info']);
+        }
     }
     //查询地区
     public function actionRegion()
@@ -121,8 +142,15 @@ class StudentController extends BaseController
      //完善或修改个人资料
     public function actionCard()
     {
-       $get = new Get;
-       return $get -> get_oss();
+        //获取用户id
+        //$session = Yii::$app->session;
+        //$user_id = $session->get('user_id');
+        $user_id = 1;
+        $students = new Students;
+        $student = $students -> HeaderInfo($user_id);
+        $str = $student['stu_phone'];
+        $get = new Get;
+        return $get -> get_oss($str);
     }
     //商品订单
     public function actionGoodsorder()
@@ -142,15 +170,57 @@ class StudentController extends BaseController
     //账户安全
     public function actionSecurity()
     {
-        return $this->render('security');
+        //获取用户id
+        //$session = Yii::$app->session;
+        //$user_id = $session->get('user_id');
+        $user_id = 1;
+        $students = new Students;
+        $student = $students -> HeaderInfo($user_id);
+        $student['stu_phone'] = substr_replace($student['stu_phone'], '****', 3,4);
+        return $this->render('security',['student' => $student]);
     }
      //修改密码
     public function actionStudentsave()
     {
+        //获取用户id
+        //$session = Yii::$app->session;
+        //$user_id = $session->get('user_id');
+        $user_id = 1;
+        $students = new Students;
+        $student = $students -> HeaderInfo($user_id);
+        //获取要修改的类型
         $type = Yii::$app->request->get('type','pwd');
         return $this->render('studentsave',[
-                        'type' => $type
+                        'type' => $type,
+                        'student' => $student,
         ]);
+    }
+    /*
+    *   发送验证码
+    */
+    public function actionCodes()
+    {
+        $code = new Code();
+        $request = Yii::$app->request;
+        $phone = $request->post('phone');
+        echo $code->getCode($phone);
+    }
+    /*
+    * 验证手机的验证码
+    */
+    public function actionValidationcodes()
+    {
+        $phone=Yii::$app->request->post('phone');
+        $codes=Yii::$app->request->post('code');
+        $code = new Code();
+        $re = $code->getUsercode($phone);
+        if($re == ''){
+            echo 1;
+        }else if($re == $codes){
+            echo 2;
+        }else{
+            echo 3;
+        }
     }
     //我的余额
     public function actionBalance()

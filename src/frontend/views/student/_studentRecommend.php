@@ -60,6 +60,7 @@ $student = Students::HeaderInfo($user_id);
         <img style="width:25px;height:25px;float: right;position: relative;top:-35px;left:-5px;" src="/public/images/cross27.png" class="close">
         <div class="con_t">
             <p id="titleBox">充值个人淘学金账户</p>
+            <p>请输入充值金额：<input type="text" name="price" />元</p>
         </div>
         <br><br>
         <div style="float: right; margin-right: 20px;">
