@@ -31,6 +31,7 @@ $this->title = '学生详情';
         }
     </style>
     <link rel="stylesheet" href="/public/css/calendar.css">
+    <link rel="stylesheet" type="text/css" href="/public/oss/style.css"/>
     <div class="t_min t_tit">当前位置：<a href="http://www.qutaoxue.net/">首页</a> &gt; 我的趣淘学</div>
     <!--我的趣淘学-->
     <div class="t_min">
@@ -67,8 +68,15 @@ $this->title = '学生详情';
                         </p>
                         <p style="position:relative;left:-1em;margin-top:10px">
                             <span style="position:relative;top:-4em">身份证照片：</span>
-                            <img class="  " src="/public/images/zhenmian.png" alt="1" id="pic1" name="pic1" style="width:163px;height:102px">
                             <img class="  " src="/public/images/fanmian.jpg" id="pic2" name="pic2" alt="1" style="width:163px;height:102px">
+                            <img class="  " src="/public/images/zhenmian.png" alt="1" id="pic1" name="pic1" style="width:163px;height:102px">
+                            <div id="ossfile" style="margin-left: 65px;">你的浏览器不支持flash,Silverlight或者HTML5！</div>
+                            <div id="container" style="margin-left: 65px;">
+                                <a id="selectfiles" href="javascript:void(0);" class='btn'>选择照片</a>
+                                 <a id="postfiles" href="javascript:void(0);" class='btn'>开始上传</a>
+                            </div>
+                            <pre id="console" style="margin-left: 65px;"></pre>
+                            <p>&nbsp;</p>
                         </p>
                          <p class="warm">只能上传jpg、jpeg、png类型的图片，大小不能超过2M</p>
                         <p class="mar" style="text-indent:2em">
@@ -184,7 +192,7 @@ $this->title = '学生详情';
                             </p>
                         </div>
                         <span>
-                            <input value="提交资料" style="width: 100px; height: 30px; background: #f39700; color: white; margin-left: 45%;" type="submit">
+                            <input id="postfiles" value="提交资料" style="width: 100px; height: 30px; background: #f39700; color: white; margin-left: 45%;" type="button">
                         </span>
                     <?php $form = ActiveForm::end()?>
                 </div>
@@ -192,8 +200,23 @@ $this->title = '学生详情';
         </div>
     </div>
 
-<script src="/public/js/calendar.js"></script> 
+<script src="/public/js/calendar.js"></script>
+<script type="text/javascript" src="/public/oss/lib/plupload-2.1.2/js/plupload.full.min.js"></script>
+<script type="text/javascript" src="/public/oss/upload.js"></script>
 <script>
+
+/*
+$(document).on('change','#change_img',function() {
+    //alert("11");
+    var file = document.getElementById("change_img").files[0];      
+    console.log(file);
+    var tmpimg=document.createElement('img');                    
+    tmpimg.src=window.URL.createObjectURL(file);              
+    $('.choose_pic').after("<div class='new choose_pic'></div>");  
+    $("#old").hide();    
+    $(".new").html(tmpimg);
+});*/
+
 //城市
 $(document).on('change', '.province_id', function(){
         var id=$(this).val();

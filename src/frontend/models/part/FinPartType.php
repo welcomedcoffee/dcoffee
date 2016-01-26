@@ -53,7 +53,7 @@ class FinPartType extends \yii\db\ActiveRecord
     {
         return self::find()
                     ->where(['is_show' => 1])
-                    ->select("part_id,part_name")
+                    ->select("*")
                     ->orderBy("part_sort desc")
                     ->asArray()
                     ->all();

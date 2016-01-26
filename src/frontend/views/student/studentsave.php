@@ -118,7 +118,7 @@ $this->title = '修改密码';
                             <span style="font-size: 12px;margin-left:5px">
                                 <span style="color: #da1f29">*</span>
                                 <span style="display:inline-block;">您的手机号码</span>&nbsp;:
-                                <input name="mobile" id="mobile" class="in1 validate[required,custom[mobile]] " placeholder="请输入手机号码" style="height:25px" type="text">
+                                <input name="mobile" id="mobile" class="in1 validate[required,custom[mobile]] " placeholder="请输入手机号码" style="height:25px" type="text" value="<?= Html::encode($student['stu_phone']) ?>">
                             </span>
 
 
@@ -164,7 +164,7 @@ $this->title = '修改密码';
                             <span style="font-size: 12px;">
                                 <span style="color: #da1f29">*</span>
                                 &nbsp;您的手机号码&nbsp;&nbsp;:&nbsp;
-                                <input name="mobilephone" id="mobilephone" class="in1 validate[required,custom[mobile]] " placeholder="请输入手机号码" style="height:25px" type="text">
+                                <input name="str_phone" id="str_phone" class="in1 validate[required,custom[mobile]] str_phone" placeholder="请输入手机号码" style="height:25px" type="text" value="<?= Html::encode($student['stu_phone']) ?>">
 
                             </span>
 s
@@ -173,7 +173,8 @@ s
                             <span style="font-size: 12px;margin-left:20px">
                                 <span style="color: #da1f29">*</span>
                                 &nbsp;<span>短信验证码</span>:&nbsp;
-                                <input name="smsValCode1" id="smsValCode1" data-prompt-position="centerRight:125,0" class="in2 validate[required] " placeholder="您的手机短信验证码" style="height:25px" type="text">
+                                <input name="phone_code" id="phone_code" data-prompt-position="centerRight:125,0" class="in2 validate[required] phone_code" placeholder="您的手机短信验证码" style="height:25px" type="text">
+                                <span id="pcode"></span>
                                 <style type="text/css">
                                     .mag {
                                         color: #fef4e9;
@@ -212,7 +213,7 @@ s
                                             filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
                                         }
                                 </style>
-                                <span class="mag" style="cursor: pointer; background:#46babb;" id="smsValidCodeText1" name="smsValidCodeText1" atr="0"> 获取验证码 </span>
+                                <span class="mag" style="cursor: pointer; background:#46babb;" id="ValidCode" name="smsValidCodeText1" atr="0" onclick="send_sms(this);"> 获取验证码 </span>
                                 <br>
                                 <span style="color: #9f9fa0; font-size: 12px;margin-left:100px">稍后您的手机将会收到短信验证码 60s后重发</span>
 
@@ -248,5 +249,86 @@ s
         $(this).children().css({ "background-color": "rgb(243, 151, 0)", "color": "rgb(255, 255, 255)" });
         $('.form').hide();
         $('#'+type).show();
+    })
+    //获取验证码
+    function send_sms(obj){
+        var phone = $(".str_phone").val();
+        if(!phone) return;
+
+        var reg = /^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+        if (!reg.test(phone)) return;
+
+        $.ajax({
+           type: "POST",
+           url: "<?= Url::to(['student/codes'])?>",
+           data: "phone="+phone,
+           success: function(msg){
+             if(msg == 1){
+                RemainTime(obj);
+                //alert('验证码已发送成功,请注意查收')       
+             }else if(msg == 2){
+                //alert('发送邮件失败,请重新获取验证码')      
+             }else if(msg == 3){
+                //alert('请输入正确的邮箱或手机号')     
+             }
+           }
+        });
+    }
+
+
+    //获取密码按钮失效
+    var iTime = 59;
+    var Account;
+    function RemainTime(obj){
+        obj.disabled = true;
+        
+        var iSecond,sSecond="",sTime="";
+        if (iTime >= 0){
+            iSecond = parseInt(iTime%60);
+            iMinute = parseInt(iTime/60)
+            if (iSecond >= 0){
+                if(iMinute>0){
+                    sSecond = iMinute + "分" + iSecond + "秒";
+                }else{
+                    sSecond = iSecond + "秒后再次获取";
+                }
+            }
+            sTime=sSecond;
+            if(iTime==0){
+                clearTimeout(Account);
+                sTime='获取验证码';
+                iTime = 59;
+                obj.disabled = false;
+            }else{
+                Account = setTimeout(function(){RemainTime(obj);},1000);
+                iTime=iTime-1;
+            }
+        }else{
+            sTime='没有倒计时';
+        }
+
+        $(obj).text(sTime);
+    }
+    //验证验证码
+    $(".phone_code").blur(function(){
+        var phone = "<?= Html::encode($student['stu_phone']) ?>";
+        var code = $(this).val()
+        $.ajax({
+               type: "POST",
+               url: "<?= Url::to(['student/validationcodes'])?>",
+               data: "phone="+phone+"&code="+code,
+               success: function(msg){
+                 if(msg==1){
+                    document.getElementById('ValidCode').disabled = true;
+                    $('#pcode').html('验证码不能为空');
+                 }else if(msg==2){
+                     document.getElementById('ValidCode').disabled = false;
+                     $('#pcode').html('');
+                 }else{
+                    document.getElementById('ValidCode').disabled = true;
+                    $('#pcode').html('验证码错误');
+                 }
+               }
+            });
     })
 </script>

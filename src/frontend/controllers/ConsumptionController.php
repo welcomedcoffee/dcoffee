@@ -6,6 +6,9 @@ use yii\web\Controller;
 use frontend\models\consumption\Merchant;
 use frontend\models\consumption\Comment;
 use frontend\models\consumption\GoodsOrder;
+use frontend\models\consumption\Bill;
+use frontend\models\consumption\Payment;
+use common\components\CreateExcel;
 use yii\data\Pagination;
 /**
  * 消费商家
@@ -46,11 +49,90 @@ class ConsumptionController extends BaseController
 		//print_r($orderlist);die;
         return $this->render('index',['data'=>$base,'order'=>$goodsOrder,'pagination' => $pagination,'orderlist'=>$orderlist]);
     }
+	//充值页面
+	public function actionChong()
+	{
+		return $this->render('chong');
+	}
+	//限额申请页面
+	public function actionLimimoney()
+	{
+		return $this->render('limimoney');
+	}
 	//对账单
 	public function actionBill()
 	{
+		$user_id = 1;
+		@$bill_id = Yii::$app->request->get('bill_id');
+		$bills = new Bill;
+		$bill = $bills->getBill($user_id);
+		if(empty($bill_id)){
+			$bill_id = $bills->getBillid()->bill_id;
+		}
+		$bill_list = $bills->getBillList($bill_id);
+		return $this->render('bill',['bill'=>$bill,'bill_id'=>$bill_id,'bill_list'=>$bill_list]);
+	}
+	//导出商家明细
+	public function actionDownload()
+	{
+		$user_id = 1;
+		$bill_cycle = Yii::$app->request->get('bill_cycle');
+		$bill_cycle = explode('至',$bill_cycle);
+		$start_time = $bill_cycle[0];
+		$end_time = $bill_cycle[1];
+		$pay = new Payment;
+		$data=$pay->find()
+			->select(['payment_type','payment_addtime','payment_money','payment_note','payment_way'])
+			->where(['user_id'=>$user_id])
+			->andWhere(['>','payment_addtime',strtotime($start_time)])
+			->andWhere(['<','payment_addtime',strtotime($end_time)])
+			->asArray()
+			->all();
+		if(empty($data)){
+			$this->error('您要导出的数据不存在！', ['consumption/bill']);
+		}else{
+			foreach($data as $k=>$v){
+				if($v['payment_type']==1){
+					$data[$k]['payment_type'] = '支出';
+				}else{
+					$data[$k]['payment_type'] = '支入';
+				}
+				$data[$k]['payment_addtime'] = date('Y-m-d H:i:s',$v['payment_addtime']);
+				if($v['payment_way']==1){
+					$data[$k]['payment_way'] = '趣币';
+				}else{
+					$data[$k]['payment_way'] = '支付宝';
+				}
+			}
+		}
 		
-		return $this->render('bill');
+		$excel = new CreateExcel();
+		$excel->createByArray($data,'商家支入支出记录',['支入/支出','时间','金钱','备注','操作途径']);
+	}
+	//导出消费明细
+	public function actionDownloads()
+	{
+		$user_id = 1;
+		$bill_cycle = Yii::$app->request->get('bill_cycle');
+		$bill_cycle = explode('至',$bill_cycle);
+		$start_time = $bill_cycle[0];
+		$end_time = $bill_cycle[1];
+		$order = new GoodsOrder;
+		$order = $order->find()
+			->where(['and',['merchant_id'=>$user_id,'order_status'=>4]])
+			->select(['order_sn','user_name','user_phone','order_amount','order_price','order_pay_time'])
+			->andWhere(['>','order_pay_time',strtotime($start_time)])
+			->andWhere(['<','order_pay_time',strtotime($end_time)])
+			->asArray()
+			->all();
+		if(empty($order)){
+			return $this->error('您要导出的数据不存在！', ['consumption/bill']);
+		}
+		foreach($order as $k=>$v){
+			$order[$k]['order_pay_time'] = date('Y-m-d H:i:s',$v['order_pay_time']);
+		}
+		$excel = new CreateExcel();
+		$excel->createByArray($order,'消费信息',['订单号','用户名','用户电话','实付金额','应付金额','支付时间']);
 	}
 	//我的订单
 	public function actionOrder()
@@ -73,8 +155,27 @@ class ConsumptionController extends BaseController
 			]);
 		}
 		$orderlist = $order->getAllorder($user_id,$pagination,$ss);
-		//print_R($orderlist);die;
 		return $this->render('order',['orderlist'=>$orderlist,'pagination'=>$pagination]);
+	}
+	//订单状态修改
+	public function actionSaveorder()
+	{
+		$user_id = 1;
+		$order_status = Yii::$app->request->get('order_status');
+		if($order_status != 3 && $order_status != 6){
+			 $this->error('订单状态异常', ['consumption/order']);
+		}
+		//$order = new GoodsOrder;
+		$order = GoodsOrder::find()
+			->where(['merchant_id'=>$user_id])
+			->one();
+		
+		$order->order_status = $order_status;
+		if($order->save() ){
+			$this->success('订单状态修改成功',['consumption/order']);
+		}else{
+			$this->error('订单状态修改失败', ['consumption/order']);
+		}
 	}
 	//订单评论
 	public function actionComment()
@@ -97,6 +198,14 @@ class ConsumptionController extends BaseController
 	public function actionSecurity()
 	{
 		return $this->render('security');
+	}
+	//修改账户信息
+	public function actionMerchantsave()
+	{
+		$type = Yii::$app->request->get('type','pwd');
+        return $this->render('merchantsave',[
+                        'type' => $type
+        ]);
 	}
 	//账户余额
 	public function actionLimoney()
