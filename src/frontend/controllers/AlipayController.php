@@ -5,7 +5,7 @@ use Yii;
 use yii\web\Controller;
 use backend\models\student\PayOrder;
 use backend\models\student\Students;
-
+use backend\models\student\Payment;
 /**
  * 支付宝支付
  */
@@ -240,6 +240,14 @@ class AlipayController extends Controller{
 				if (!$re) {
 					echo "数据异常购买失败，请于管理员联系";
 				}
+				$Payment = new Payment;
+  				$Payment ->user_id = $user_id;
+  				$Payment ->payment_type = 1;
+  				$Payment ->payment_addtime = time();
+  				$Payment ->payment_addtime = $coin;
+  				$Payment ->payment_note = '充值金币';
+  				$Payment ->payment_way = 2;
+				$Payment -> save();
 				/*//给用户添加课程
 				$courses = CourseOrderInfo::find()->where("order_id=$order_id")->asArray()->all();
 				foreach ($courses as $key => $course) {

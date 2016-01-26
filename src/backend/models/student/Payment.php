@@ -22,7 +22,7 @@ class Payment extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%fin_payment}}';
+        return '{{%payment}}';
     }
 
     /**
@@ -31,7 +31,7 @@ class Payment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'payment_type', 'payment_addtime', 'payment_money', 'payment_note', 'payment_way'], 'required'],
+            [['user_id'], 'required'],
             [['user_id', 'payment_type', 'payment_addtime', 'payment_way'], 'integer'],
             [['payment_money'], 'number'],
             [['payment_note'], 'string', 'max' => 255]
