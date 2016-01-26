@@ -199,7 +199,6 @@ var_dump($alipay_config);
 		//计算得出通知验证结果
 		$alipayNotify  = new \AlipayNotify($alipay_config);
 		$verify_result = $alipayNotify->verifyReturn();
-		file_put_contents('actionReturnUrl.php','actionReturnUrl');
 		if($verify_result) {
 			//验证成功
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -219,27 +218,28 @@ var_dump($alipay_config);
 			//交易状态
 			$trade_status = $_GET['trade_status'];
 
+			file_put_contents('aaaa.php',"a".$out_trade_no."b".$trade_no."c".$trade_status);
 			//更改订单状态 
 			$orders = new PayOrder;
-			$order = PayOrder::find()->where("order_sn='$out_trade_no'")->one();
             $orders->order_status = '4';
             $orders->order_pay_time = time();
             $orders->save();
-            $order_id = $order->order_id;
-            $user_id  = $order->user_id;
-            $coin = $order->order_price;
+            $order = $orders->sn($out_trade_no);
+            $order_id = $order['order_id'];
+            $user_id  = $order['user_id'];
+            $coin = $order['order_price'];
             //判断购买的类型
 			//if ($order->type=='course') {
-            	$student = new Students;
-                $student = Students::find()->where("stu_id=$order->user_id")->one();
-                if ($student->stu_money < $coin) {
-                    echo "数据异常购买失败，请于管理员联系";die;
+            	$students = new Students;
+                $student = $students -> Info($user_id);
+                if ($student['stu_money'] < $coin) {
+                    echo "数据异常购买失败，请于管理员联系1";die;
                 }
 
-                $student->stu_money = $student->stu_money + $coin;
-                $re = $student->save();
+                $students->stu_money = $student['stu_money'] + $coin;
+                $re = $students->save();
                 if (!$re) {
-                    echo "数据异常购买失败，请于管理员联系";
+                    echo "数据异常购买失败，请于管理员联系2";
                 }
                 $Payment = new Payment;
                 $Payment->user_id = $user_id;
@@ -249,8 +249,9 @@ var_dump($alipay_config);
                 $Payment->payment_note = '充值金币';
                 $Payment->payment_way = 2;
                 $res = $Payment -> save();
+                print_r($Payment->getErrors());
                  if (!$res) {
-                    echo "数据异常购买失败，请于管理员联系";
+                    echo "数据异常购买失败，请于管理员联系3";
                 }
 				/*//给用户添加课程
 				$courses = CourseOrderInfo::find()->where("order_id=$order_id")->asArray()->all();
@@ -279,7 +280,6 @@ var_dump($alipay_config);
 		else {
 		    //验证失败
 		    //如要调试，请看alipay_notify.php页面的verifyReturn函数
-		    file_put_contents('d.php', '失败');
 		    echo "验证失败";
 		}
     }
