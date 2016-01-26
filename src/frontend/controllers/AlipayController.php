@@ -112,6 +112,7 @@ class AlipayController extends Controller{
         require_once('../../vendor/alipay/lib/alipay_submit.class.php');
 
     	$alipay_config = Yii::$app->params['alipay']['alipay_config'];
+var_dump($alipay_config);
 		//计算得出通知验证结果
 		$alipayNotify  = new \AlipayNotify($alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
@@ -220,7 +221,7 @@ class AlipayController extends Controller{
 
 			//更改订单状态
 			$order = PayOrder::find()->where("order_sn='$out_trade_no'")->one();
-			file_put_contents('/a.php', $order);
+			file_put_contents('a.php', $order);
 			$order->order_status = 4;
 			$order->save();
 			$order_id = $order->order_id;
@@ -229,14 +230,14 @@ class AlipayController extends Controller{
 			//判断购买的类型
 			//if ($order->type=='course') {
 				$student = Students::find()->where("student_id='$order->user_id'")->one();
-				file_put_contents('/b.php', $order);
+				file_put_contents('b.php', $order);
 				if ($student->stu_money < $coin) {
 					echo "数据异常购买失败，请于管理员联系";die;
 				}
 
 				$student->stu_money = $student->stu_money + $coin;
 				$re = $student->save();
-				file_put_contents('/c.php', $re);
+				file_put_contents('c.php', $re);
 				if (!$re) {
 					echo "数据异常购买失败，请于管理员联系";
 				}
@@ -275,7 +276,7 @@ class AlipayController extends Controller{
 		else {
 		    //验证失败
 		    //如要调试，请看alipay_notify.php页面的verifyReturn函数
-		    file_put_contents('/d.php', '失败');
+		    file_put_contents('d.php', '失败');
 		    echo "验证失败";
 		}
     }

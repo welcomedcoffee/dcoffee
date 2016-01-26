@@ -91,8 +91,8 @@ class SiteController extends BaseController
      */
     public function actionIndex()
     {   
-        $cache = \Yii::$app->cache; 
-        if(is_null($cache->get('city'))){       
+        $cache = \Yii::$app->cache;
+        if(! $cache->get('city')){      
             $Region = new FinRegion;
             $dependency = new \yii\caching\FileDependency(['fileName' => 'example.txt']);
             $regionval = $Region->getProvince();
