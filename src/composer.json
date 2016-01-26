@@ -18,8 +18,7 @@
         "yiisoft/yii2": ">=2.0.6",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
-        "aliyuncs/oss-sdk-php": "^2.0",
-        "chonder/yii2-aliyun-oss": "dev-master"
+        "aliyuncs/oss-sdk-php": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

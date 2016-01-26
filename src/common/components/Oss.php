@@ -1,55 +1,128 @@
 <?php
 namespace common\components;
 
-use chonder\AliyunOSS\AliyunOSS;
 use Yii;
+use OSS\OssClient;
+use OSS\Core\OssException;
 
-class OSS {
+/**
+ * OSS对象处理类
+ */
+class Oss
+{
+    public static $error   =  null;
 
-    private $ossClient;
-
-    public function __construct($isInternal = false)
+    /**
+     * 根据Config配置，得到一个OssClient实例
+     * @params isCame  是否自定义域名
+     * @return OssClient 一个OssClient实例
+     */
+    public static function getOssClient($isCname = false)
     {
-        $serverAddress = $isInternal ? Yii::$app->params['oss']['ossServerInternal'] : Yii::$app->params['oss']['ossServer'];
-        $this->ossClient = AliyunOSS::boot(
-            $serverAddress,
-            Yii::$app->params['oss']['AccessKeyId'],
-            Yii::$app->params['oss']['AccessKeySecret']
-        );
+        $config = Yii::$app->params['oss'];
+        
+        try {
+            $ossClient = new OssClient($config['access_id'], $config['access_key'], $config['endpoint'], $isCname);
+        } catch (OssException $e) {
+            self::$error  = $e->getMessage();
+            return null;
+        }
+        return $ossClient;
     }
 
-    public static function upload($ossKey, $filePath)
+    public static function getBucketName()
     {
-        //$oss = new OSS(true); // 上传文件使用内网，免流量费
-        $oss = new OSS();
-        $oss->ossClient->setBucket(Yii::$app->params['oss']['Bucket']);
-        $oss->ossClient->uploadFile($ossKey, $filePath);
+        return Yii::$app->params['oss']['bucket'];
     }
 
-    public static function getUrl($ossKey)
+    
+    /**
+     * 上传指定的本地文件内容
+     *
+     * @param string $object   保存名称
+     * @param string $filePath 文件地址
+     * @return null
+     */
+    public static function uploadFile($object, $filePath)
     {
-        $oss = new OSS();
-        $oss->ossClient->setBucket(Yii::$app->params['oss']['Bucket']);
-        return preg_replace('/(.*)\?OSSAccessKeyId=.*/', '$1', $oss->ossClient->getUrl($ossKey, new \DateTime("+1 day")));
+        $ossClient = self::getOssClient();
+        $bucket = self::getBucketName();
+
+        $options = array();
+
+        try {
+            $ossClient->uploadFile($bucket, $object, $filePath, $options);
+        } catch (OssException $e) {
+            self::$error  = $e->getMessage();
+            return false;
+        }
+        return true;
     }
 
-    public static function delFile($ossKey)
+
+    /**
+     * 删除object
+     *
+     * @param OssClient $ossClient OssClient实例
+     * @param string $bucket 存储空间名称
+     * @param string $object 上传文件地址
+     * @return null
+     */
+    public static function deleteObject($object)
     {
-        $oss = new OSS();
-        $oss->ossClient->setBucket(Yii::$app->params['oss']['Bucket']);
-        $oss->ossClient->delFile($ossKey);
+        $ossClient = self::getOssClient();
+        $bucket = self::getBucketName();
+
+        try {
+            $ossClient->deleteObject($bucket, $object);
+        } catch (OssException $e) {
+            self::$error  = $e->getMessage();
+            return false;
+        }
+        return true;
+    }
+    /**
+     * 判断object是否存在
+     *
+     * @param OssClient $ossClient OssClient实例
+     * @param string $bucket 存储空间名称
+     * @return null
+     */
+    public static function doesObjectExist($object)
+    {
+        $ossClient = self::getOssClient();
+        $bucket = self::getBucketName();
+
+        try {
+            $exist = $ossClient->doesObjectExist($bucket, $object);
+        } catch (OssException $e) {
+            self::$error  = $e->getMessage();
+            return null;
+        }
+        return $exist;
     }
 
-    public static function createBucket($bucketName)
+    /**
+     * 生成GetObject的签名url,主要用于私有权限下的读访问控制
+     *
+     * @param $ossClient OssClient OssClient实例
+     * @param $bucket string 存储空间名称
+     * @return null
+     */
+    public static function getSignedUrl($object)
     {
-        $oss = new OSS();
-        return $oss->ossClient->createBucket($bucketName);
-    }
+        $ossClient = self::getOssClient();
+        $bucket = self::getBucketName();
 
-    public static function getAllObjectKey($bucketName)
-    {
-        $oss = new OSS();
-        return $oss->ossClient->getAllObjectKey($bucketName);
+        $timeout = 3600;
+        try {
+            $signedUrl = $ossClient->signUrl($bucket, $object, $timeout);
+        } catch (OssException $e) {
+            self::$error  = $e->getMessage();
+            return false;
+        }
+        return $signedUrl;
+        
     }
 
 }
