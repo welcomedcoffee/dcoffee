@@ -14,46 +14,12 @@ $this->title = '优质商家';
 	.moy{color:#FF8400;}
 	#l-map{height:300px;width:100%;}
     #r-result{width:100%;}
-    .btnContent{
-					margin:50px 0 120px 0;
-				}
-	.active{
-		border:1px solid #DDDDDD;
-		width:200px;
-		height:45px;
-		background-color:#FF9900;
-		text-align:center;
-		line-height:45px;
-		font-size:18px;
-		font-family:bold;
-		color:#FFFFFF;
-		border-radius:4px;
-		float:left;
-	}
-	.btnContent ul li{
-		border:1px solid #DDDDDD;
-		width:200px;
-		height:45px;
-		text-align:center;
-		line-height:45px;
-		font-size:18px;
-		font-family:bold;
-		color:#000000;
-		border-radius:4px;
-		float:left;
-	}
 </style>
-
-<!-- body -->
-
-<div class="wrap">
-    <div class="container">
-
     <div class="t_min t_tit">
         当前位置：
         <a href="<?= Url::to(['site/index'])?>">首页</a>
         &gt;
-        <a href="<?= Url::to(['merchants/index'])?>">优质商家</a>
+        <a href="<?= Url::to(['merchants/index'])?>">趣消费</a>
         &gt;
         <a href="javascript:void(0)" id="bussiname"><?= Html::encode($mer_details['mer_name'])?></a>
     </div>
@@ -64,28 +30,26 @@ $this->title = '优质商家';
                 <div class="stage" style="border:2px solid #DDDDDD;border-radius:7px">
                     <div class="carousel carousel-stage">
                         <ul style="margin:5px 5px 0 5px ">
-                            <li><img src="<?= Html::encode($mer_details['mer_logo'])?>" alt="" id="img" height="280" width="460"></li>
+                            <li ><img src="<?= Html::encode($mer_details['mer_logo'])?>" alt="" id="img" height="280" width="460"></li>
                         </ul>
                     </div> 
                 </div>
 				<br>
-                <div class="navigation" style="height:81px;width:392px;border:2px solid #DDDDDD;border-radius:7px">
-                    <div class="carousel carousel-navigation" style="height:81px;width:392px">
-					
-                        <ul style="height:81px;width:392px;">
-						                            <li id="first" style="float:left;margin:5px 5px 5px 5px "><img src="<?= Html::encode($mer_details['mer_image1'])?>" alt="没啥说的" height="71" width="88"></li>
-							                            <li id="first" style="float:left;margin:5px 5px 5px 5px "><img src="<?= Html::encode($mer_details['mer_image2'])?>" alt="没啥说的" height="71" width="88"></li>
-							                            <li id="first" style="float:left;margin:5px 5px 5px 5px "><img src="<?= Html::encode($mer_details['mer_image3'])?>" alt="没啥说的" height="71" width="88"></li>
-							                            
-							                        </ul>
-						
+                <div class="navigation" style="height:81px;width:294px;border:2px solid #DDDDDD;border-radius:7px">
+                    <div class="carousel carousel-navigation" style="height:81px;width:294px">
+                        <ul style="height:81px;width:294px;">
+                            <li id="first" style="float:left;margin:5px 5px 5px 5px "><img src="<?= Html::encode($mer_details['mer_image1'])?>" alt="" height="71" width="88"></li>
+							<li id="second" style="float:left;margin:5px 5px 5px 5px"><img src="<?= Html::encode($mer_details['mer_image1'])?>" alt="" height="71" width="88"></li>
+							<li id="third" style="float:left;margin:5px 5px 5px 5px"><img src="<?= Html::encode($mer_details['mer_image1'])?>" alt="" height="71" width="88"></li>
+                        </ul>
                     </div>
                 </div>
             </div>
 
                 <div class="t_le t_sdtext" style="margin-left:70px">
                     <h1><?= Html::encode($mer_details['mer_name'])?></h1>
-			<p>
+                	
+                	<p>
             <?php if ($mer_details['mer_level']=='1') {?>
                 <span class="ys"><em ></em></span><span class="bg"><em ></em></span><span class="bg"><em ></em></span><span class="bg"><em ></em></span><span class="bg"><em ></em></span>
             <?php }elseif ($mer_details['mer_level']=='2') {?>
@@ -98,36 +62,30 @@ $this->title = '优质商家';
                 <span class="ys"><em ></em></span><span class="ys"><em ></em></span><span class="ys"><em ></em></span><span class="ys"><em ></em></span><span class="ys"><em ></em></span>
             <?php }?>	 
 	                </p>
-										<div class="clear"></div>
+            	 
+                    <div class="clear"></div>
                     <p>人均消费：<strong class="moy"x>￥<?= Html::encode($mer_details['mer_capita'])?></strong></p>
                     <p>营业时间：<?= Html::encode($mer_details['mer_start'])?>-<?= Html::encode($mer_details['mer_end'])?></p>
                     <p>商家地址：<?= Html::encode($mer_details['mer_address'])?></p>
                     <p>预约电话：<?= Html::encode($mer_details['mer_phone'])?></p>
                     <div class="t_sdtextbt">
-                        <a href="<?= Url::to(['merchants/pay'])?>" id="btnConvert">淘学金兑换<span style=" width: 0px; height: 0px;" id="transmark"></span></a>
+                        <a href="<?= Url::to(['merchants/pay'])?>" id="btnConvert">淘学金兑换<span style="display: none; width: 0px; height: 0px;" id="transmark"></span></a>
                     </div>
                 </div>
                 <div class="clear"></div>
-					<div class="btnContent">
-						<ul>
-						<li class="active">商家位置</li>
-						<li>商家介绍</li>
-						<li>用户评论</li>
-						</ul>
-					</div>
-				<div class="clear"></div>
-				<!--商家位置-->
-				<div>
-					<h1>
-						<strong style="font-size:18px;"><span style="margin:0 0 0 20px"><img src="public/images/iconfont-dizhi.png" alt="" height="25px" width="25px"></span>&nbsp;&nbsp;商家位置</strong>
-						 <hr>
-						<div class="clear"></div>
-					</h1>
-					<div class="t_sdtext" style="margin:25px 0 0 30px;">
-						<div id="mapAdress" style="float:left;width:450px">
+                <!--商家位置-->
+                <div class="t_sdjj">
+                    <h1>
+                        <span class="bg nb">商家位置</span>
+                        <div class="clear"></div>
+                    </h1>
+                   
+                    <div class="t_sdjji"  style="float:left;width:450px">
+                        <div id="mapAdress">
 			                <div id="l-map"></div>
 			            </div>
-						<div class="t_le t_sdtext" style="margin-left:70px">
+                    </div>
+                    <div class="t_le t_sdtext" style="margin-left:70px">
                     <h1><?= Html::encode($mer_details['mer_name'])?></h1>
                 	
                 	<p>
@@ -151,81 +109,42 @@ $this->title = '优质商家';
                     商家地址：<?= Html::encode($mer_details['mer_address'])?></p>
                     <p>预约电话：<?= Html::encode($mer_details['mer_phone'])?></p>
                 </div>
-					</div>
-				</div>
-				<br>
+                <div class="clear"></div>
+                </div>
                 <!--商家介绍-->
-                <div style="clear:both;padding-top: 40px;">
+                <div class="t_sdjj">
                     <h1>
-                       <strong style="font-size:18px;"><span style="margin:0 0 0 20px"><img src="public/images/u45.png" alt="" height="25px" width="25px"></span>&nbsp;&nbsp;商家介绍</strong>
-						<hr>
+                        <span class="bg nb">商家介绍</span>
                         <div class="clear"></div>
                     </h1>
-                    <div class="t_sdjji" style="margin:0 0 0 30px;font-size:16px">
-                    <?= Html::encode($mer_details['mer_introduce'])?></div>
+                    <div class="t_sdjji">
+                        <?= Html::encode($mer_details['mer_introduce'])?>
+                    </div>
                 </div>
-				<br>
-            <!--订单评论-->
-        <div class="" style="padding-top:40px">
+            </div>   
+            <!--评论-->
+            <div class="t_sdat">
+        <div class="t_scent">
             <h1>
-                 <strong style="font-size:18px;"><span style="margin:0 0 0 20px"><img src="public/images/u50.png" alt="" height="25px" width="25px"></span>&nbsp;&nbsp;订单评论</strong>
-				<hr>
-                <div class="clear"></div>
+               <!--   <span class="bg nb">
+                    <a href="javascript:void(0)" id="orderCommentBtn">订单评论</a>
+                </span>-->
+                <span class="bg nb">
+                    <a href="javascript:void(0)" id="jobCommentBtn">兼职评论</a>
+                </span>
+                <di v class="clear"></div>
             </h1>
-            <div>
-                <ul id="commentDemo" style="margin:0 0 0 30px;">
-					<li>
-						 <div style="float:left;margin-right:50px;">
-							<div>
-								<img src="public/images/u55.png" alt="">
-							</div>
-							<div style="color:red;text-align:center;">呆萌的洒家</div>
-						</div> 
-						<div>
-						<p>
-							<span style="float:left">
-								<img src="public/images/u57.png" alt="">
-							</span>
-							&nbsp;&nbsp;
-							<span style="font-size:16px;panding-buttom:10px">2016-1-25</span>&nbsp;&nbsp;
-							<span style=";font-size:16px;panding-buttom:10px;margin-left:300px;color:#FF6600;">人均：￥20</span>
-						</p>
-						
-						<p style="font-size:16px;margin:40px 0 0 0">非常好,服务相当不错，用淘学金优惠很大，很方便，下次继续来……</p>
-						</div>
-					</li>
-					<hr style="clear:both">
-					<li>
-						 <div style="float:left;margin-right:50px;">
-							<div>
-								<img src="public/images/u55.png" alt="">
-							</div>
-							<div style="color:red;text-align:center;">呆萌的洒家</div>
-						</div> 
-						<div>
-						<p>
-							<span style="float:left">
-								<img src="public/images/u57.png" alt="">
-							</span>
-							&nbsp;&nbsp;
-							<span style="font-size:16px;panding-buttom:10px">2016-1-25</span>&nbsp;&nbsp;
-							<span style=";font-size:16px;panding-buttom:10px;margin-left:300px;color:#FF6600;">人均：￥20</span>
-						</p>
-						
-						<p style="font-size:16px;margin:40px 0 0 0">非常好,服务相当不错，用淘学金优惠很大，很方便，下次继续来……</p>
-						</div>
-					</li>
-					<hr style="clear:both">
-					</ul>
+            <div class="t_scenti">
+                <ul id="commentDemo"></ul>
+    
                 <div class="clear"></div>
                 <!--页码-->
                 <div class="tcdPageCode"><span class="disabled">上一页</span><span class="disabled">下一页</span></div>
             </div>
        </div>
-	</div>
     </div>
+
     </div>
-</div>
 <script>
 $(document).ready(function(){
 	// 百度地图API功能
@@ -259,4 +178,4 @@ $(document).ready(function(){
     localSearch.search(keyword);
 
 }); 
-</script>
+</script>    
