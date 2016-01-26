@@ -60,7 +60,7 @@ AppAsset::register($this);
     }
     $cache = \Yii::$app->cache;
     $city = $cache->get('city');
-    $city = json_decode($city,true);       
+    $city = json_decode($city,true);          
 ?>
     <div class="head">
         <div class="t_min header">
@@ -83,31 +83,7 @@ AppAsset::register($this);
                         <a icode="南京" atr="320100" href="javascript:void(0)"  class="city_links">南京</a>
 
                     </div>
-                </div>
-                <script>
-                    $(function(){
-                        $("#listCity a").click(function(){
-                            document.getElementById('city_nav').className='city_nav';
-                            document.getElementById('city_link').className='city_link';
-                            var address=$(this).html();                            
-                            var atr = $(this).attr('atr');                            
-                            if($('#city_name').html()!=address){
-                                $.ajax({
-                                    'url' : "<?=Url::to(['site/address']);?>",
-                                    'type' : 'post',
-                                    'data' : {address:address, atr:atr, _csrf:yii.getCsrfToken()},
-                                    'dataType' : 'json',
-                                    'success' : function(msg){
-                                        if(msg['code']){
-                                            $("#city_name").html(address);
-                                        }
-                                    }
-                                });
-                            }                           
-                        })
-
-                    })
-                </script>
+                </div>               
             </div>
             <div class="t_ri">
             <?php if(empty($userinfo['user_id'])){ ?>
@@ -234,7 +210,26 @@ AppAsset::register($this);
         $('.menu').attr('class','menu');
         $(this).attr('class','menu bg');
     })
-   
+    $(function(){
+        $("#listCity a").click(function(){
+            document.getElementById('city_nav').className='city_nav';
+            document.getElementById('city_link').className='city_link';
+            var address=$(this).html();                            
+            var atr = $(this).attr('atr');                            
+            if($('#city_name').html()!=address){
+                $.ajax({
+                    'url' : "<?=Url::to(['site/address']);?>",
+                    'type' : 'post',
+                    'data' : {address:address, region_id:atr, _csrf:yii.getCsrfToken()},
+                    'dataType' : 'json',
+                    'success' : function(msg){
+                        if(msg['code']){
+                            $("#city_name").html(address);
+                        }
+                    }
+                });
+            }                           
+        })
 
-
+    })
 </script>
