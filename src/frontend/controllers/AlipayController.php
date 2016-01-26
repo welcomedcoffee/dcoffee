@@ -233,13 +233,13 @@ var_dump($alipay_config);
             	$students = new Students;
                 $student = $students -> Info($user_id);
                 if ($student['stu_money'] < $coin) {
-                    echo "数据异常购买失败，请于管理员联系";die;
+                    echo "数据异常购买失败，请于管理员联系1";die;
                 }
 
                 $students->stu_money = $student['stu_money'] + $coin;
                 $re = $students->save();
                 if (!$re) {
-                    echo "数据异常购买失败，请于管理员联系";
+                    echo "数据异常购买失败，请于管理员联系2";
                 }
                 $Payment = new Payment;
                 $Payment->user_id = $user_id;
@@ -250,7 +250,7 @@ var_dump($alipay_config);
                 $Payment->payment_way = 2;
                 $res = $Payment -> save();
                  if (!$res) {
-                    echo "数据异常购买失败，请于管理员联系";
+                    echo "数据异常购买失败，请于管理员联系3";
                 }
 				/*//给用户添加课程
 				$courses = CourseOrderInfo::find()->where("order_id=$order_id")->asArray()->all();
