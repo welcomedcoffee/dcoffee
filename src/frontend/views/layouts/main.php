@@ -76,9 +76,9 @@ AppAsset::register($this);
 
                     </div>
                     <div id="listCity">
-                        <?php foreach ($city as $key => $value) {?>
+                        <?php if(!empty($city)){ foreach ($city as $key => $value) {?>
                             <?=Html::tag('a', Html::encode($value['region_name']), ['icode' => $value['region_name'], 'atr' => $value['region_id'], 'href' => 'javascript:void(0)', 'class' => 'city_links'])?>
-                        <?php } ?>
+                        <?php } }?>
                         <a icode="北京" atr="110001" href="javascript:void(0)"  class="city_links">北京</a>
                         <a icode="南京" atr="320100" href="javascript:void(0)"  class="city_links">南京</a>
 
