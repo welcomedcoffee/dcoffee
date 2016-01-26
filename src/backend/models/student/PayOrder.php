@@ -63,7 +63,7 @@ class PayOrder extends \yii\db\ActiveRecord
     public function sn($order_sn)
     {
         return $this -> find()
-                     -> where(['=','order_sn','$order_sn'])
+                     -> where(['=','order_sn',$order_sn])
                      -> asArray()
                      -> one();
     }
