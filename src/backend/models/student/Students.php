@@ -105,4 +105,13 @@ class Students extends \yii\db\ActiveRecord
                      -> asArray()
                      -> one();
     }
+     //查询头信息
+    public static function HeaderInfo($user_id)
+    {
+        return self ::find()
+                     -> select('stu_id,stu_name,stu_phone,stu_avatar,stu_money,stu_limit_money,card_positive,card_reverse')
+                     -> where(['=','stu_id',$user_id])
+                     -> asArray()
+                     -> one();
+    }
 }
