@@ -199,7 +199,6 @@ var_dump($alipay_config);
 		//计算得出通知验证结果
 		$alipayNotify  = new \AlipayNotify($alipay_config);
 		$verify_result = $alipayNotify->verifyReturn();
-		file_put_contents('actionReturnUrl.php','actionReturnUrl');
 		if($verify_result) {
 			//验证成功
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -219,6 +218,7 @@ var_dump($alipay_config);
 			//交易状态
 			$trade_status = $_GET['trade_status'];
 
+			file_put_contents('aaaa.php',"a".$out_trade_no."b".$trade_no."c".$trade_status);
 			//更改订单状态 
 			$orders = new PayOrder;
 			$order = PayOrder::find()->where("order_sn='$out_trade_no'")->one();
@@ -279,7 +279,6 @@ var_dump($alipay_config);
 		else {
 		    //验证失败
 		    //如要调试，请看alipay_notify.php页面的verifyReturn函数
-		    file_put_contents('d.php', '失败');
 		    echo "验证失败";
 		}
     }
