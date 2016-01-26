@@ -95,4 +95,16 @@ class Students extends \yii\db\ActiveRecord
             'stu_updtime' => 'Stu Updtime',
         ];
     }
+
+    /**
+     * 查询学生信息
+     */
+    public function getStudent($user_id)
+    {
+        return self::find()
+                ->select("stu_nickname,stu_name,stu_sex,stu_height,stu_school")
+                ->where(['stu_id'=>$user_id])
+                ->asArray()
+                ->one();
+    }
 }
