@@ -55,7 +55,7 @@ use common\widgets\Alert;
             <div class="t_le">欢迎光临趣淘学<b>北京<a href="#">[切换城市]</a></b></div>
             <div class="t_ri">
                 <span><a href="<?=Url::to(['site/signup'])?>">注册 |</a> <a href="<?=Url::to(['site/login'])?>" class="a1">登陆</a></span>
-                <span class="mtx"><a href="<?= Url::to(['student/index']); ?>">我的趣淘学</a></span>
+                <span class="mtx"><a href="<?= Url::to(['student/index']); ?>">我的淘学友</a></span>
                 <span> <a href="<?=Url::to(['site/helps'])?>">帮助中心</a></span>
                 <span class="app"><a href="#">APP</a></span>
             </div>
@@ -91,7 +91,7 @@ use common\widgets\Alert;
 <!--t_nav end-->
 </head>
 <!-- body -->
-<body>
+<body style="height:100%">
 <?php $this->beginBody() ?>
 <div class="wrap">
     <div class="container">

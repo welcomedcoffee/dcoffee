@@ -3,7 +3,8 @@
 /* 
 	账户安全
  */
-
+use yii\helpers\Html;
+use yii\helpers\Url;
 $this->title = '账户安全';
 ?>
 <div class="t_min t_tit">当前位置：<a href="http://www.qutaoxue.net/">首页</a> &gt; 我的趣淘学</div>
@@ -35,30 +36,28 @@ $this->title = '账户安全';
                                 <p>两种,长度为8-20个字符的密码。</p>
                             </m>
                             <div>
-                                <a href="javascript:void(0)" bik="../student/studentUpdatePs?type=1" target="_blank" onclick="GLOBAL.pagebase.btnHrefClick(this)">修改</a>
+                                <a href="<?= Url::to(['student/studentsave']); ?>&type=pwd">修改</a>
                             </div>
                         </div>
                       
                         <div class="phone">
                             <img src="/public/images/zhengquetishi.png"><span>手机验证</span>
                             <m>
-                                已验证手机：123*****123若已丢失或停用，
+                                已验证手机：<?= Html::encode($student['stu_phone']) ?>  若已丢失或停用，
                                 <p>请立即更换，避免账户被盗。</p>
                             </m>
                             <div>
-                                <a href="javascript:void(0)" bik="../student/studentUpdatePs?type=3" target="a-frame" onclick="GLOBAL.pagebase.btnHrefClick(this)">修改</a>
+                                <a href="<?= Url::to(['student/studentsave']); ?>&type=phone" >修改</a>
                             </div>
                         </div>
-                        <div class="paypwd">
+                        <div class="phone">
                             <img src="/public/images/zhengquetishi.png" id="imageIMG"><span>支付密码</span>
                             <m>
                                 用于虚拟账户支付和提现，且设置密码一个包含
                                 <p>字母加数字或字符，长度为8-20个字符的密码。</p>
                             </m>
-                            <div style="background: rgb(255, 255, 255) none repeat scroll 0% 0%;">
-                                <p class="qiyong">
-                                    <a style="position: relative; left: 4px;" bik="/student/studentUpdatePs?type=2" target="a-frame" href="javascript:void(0)" onclick="GLOBAL.pagebase.btnHrefClick(this)" class="">修改</a>
-                                </p>
+                            <div>
+                                <a href="<?= Url::to(['student/studentsave']); ?>&type=pay">修改</a>
                             </div>
                         </div>
                     </div>

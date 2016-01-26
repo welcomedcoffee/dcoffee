@@ -316,6 +316,48 @@
             "time": "2015-03-06 05:28:07"
         },
         {
+            "name": "chonder/yii2-aliyun-oss",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chonder/yii2-aliyun-oss.git",
+                "reference": "82c460a49a63febb14bd07453c6a2bc2c07bb2f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "http://packagist.phpcomposer.com/files/chonder/yii2-aliyun-oss/82c460a49a63febb14bd07453c6a2bc2c07bb2f5.zip",
+                "reference": "82c460a49a63febb14bd07453c6a2bc2c07bb2f5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "chonder\\AliyunOSS\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "chonder",
+                    "email": "wuchonder@gmail.com"
+                }
+            ],
+            "description": "阿里云OSS官方SDK的Composer封装，支持Yii2。",
+            "homepage": "https://github.com/chonder/yii2-aliyun-oss",
+            "keywords": [
+                "AliyunOSS",
+                "aliyun",
+                "oss"
+            ],
+            "time": "2015-03-25 04:36:24"
+        },
+        {
             "name": "ezyang/htmlpurifier",
             "version": "v4.6.0",
             "source": {
@@ -957,7 +999,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "chonder/yii2-aliyun-oss": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

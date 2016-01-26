@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: 班未军
+ * Date: 2016/1/21
+ * Time: 14:00
+ */
 namespace frontend\controllers;
 
 use Yii;
@@ -12,12 +18,24 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-
+use app\models\user\Qyuser;
+use app\models\user\User;
+use app\models\user\Lguser;
 /**
  * Site controller
  */
 class SiteController extends BaseController
-{
+{    
+    private $request;
+
+    public function init() {
+        parent::init();
+       $this->request = Yii::$app->request; 
+       $session = Yii::$app->session;
+       if (!$session->isActive){
+            $session->open();
+       }
+    }
     /**
      * @inheritdoc
      */
@@ -78,28 +96,43 @@ class SiteController extends BaseController
     /**
      * Logs in a user.
      *
-     * @return mixed
+     * @return 登陆
      */
     public function actionLogin()
-    {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->render('login', [
+    {        
+        $model = new Lguser;        
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->validate()){
+                $User = new User;
+                if ($userinfo = $User->Checklgin($this->request->post('Lguser'))) {
+                   if($userinfo['code']==1){                   
+                        $this->actionTotrans('成功', '个人主页', 'student/index', $userinfo);
+                    }else{                     
+                        $this->actionTotrans('错误', '返回', 'site/login', $userinfo);
+                    }                       
+                }            
+                //return $this->goBack();
+            }else {
+                $errors = $model->errors;
+                if(count($errors)>1){                    
+                    $user = array('code' => 5, 'data' => '非法注册，请通过正确途径注册');
+                    $this->actionTotrans('错诶', '登陆页', 'site/login', $user);
+                }else{
+                    $val = array_values($errors);
+                    $user = array('code' => 6, 'data' => $val[0][0]);
+                    $this->actionTotrans('错诶', '登陆页', 'site/login', $user);
+                }                
+            }
+        } 
+        return $this->render('login', [
                 'model' => $model,
             ]);
-        }
     }
 
     /**
      * Logs out the current user.
      *
-     * @return mixed
+     * @return 退出
      */
     public function actionLogout()
     {
@@ -148,19 +181,21 @@ class SiteController extends BaseController
      */
     public function actionSignup()
     {
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
+        $model = new User;      
+        if ($model->load(Yii::$app->request->post())) {            
+            if ($user = $model->registerUser($this->request->post('User'), $this->request->userIP)) {
+                if($user['code']==1){                   
+                    $this->actionTotrans('成功', '登陆页', 'site/login', $user);
+                }else{                     
+                    $this->actionTotrans('错误', '返回', 'site/signup', $user);
+                }                 
             }
         }
 
         return $this->render('signup', [
             'model' => $model,
         ]);
-    }
+    }    
 
     /**
      * Signs user up.
@@ -169,12 +204,15 @@ class SiteController extends BaseController
      */
     public function actionEnterprisesignup()
     {
-        $model = new SignupForm();
+        $model = new Qyuser;      
         if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
+            $User = new User;
+            if ($userinfo = $User->registerEnterprise($this->request->post('Qyuser'), $this->request->userIP)) {
+               if($userinfo['code']==1){                   
+                    $this->actionTotrans('成功', '登陆页', 'site/login', $userinfo);
+                }else{                     
+                    $this->actionTotrans('错误', '返回', 'site/enterprisesignup', $userinfo);
+                }           
             }
         }
 
@@ -238,4 +276,31 @@ class SiteController extends BaseController
             'model' => $model,
         ]);
     }
+
+    /** 
+     * @return 跳转提示页面
+     */
+    public function actionTotrans($title = null, $key = null, $url = null, $user = null){
+        $user['title'] = $title?$title:'提示';
+        $user['keyname'] = $key?$key:'跳转';
+        $user['keyword'] = $url;
+        return $this->redirect(['site/transition','info'=>base64_encode(json_encode($user))]);
+    }
+
+    /** 
+     * @return 提示页面
+     */
+    public function actionTransition() {        
+        $info = json_decode(base64_decode($this->request->get('info')),true);       
+        return $this->render('transition', ['res' => $info]);
+    }
+
+
+
+
+
+
+
+
+
 }

@@ -48,15 +48,26 @@ $this->title = '学生详情';
                         <span class="wenxinart">您好，修改资料任意资料都要重新审核，建议您不要频繁修改，以免给您带来不便。</span>
                     </div>
                     <div>
+                        <?php $form = ActiveForm::begin([
+                            'action' => Url::to(['student/headerupdate']),
+                            'method'=>'post',
+                            'options' => ['enctype' => 'multipart/form-data'],
+                        ])?>
+                        <input type="hidden" name="stu_id" value="<?= Html::encode($student['stu_id']) ?>">
                         <div style=" margin-left:50px; margin-top:70px;">
-                            <img src="/public/images/touxiang.png" style=" float:left; margin-right:20px; width: 150px;" id="pic_top">
+                            <?php if ($student['stu_avatar']) { ?>
+                                <img src="<?= Html::encode($student['stu_avatar']) ?>" style=" float:left; margin-right:20px; width: 150px;" id="pic_top">
+                            <?php }else{ ?>
+                                <img src="/public/images/touxiang.png" style=" float:left; margin-right:20px; width: 150px;" id="pic_top">
+                            <?php } ?>
                             <span style=" font-family:微软雅黑; font-size:14px; color:#535353; line-height:33px;">
                                 上传头像后请刷新页面，才能看见图片。<br>
                                 请选择新的图片上传，文件大小请不要超过1M<br>
                                 支持.jpg/.jpeg/.gif/.png格式
                             </span><br><br>
-                            <input type="button" value="提交资料" id="btnSave" onclick="GLOBAL.pagebase.headPicBtnClick('')" style="width: 100px; height: 30px; background: #f39700; color: white;" />
+                            <input type="submit" value="提交资料" id="btnSave" style="width: 100px; height: 30px; background: #f39700; color: white;" />
                         </div>
+                        <?php $form = ActiveForm::end()?>
                     </div>
                 </div>
             </div> 

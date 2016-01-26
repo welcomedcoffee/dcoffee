@@ -23,82 +23,50 @@ $this->title = 'Enterprisesignup';
             </ul>
             <div class="clear"></div>
         </div>
-        <form id="businessForm">
+        <style>
+            .checkbox {float: left; padding-right: 15px;}
+        </style>
+        <?php
+        $form = ActiveForm::begin([
+        'action' => ['site/enterprisesignup'],
+        'options'=>['id' => 'businessForm'],
+        'method'=>'post',
+        'fieldConfig' => [
+                'template' => '<li><span class="wida"><label style="color: red;">*</label>&nbsp;&nbsp;{label}：</span><span style="padding-right:15px">{input}</span><font color="red">{error}</font><div class="clear"></div></li>'
+            ]    
+        ]); 
+        ?>        
+       
             <!--注册信息-->
             <div class="t_regif">
                 <ul>
-                    <li>
-                        <span class="wida">
-                            <label style="color: red;">*</label>
-                            &nbsp;&nbsp;手机号码：
-                        </span>
-                        <span>
-                            <input name="phone" id="phone" type="text" class="in1 validate[required,custom[mobile]] "  placeholder="请输入手机号码"/>
-                        </span>
-                        <div class="clear"></div>
-                    </li>
-                    <li>
-                        <span class="wida">
-                            <label style="color: red;">*</label>
-                            &nbsp;&nbsp;公司名称：
-                        </span>
-                        <span>
-                            <input name="merchantname" id="businessName" class="in1 validate[required]"  placeholder="请输入公司名称"/>
-                        </span>
-                        <div class="clear"></div>
-                    </li>
-                  <li>
-               
-                  <span class="wida">
-                            <label style="color: red;">*</label>
-                            &nbsp;&nbsp;类型：
-                        </span>
-                  <span class="shangjiangCategroy">
-                  <input type="checkbox" value="1" name="businessType"  checked /> 兼职商家
-                  <input type="checkbox" class="ml_10" name="businessType" value="2"/> 消费商家</span>
-                 </li>
-                    <li>
-                        <span class="wida">
-                            <label style="color: red;">*</label>&nbsp;&nbsp;短信验证码：
-                        </span>
-                        <span>
-                            <input name="smsValidCode" id="smsValidCode" type="hidden" value="" />
-                            <input name="smsValCode" id="smsValCode" type="text" data-prompt-position="centerRight:125,0" class="in2 validate[required] "  placeholder="请输入验证码"/>
-                        </span>
-                       <!--  <span class="mag" style="cursor: pointer;" id="smsValidCodeText">获取验证码
-                       
-                       </span> -->
-                        <div class="clear"></div>
-                    </li>
-                    <li>
-                        <span class="wida">
-                            <label style="color: red;">*</label>&nbsp;&nbsp;设置密码：
-                        </span>
-                        <span>
-                            <input name="password" id="password" type="password" class="in1 validate[required,custom[pwd]]"  placeholder="请输入密码"/>
-                        </span>
-                        <div class="clear"></div>
-                    </li>
-                    <li>
-                        <span class="wida">
-                            <label style="color: red;">*</label>&nbsp;&nbsp;确认密码：
-                        </span>
-                        <span>
-                            <input name="isPassword" id="isPassword" type="password" class="in1 validate[condRequired[password],equals[password]]"  placeholder="请输入确认密码"/>
-                        </span>
-                        <div class="clear"></div>
-                    </li>
-                    <p>
-                        <input id="agreement" name="agreement" data-prompt-position="centerRight:250,0" type="checkbox" checked="checked"
-                            class="validate[required]" />
-                        我已阅读并同意《
-                            <a href="/protocol">趣淘学注册协议</a>
-                        》
-                    </p>
+                    <!-- 用户手机 -->
+                    <?php echo $form->field($model, 'user_phone', ['inputOptions' => ['class' => 'in1 validate[required,custom[mobile]]', 'placeholder' => '请输入手机号码']])->textInput(['maxlength' => 11]) ?> 
+
+                    <!-- 公司名称 -->
+                    <?php echo $form->field($model, 'mer_name', ['inputOptions' => ['class' => 'in1 validate[required]', 'placeholder' => '请输入公司名称']])->textInput(['maxlength' => 10]) ?>  
+
+                    <!-- 公司类型 -->
+                   <?= $form->field($model, 'user_type', ['template' =>'<li><span class="wida"><label style="color: red;">*</label>&nbsp;&nbsp;{label}：</span><span class="shangjiangCategroy">{input}</span><font style"margin-left:15px;" color="red">{error}</font></li>'])->checkboxList(['2'=>'消费商家', '3' => '兼职商家'])?>                    
+                   
+                
+                    
+                    <!-- 获取验证码 -->      
+                    <?php echo $form->field($model, 'smsValCode', ['inputOptions' => ['class' => 'in2 validate[required]', 'placeholder' => '请输入验证码'],'template'=>'<li><span class="wida"><label style="color: red;">*</label>&nbsp;&nbsp;{label}：</span><span style="padding-right:15px">{input}</span><span class="mag" style="cursor: pointer; margin-top:-1px" id="smsValidCodeText" atr="0">获取验证码</span><font color="red">{error}</font><div class="clear"></div></li>'])->textInput(['maxlength' => 4]) ?> 
+                        
+                    <!-- 设置密码 -->
+                    <?php echo $form->field($model, 'user_password', ['inputOptions' => ['class' => 'in1 validate[required,custom[pwd]]', 'placeholder' => '请输入密码']])->passwordInput(['maxlength' => 15]) ?>     
+                    
+                    <!-- 确认密码 -->
+                    <?php echo $form->field($model, 'user_checkpwd', ['inputOptions' => ['class' => 'in1 validate[required,custom[password]]', 'placeholder' => '请再次输入密码']])->passwordInput(['maxlength' => 15]) ?>          
+                    
+                     <!-- 查看协议 -->
+                    <?= $form->field($model, 'agreement', ['template' =>'<p style="float:left;"><font color="red">*</font>{input}《<a href="/protocol">淘学友注册协议</a>》<font color="red">{error}</font></p>', 'inputOptions' =>[ 'data-prompt-position' => 'centerRight:250,0']])->checkboxList(['0'=>'我已阅读并同意']) ?>                  
+                    <div style='clear:left;'></div>                     
                     <li>
                         <span class="wida">&nbsp;</span>
                         <span>
-                            <input type="button" name="button" id="studentRegBtn" value="提交注册" class="bt1 " />
+                            <input type="submit"  id="studentRegBtn" value="提交注册" class="bt1 " />
                         </span>
                         <div class="clear"></div>
                     </li>
@@ -123,7 +91,7 @@ $this->title = 'Enterprisesignup';
                     <a href="#"></a>
                 </span>
             </div>-->
-        </form>
+        <?php ActiveForm::end(); ?>  
     </div>
     <!-- 图片验证码 -->
  <div class="verificationTip" id="verificationTipID" atr="0" style="display:none" >
