@@ -66,7 +66,8 @@ class MerchantBase extends \yii\db\ActiveRecord
             [['mer_phone', 'mer_conphone'], 'string', 'max' => 11],
             [['mer_paypassword'], 'string', 'max' => 32],
             [['mer_address'], 'string', 'max' => 90],
-            [['mer_logo', 'mer_license', 'mer_registration', 'mer_ allow', 'mer_positive', 'mer_reverse', 'mer_image1', 'mer_image2', 'mer_image3'], 'string', 'max' => 255]
+            [['mer_logo', 'mer_license', 'mer_registration', 'mer_allow', 'mer_positive', 'mer_reverse', 'mer_image1', 'mer_image2', 'mer_image3'], 'string', 'max' => 255],
+            [['mer_name','mer_contact',],'required'],
         ];
     }
 
@@ -96,7 +97,7 @@ class MerchantBase extends \yii\db\ActiveRecord
             'mer_logo' => 'Mer Logo',
             'mer_license' => 'Mer License',
             'mer_registration' => '',
-            'mer_ allow' => 'Mer  Allow',
+            'mer_allow' => 'Mer  Allow',
             'mer_positive' => 'Mer Positive',
             'mer_reverse' => 'Mer Reverse',
             'mer_image1' => 'Mer Image1',
