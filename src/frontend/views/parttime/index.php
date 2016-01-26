@@ -6,12 +6,9 @@ use yii\widgets\LinkPager;
 use yii\widgets\ActiveForm;
 $this->title = '兼职机会';
 ?>
-
-<link rel="stylesheet" type="text/css" href="/public/css/pagecss.css" />
 <link rel="stylesheet" type="text/css" href="/public/css/jianzhijihui.css" />
-<link rel="stylesheet" type="text/css" href="/public/css/validationEngine.css" />
-<link rel="stylesheet" type="text/css" href="/public/css/WdatePicker.css" />
 <link rel="stylesheet" type="text/css" href="/public/css/ui.css" />
+<link rel="stylesheet" type="text/css" href="/public/css/pagecss.css" />
 <style type="text/css">
     .bg{background:#FF8400 none repeat scroll 0% 0%;}
 </style>
@@ -45,12 +42,12 @@ $this->title = '兼职机会';
                 </li>
                 <li id="areCategory"> <strong>全部区域:</strong>
                 <span>
-                <a href="<?php echo \Yii::$app->urlManager->createUrl(['merchants/index',$keyword,array('region'=>0)]); ?>" 
+                <a href="<?php echo \Yii::$app->urlManager->createUrl(['parttime/index',$keyword,array('region'=>0)]); ?>" 
                         <?php if($keyword['region']=='0' || empty($keyword['region'])){
                             echo "class='bg'";
                             } ?>>不限</a></span>
                         <?php foreach ($regions as $key => $region) {?>
-                            <span><a href="<?php echo \Yii::$app->urlManager->createUrl(['merchants/index',$keyword,array('region'=>$region['region_id'])])?>" 
+                            <span><a href="<?php echo \Yii::$app->urlManager->createUrl(['parttime/index',$keyword,array('region'=>$region['region_id'])])?>" 
                             <?php if($keyword['region']==$region['region_id']){
                             echo "class='bg'";
                             } ?>>
@@ -93,6 +90,7 @@ $this->title = '兼职机会';
 
 
             <ul id="worklist">
+            <?php foreach($parts as $key=>$type){?>
                 <li class="height150 paddingtop gray paddingleft20 martop15 marbot20">
                     <a href="http://www.qutaoxue.net/ParttimeShow?url=jzjh&amp;jid=253&amp;bid=2157&amp;wty=7">
 						
@@ -100,127 +98,54 @@ $this->title = '兼职机会';
                     </a>
                     <div class="floatright backcolor martop15 marright30 bgYel" name="applaybtn" style="cursor: pointer ;" onclick="javascript:GLOBAL.pagebase.btnApplyContent(2157,253)">我要抢单</div>
                      <span class="floatright martop15 marright80">
-                        <b class="marright10">120元/天</b>    无提成
+                        <b class="marright10"><?= Html::encode($type['job_money'])?>
+                        <?php 
+                        switch($type['job_treatment']){
+                            case 1;echo "元/天";break;
+                            case 2;echo "元/小时";break;
+                            case 3;echo "元/周";break;
+                            case 4;echo "元/月";break;
+                            case 5;echo "元/次";break;
+                            case 6;echo "元/个";break;
+                            case 7;echo "元/单";break;
+                            default:echo "元/天";
+                        }
+                            ?></b>    <?php 
+                                if($type['commission']==1){
+                                    echo '有提成';
+                                }else{
+                                    echo '无提成';
+                                }
+                                    ?>
                     </span>
                     <span class="floatnone marbot20">
 
-                        <a href="http://www.qutaoxue.net/ParttimeShow?url=jzjh&amp;jid=253&amp;bid=2157">鲜花长期客服</a>
+                        <a href="http://www.qutaoxue.net/ParttimeShow?url=jzjh&amp;jid=253&amp;bid=2157"><?= Html::encode($type['job_name'])?></a>
 					<span class="backcolor floatnone marleft5 partjobtype">寒假兼职</span>
 					</span>
 
-                    <span class="floatnone"><span class="floatnone dis">工作时间：01.19-02.15 </span><span class=" floatright dis wid500">结算方式：完工结算</span></span>
-                    <span class="floatnone"><span class="floatnone dis">工作地点：昌平区</span><span class=" floatright dis wid500">招聘人数：<b>2</b>人</span></span>
+                    <span class="floatnone"><span class="floatnone dis">工作时间：
+                    <?php $time = date('m.d',$type['job_start']);echo $time;?>-<?php $time = date('m.d',$type['job_end']);echo $time;?> </span><span class=" floatright dis wid500">结算方式：当天结算</span></span>
+                    <span class="floatnone"><span class="floatnone dis">工作地点：<?= Html::encode($type['working_place'])?></span><span class=" floatright dis wid500">招聘人数：<b><?= Html::encode($type['job_people'])?></b>人</span></span>
                     <div class="clear"></div>
                 </li>
-            
-                <li class="height150 paddingtop gray paddingleft20 martop15 marbot20">
-                    <a href="http://www.qutaoxue.net/ParttimeShow?url=jzjh&amp;jid=251&amp;bid=2152&amp;wty=8">
-						
-                        <span class="floatleft marright10"><img src="/public/images/parttime/logo1.png" height="126" width="168"></span>
-                    </a>
-                    <div class="floatright backcolor martop15 marright30 bgYel" name="applaybtn" style="cursor: pointer ;" onclick="javascript:GLOBAL.pagebase.btnApplyContent(2152,251)">我要抢单</div>
-                     <span class="floatright martop15 marright80">
-                        <b class="marright10">200元/天</b>    无提成
-                    </span>
-                    <span class="floatnone marbot20">
-
-                        <a href="http://www.qutaoxue.net/ParttimeShow?url=jzjh&amp;jid=251&amp;bid=2152">宠物美容师</a>
-					<span class="backcolor floatnone marleft5 partjobtype">寒假兼职</span>
-					</span>
-
-                    <span class="floatnone"><span class="floatnone dis">工作时间：02.12-02.17 </span><span class=" floatright dis wid500">结算方式：完工结算</span></span>
-                    <span class="floatnone"><span class="floatnone dis">工作地点：大兴区</span><span class=" floatright dis wid500">招聘人数：<b>2</b>人</span></span>
-                    <div class="clear"></div>
-                </li>
-            
-                <li class="height150 paddingtop gray paddingleft20 martop15 marbot20">
-                    <a href="http://www.qutaoxue.net/ParttimeShow?url=jzjh&amp;jid=250&amp;bid=2152&amp;wty=8">
-						
-                        <span class="floatleft marright10"><img src="/public/images/parttime/logo1.png" height="126" width="168"></span>
-                    </a>
-                    <div class="floatright backcolor martop15 marright30 bgYel" name="applaybtn" style="cursor: pointer ;" onclick="javascript:GLOBAL.pagebase.btnApplyContent(2152,250)">我要抢单</div>
-                     <span class="floatright martop15 marright80">
-                        <b class="marright10">100元/天</b>    无提成
-                    </span>
-                    <span class="floatnone marbot20">
-
-                        <a href="http://www.qutaoxue.net/ParttimeShow?url=jzjh&amp;jid=250&amp;bid=2152">宠物美容师助理</a>
-					<span class="backcolor floatnone marleft5 partjobtype">寒假兼职</span>
-					</span>
-
-                    <span class="floatnone"><span class="floatnone dis">工作时间：02.12-02.17 </span><span class=" floatright dis wid500">结算方式：完工结算</span></span>
-                    <span class="floatnone"><span class="floatnone dis">工作地点：大兴区</span><span class=" floatright dis wid500">招聘人数：<b>2</b>人</span></span>
-                    <div class="clear"></div>
-                </li>
-            
-                <li class="height150 paddingtop gray paddingleft20 martop15 marbot20">
-                    <a href="http://www.qutaoxue.net/ParttimeShow?url=jzjh&amp;jid=249&amp;bid=2152&amp;wty=8">
-						
-                        <span class="floatleft marright10"><img src="/public/images/parttime/logo1.png" height="126" width="168"></span>
-                    </a>
-                    <div class="floatright backcolor martop15 marright30 bgYel" name="applaybtn" style="cursor: pointer ;" onclick="javascript:GLOBAL.pagebase.btnApplyContent(2152,249)">我要抢单</div>
-                     <span class="floatright martop15 marright80">
-                        <b class="marright10">100元/天</b>    无提成
-                    </span>
-                    <span class="floatnone marbot20">
-
-                        <a href="http://www.qutaoxue.net/ParttimeShow?url=jzjh&amp;jid=249&amp;bid=2152">宠物美容师助理</a>
-					
-					</span>
-
-                    <span class="floatnone"><span class="floatnone dis">工作时间：02.01-02.06 </span><span class=" floatright dis wid500">结算方式：完工结算</span></span>
-                    <span class="floatnone"><span class="floatnone dis">工作地点：大兴区</span><span class=" floatright dis wid500">招聘人数：<b>2</b>人</span></span>
-                    <div class="clear"></div>
-                </li>
-            
-                <li class="height150 paddingtop gray paddingleft20 martop15 marbot20">
-                    <a href="http://www.qutaoxue.net/ParttimeShow?url=jzjh&amp;jid=248&amp;bid=2152&amp;wty=8">
-						
-                        <span class="floatleft marright10"><img src="/public/images/parttime/logo1.png" height="126" width="168"></span>
-                    </a>
-                    <div class="floatright backcolor martop15 marright30 bgYel" name="applaybtn" style="cursor: pointer ;" onclick="javascript:GLOBAL.pagebase.btnApplyContent(2152,248)">我要抢单</div>
-                     <span class="floatright martop15 marright80">
-                        <b class="marright10">200元/天</b>    无提成
-                    </span>
-                    <span class="floatnone marbot20">
-
-                        <a href="http://www.qutaoxue.net/ParttimeShow?url=jzjh&amp;jid=248&amp;bid=2152">宠物美容师</a>
-					<span class="backcolor floatnone marleft5 partjobtype">寒假兼职</span>
-					</span>
-
-                    <span class="floatnone"><span class="floatnone dis">工作时间：02.01-02.06 </span><span class=" floatright dis wid500">结算方式：完工结算</span></span>
-                    <span class="floatnone"><span class="floatnone dis">工作地点：大兴区</span><span class=" floatright dis wid500">招聘人数：<b>2</b>人</span></span>
-                    <div class="clear"></div>
-                </li>
-            
-                <li class="height150 paddingtop gray paddingleft20 martop15 marbot20">
-                    <a href="http://www.qutaoxue.net/ParttimeShow?url=jzjh&amp;jid=131&amp;bid=2&amp;wty=1">
-						
-                        <span class="floatleft marright10"><img src="/public/images/parttime/2_1452230290691_jztp.jpg" height="126" width="168"></span>
-                    </a>
-                    <div class="floatright backcolor martop15 marright30 bgYel" name="applaybtn" style="cursor: pointer ;" onclick="javascript:GLOBAL.pagebase.btnApplyContent(2,131)">我要抢单</div>
-                     <span class="floatright martop15 marright80">
-                        <b class="marright10">100元/天</b>    有提成
-                    </span>
-                    <span class="floatnone marbot20">
-
-                        <a href="http://www.qutaoxue.net/ParttimeShow?url=jzjh&amp;jid=131&amp;bid=2">影城推广人员</a>
-					<span class="backcolor floatnone marleft5 partjobtype">日结兼职</span><span class="backcolor floatnone marleft5 partjobtype">周末兼职</span>
-					</span>
-
-                    <span class="floatnone"><span class="floatnone dis">工作时间：01.09-02.28 </span><span class=" floatright dis wid500">结算方式：当天结算</span></span>
-                    <span class="floatnone"><span class="floatnone dis">工作地点：东城区</span><span class=" floatright dis wid500">招聘人数：<b>5</b>人</span></span>
-                    <div class="clear"></div>
-                </li>
+            <?php }?>   
             </ul>
             <div class="clear"></div>
-            <!--页码-->
-            <div class="tcdPageCode"><span class="disabled">上一页</span><span class="current">1</span><span class="disabled">下一页</span></div>
+            
         </div>
         <!--t_zlistl end-->
-
         <div class="clear"></div>
     </div>
+    <!--页码-->
+        <div class="tcdPageCode t_min">
+            <?php echo LinkPager::widget([
+                'pagination' =>$pages,
+                'prevPageLabel'=>'上一页',
+                'nextPageLabel'=>'下一页',
+                
+            ]);?>
+        </div>
 <div class="qpzz" style="display:none">
     <div class="tip_box" style="height:300px;width:500px">
         <h3>兼职抢单</h3>
