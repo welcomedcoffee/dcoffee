@@ -224,7 +224,7 @@ var_dump($alipay_config);
             $orders->order_status = '4';
             $orders->order_pay_time = time();
             $orders->save();
-            $order = $orders->sn($order_sn);
+            $order = $orders->sn($out_trade_no);
             $order_id = $order['order_id'];
             $user_id  = $order['user_id'];
             $coin = $order['order_price'];
