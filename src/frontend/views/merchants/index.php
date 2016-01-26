@@ -12,6 +12,7 @@ $this->title = '优质商家';
     .bg{background:#FF8400 none repeat scroll 0% 0%;}
     .t_skey ul li span a {margin: 0px 5px;padding: 2px 5px;}
     .t_skey ul li span a.bg{ color:#fff;}
+    .ys{background:#FF8400;}
 </style>
 <div class="t_min t_tit">
         当前位置：
@@ -32,7 +33,7 @@ $this->title = '优质商家';
                         <?php if($keyword['type']=='0' || empty($keyword['type'])){
                             echo "class='bg'";
                             } ?>
-                            >全部</a>   
+                            >不限</a>   
                     </span>
                     <?php foreach ($types as $key => $type) {?>
                     <span><a href="<?php echo \Yii::$app->urlManager->createUrl(['merchants/index',$keyword,array('type'=>$type['type_id'])])?>"
@@ -44,17 +45,19 @@ $this->title = '优质商家';
                     <div class="clear"></div></div>
                 </li>
             <?php }?>    
-                <li id="areCategory"> <strong>全部区域:</strong><span><a href="<?php echo \Yii::$app->urlManager->createUrl(['merchants/index',$keyword,array('region'=>0)]); ?>" 
-                <?php if($keyword['region']=='0' || empty($keyword['region'])){
+                <li id="areCategory"> <strong>全部区域:</strong>
+                    <span>
+                        <a href="<?php echo \Yii::$app->urlManager->createUrl(['merchants/index',$keyword,array('region'=>0)]); ?>" 
+                        <?php if($keyword['region']=='0' || empty($keyword['region'])){
                             echo "class='bg'";
                             } ?>>不限</a></span>
                         <?php foreach ($regions as $key => $region) {?>
-                            <span><a href="<?php echo \Yii::$app->urlManager->createUrl(['merchants/index',$keyword,array('region'=>$region['mer_area'])])?>" 
-                            <?php if($keyword['region']==$region['mer_area']){
+                            <span><a href="<?php echo \Yii::$app->urlManager->createUrl(['merchants/index',$keyword,array('region'=>$region['region_id'])])?>" 
+                            <?php if($keyword['region']==$region['region_id']){
                             echo "class='bg'";
                             } ?>>
 
-                            <?= Html::encode($region['mer_area'])?></a></span>
+                            <?= Html::encode($region['region_name'])?></a></span>
                         <?php }?>            
                             <div class="clear"></div></li>
             </ul>
@@ -87,15 +90,38 @@ $this->title = '优质商家';
             </h1>
             <h2 title=""> </h2>
             <div class="ifo">
+            <?php if ($mer['mer_level']=='1') {?>
                 <span>
-                    <em class="bg"></em><em class="bg"></em><em class="bg"></em><em class="bg"></em><em class="bg"></em>
+                    <em class="ys"></em><em class="bg"></em><em class="bg"></em><em class="bg"></em><em class="bg"></em>
                 </span>
+            <?php }elseif ($mer['mer_level']=='2') {?>
+                <span>
+                    <em class="ys"></em><em class="ys"></em><em class="bg"></em><em class="bg"></em><em class="bg"></em>
+                </span>
+            <?php }elseif ($mer['mer_level']=='3') {?>
+                <span>
+                    <em class="ys"></em><em class="ys"></em><em class="ys"></em><em class="bg"></em><em class="bg"></em>
+                </span>
+            <?php }elseif ($mer['mer_level']=='4') {?>
+                <span>
+                    <em class="ys"></em><em class="ys"></em><em class="ys"></em><em class="ys"></em><em class="bg"></em>
+                </span>
+            <?php }else{?>
+                <span>
+                    <em class="ys"></em><em class="ys"></em><em class="ys"></em><em class="ys"></em><em class="ys"></em>
+                </span>
+            <?php }?>    
                 <b class="address" title="<?= Html::encode($mer['mer_address'])?>">
                 <?= Html::encode($mer['mer_address'])?></b>
                 <div class="clear"></div>
             </div>
             <div class="moy">
-                人均<strong>暂无</strong>
+                人均
+                <?php if($mer['mer_capita']=='0' || empty($mer['mer_capita'])){?>
+                <strong>暂无</strong>
+                <?php }else{?>
+                <strong>￥<?= Html::encode($mer['mer_capita'])?></strong>
+                <?php }?>
             </div>
         </li>
         <?php }?>
