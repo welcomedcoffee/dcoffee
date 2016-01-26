@@ -3,7 +3,7 @@
 namespace app\models\part;
 
 use Yii;
-
+use yii\data\Pagination;
 /**
  * This is the model class for table "{{%job_details}}".
  *
@@ -131,5 +131,33 @@ class FinJobDetails extends \yii\db\ActiveRecord
                 ->where(['details.job_id'=>$job_id])
                 ->asArray()
                 ->one();
+    }
+
+
+    /*
+     * @inheritdoc 兼职列表页
+     */
+    public function getParts($keyword)
+    {
+        $cond = '1=1 and job_status=1';
+        if($keyword['type']){
+            $type = $keyword['type'];
+            $cond.= " and job_type = $type";
+        }
+        if($keyword['region']){
+            $region = $keyword['region'];
+            $cond  .= " and area_id = $region";
+        }
+        $pages     = new Pagination([
+            'defaultPageSize'   => 12,
+            'totalCount'        => $this->find()->where($cond)->count(),
+        ]);
+        $parts = FinJobDetails::find()
+                     ->where($cond)
+                     ->offset($pages->offset)
+                     ->limit($pages->limit)
+                     ->asArray()->all();
+        $parts['pages'] = $pages;
+        return $parts;             
     }
 }

@@ -1,9 +1,9 @@
 <?php
-
-/* 
-	兼职机会
- */
-
+use yii\helpers\Url;
+use yii\helpers\Html;
+use yii\helpers\Helper;
+use yii\widgets\LinkPager;
+use yii\widgets\ActiveForm;
 $this->title = '兼职机会';
 ?>
 
@@ -12,6 +12,9 @@ $this->title = '兼职机会';
 <link rel="stylesheet" type="text/css" href="/public/css/validationEngine.css" />
 <link rel="stylesheet" type="text/css" href="/public/css/WdatePicker.css" />
 <link rel="stylesheet" type="text/css" href="/public/css/ui.css" />
+<style type="text/css">
+    .bg{background:#FF8400 none repeat scroll 0% 0%;}
+</style>
 <div class="t_min t_tit">
         当前位置：
         <a href="#">首页</a>
@@ -24,12 +27,38 @@ $this->title = '兼职机会';
             <ul>
                 <li id="hotcategory">
                     <strong>热门分类:</strong>
-                    <span class="bg">
-                        <a href="###" atr=""> 不限</a>
+                    <span>
+                        <a href="<?php echo \yii::$app->urlManager->createUrl(['parttime/index',$keyword,array('type'=>'0')])?>" 
+                        <?php if($keyword['type']=='0' || empty($keyword['type'])){
+                            echo "class='bg'";
+                            }?>
+                        > 不限</a>
                     </span>
-                    <span><a href="javascript:void(0)" atr="1">推广/注册</a></span><span><a href="javascript:void(0)" atr="2">发单/举牌</a></span><span><a href="javascript:void(0)" atr="3">促销/导购</a></span><span><a href="javascript:void(0)" atr="4">销售/签单</a></span><span><a href="javascript:void(0)" atr="5">充场/观众</a></span><span><a href="javascript:void(0)" atr="6">调研/问卷</a></span><span><a href="javascript:void(0)" atr="7">话务/客服</a></span><span><a href="javascript:void(0)" atr="8">店员/服务生</a></span><span><a href="javascript:void(0)" atr="9">老师/家教</a></span><span><a href="javascript:void(0)" atr="10">礼仪/模特</a></span><span><a href="javascript:void(0)" atr="11">演艺/主持</a></span><span><a href="javascript:void(0)" atr="12">校园代理</a></span><span><a href="javascript:void(0)" atr="13">其他</a></span><div class="clear"></div>
+                    <?php foreach($types as $key=>$type){?>
+                    <span><a href="<?php echo \yii::$app->urlManager->createUrl(['parttime/index',$keyword,array('type'=>$type['part_id'])])?>" 
+                    <?php if($keyword['type']==$type['part_id']){
+                        echo "class='bg'";
+                        }?>
+                    ><?= Html::encode($type['part_name'])?></a></span>
+                    <?php }?>
+                    <div class="clear"></div>
                 </li>
-                <li id="areCategory"> <strong>全部区域:</strong><span class="bg"><a href="javascript:void(0)" atr="">不限</a></span><span><a href="javascript:void(0)" atr="110100"> 东城区</a></span><span><a href="javascript:void(0)" atr="110200"> 西城区</a></span><span><a href="javascript:void(0)" atr="110500"> 朝阳区</a></span><span><a href="javascript:void(0)" atr="110600"> 丰台区</a></span><span><a href="javascript:void(0)" atr="110700"> 石景山区</a></span><span><a href="javascript:void(0)" atr="110800"> 海淀区</a></span><span><a href="javascript:void(0)" atr="110900"> 门头沟区</a></span><span><a href="javascript:void(0)" atr="111100"> 房山区</a></span><span><a href="javascript:void(0)" atr="111200"> 通州区</a></span><span><a href="javascript:void(0)" atr="111300"> 顺义区</a></span><span><a href="javascript:void(0)" atr="111400"> 昌平区</a></span><span><a href="javascript:void(0)" atr="111500"> 大兴区</a></span><span><a href="javascript:void(0)" atr="111600"> 怀柔区</a></span><span><a href="javascript:void(0)" atr="111700"> 平谷区</a></span><span><a href="javascript:void(0)" atr="112800"> 密云县</a></span><span><a href="javascript:void(0)" atr="112900"> 延庆县</a></span><div class="clear"></div></li>
+                <li id="areCategory"> <strong>全部区域:</strong>
+                <span>
+                <a href="<?php echo \Yii::$app->urlManager->createUrl(['merchants/index',$keyword,array('region'=>0)]); ?>" 
+                        <?php if($keyword['region']=='0' || empty($keyword['region'])){
+                            echo "class='bg'";
+                            } ?>>不限</a></span>
+                        <?php foreach ($regions as $key => $region) {?>
+                            <span><a href="<?php echo \Yii::$app->urlManager->createUrl(['merchants/index',$keyword,array('region'=>$region['region_id'])])?>" 
+                            <?php if($keyword['region']==$region['region_id']){
+                            echo "class='bg'";
+                            } ?>>
+
+                            <?= Html::encode($region['region_name'])?></a></span>
+                        <?php }?>
+                
+                <div class="clear"></div></li>
             </ul>
 
         </div>
