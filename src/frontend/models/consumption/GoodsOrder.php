@@ -17,7 +17,9 @@ class GoodsOrder extends ActiveRecord
      */
     public function rules()
     {
-        return ;
+        return [
+			['order_sn','required']
+		];
     }
 	//获取待处理退款订单
 	public function getOrder($user_id,$status = '')
