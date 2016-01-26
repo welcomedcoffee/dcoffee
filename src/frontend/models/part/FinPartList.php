@@ -60,4 +60,24 @@ class FinPartList extends \yii\db\ActiveRecord
                 ->asArray()
                 ->all();
     }
+
+    /**
+     * 根据兼职ID查询该兼职下的通过审核用户
+     */
+    public function getUsercount($job_id)
+    {
+        return self::find()
+                ->where(['job_id'=>$job_id,'part_status'=>1])
+                ->count();
+    }
+
+    /**
+     * 根据兼职ID查询该兼职下用户
+     */
+    public function getUserall($job_id)
+    {
+        return self::find()
+            ->where(['job_id'=>$job_id])
+            ->count();
+    }
 }

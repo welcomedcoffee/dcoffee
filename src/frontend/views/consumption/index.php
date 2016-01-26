@@ -24,8 +24,8 @@ use yii\widgets\LinkPager;
 				</div>
 				<!-- <p class="dis marleft100">结算日：每月15日</p> -->
 				<div class="dis marleft100 "><a href="<?= Url::to(['consumption/bill'])?>">对账单</a></div>
-				<p class="dis marleft100 back pad5 textcenter white wid70  fonw">账户充值</p>
-				<p class="dis marleft100 back pad5 textcenter white wid70  fonw">申请限额</p>
+				<p class="dis marleft100 back pad5 textcenter white wid70  fonw" id='top-up'>账户充值</p>
+				<p class="dis marleft100 back pad5 textcenter white wid70  fonw" id='limimoney'>申请限额</p>
 			</div>
 		</div>
 		<div class="backf6f3ee  marleft10 bor1 martop20">
@@ -79,3 +79,11 @@ use yii\widgets\LinkPager;
 </div>
 <div class="clear"></div>
 </div>
+<script>
+	$('#top-up').click(function(){
+		location.href="<?= Url::to(['consumption/chong'])?>";
+	})
+	$('#limimoney').click(function(){
+		location.href="<?= Url::to(['consumption/limimoney'])?>";
+	})
+</script>

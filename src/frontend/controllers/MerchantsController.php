@@ -8,6 +8,7 @@ use yii\filters\AccessControl;
 use frontend\models\students\MerType;
 use frontend\models\students\Circles;
 use frontend\models\students\MerBase;
+use frontend\models\students\Region;
 
 /**
  * 优质商家
@@ -20,8 +21,11 @@ class MerchantsController extends BaseController
     public function actionIndex()
     {
         $models_ty  = new MerType;      //实例化分类
-        $models_go  = new  MerBase;     //商家
+        $models_go  = new MerBase;     //商家
+        $models     = new Region;     //城市
         $types      = $models_ty->getType();
+        $region_id  = '52';
+        $regions    = $models->getRegion($region_id);
         //接受查询分类
         $keyword    = Yii::$app->request->get('1');
         $new_key    = Yii::$app->request->get('2');
@@ -31,11 +35,16 @@ class MerchantsController extends BaseController
             {
                 $keyword[$key] = $value;
             }
-        } 
+        }
     	$mers		= $models_go->getMerchants($keyword);
         $pages      = $mers['pages'];
         unset($mers['pages']);
-        $regions = array();
+        if (empty($keyword['type'])) {
+            $keyword['type'] = 0;
+        }
+        if (empty($keyword['region'])) {
+            $keyword['region'] = 0;
+        }
         return $this->render('index',
         		[
         			'types'	  => $types,

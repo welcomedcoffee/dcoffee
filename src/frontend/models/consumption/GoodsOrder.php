@@ -72,7 +72,7 @@ class GoodsOrder extends ActiveRecord
 				    ->where(['and',['merchant_id'=>$user_id,'order_sn'=>$ss]])
 					->andWhere(['>','order_addtime',$endtime])
 					->andWhere(['<','order_addtime',time()])
-					->sll();
+					->all();
 		}else{
 			return $this->find()
 					->offset($pagination->offset)

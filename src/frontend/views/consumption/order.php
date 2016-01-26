@@ -12,8 +12,8 @@
 	<select class="height25">
 	<option>最近三个月</option>
 </select>
-<input type="text" class="height21"/>
-<div class="dis back wid100 textcenter white height25">搜索</div>
+<input type="text" class="height21" id='ss'/>
+<div class="dis back wid100 textcenter white height25" id='search'>搜索</div>
 <div class="floatright">总计金额：<span class="red">264</span>元</div>
 </div>
 		 <table class="date " cellpadding="0" cellspacing="0" width="960px" >
@@ -70,3 +70,9 @@
 </div>
 <div class="clear"></div>
 </div>
+<script>
+	$('#search').click(function(){
+		ss = $('#ss').val()
+		location.href="<?= Url::to(['consumption/order'])?>&ss="+ss;
+	})
+</script>

@@ -49,6 +49,16 @@ class ConsumptionController extends BaseController
 		//print_r($orderlist);die;
         return $this->render('index',['data'=>$base,'order'=>$goodsOrder,'pagination' => $pagination,'orderlist'=>$orderlist]);
     }
+	//充值页面
+	public function actionChong()
+	{
+		return $this->render('chong');
+	}
+	//限额申请页面
+	public function actionLimimoney()
+	{
+		return $this->render('limimoney');
+	}
 	//对账单
 	public function actionBill()
 	{
@@ -145,7 +155,6 @@ class ConsumptionController extends BaseController
 			]);
 		}
 		$orderlist = $order->getAllorder($user_id,$pagination,$ss);
-		//print_R($orderlist);die;
 		return $this->render('order',['orderlist'=>$orderlist,'pagination'=>$pagination]);
 	}
 	//订单状态修改

@@ -47,10 +47,36 @@ $this->title = '我的评论';
 	                    <div style="height: 40px; float:left;margin-top: 60px;">
 							<span class="floatleft marright10 floatnone" style="font-size: 24px;">地址：江宁区科学园天元东路891天景山商业中心</span>
 						</div>
-						<div class="floatright backcolor martop15 marright30 bgYel floatnone partjobtype" name="applaybtn" style="cursor: pointer ;outline: medium none;">评论</div>
+						<div class="comment floatright backcolor martop15 marright30 bgYel floatnone partjobtype" name="applaybtn" style="cursor: pointer ;outline: medium none;">评论</div>
                     </div>
                 </li>
                 </ul>
             </div>
         </div>
 </div>
+
+
+<!-- 弹窗 -->
+<div style="display: none;" class="qpzz" id="comment">
+    <div class="tip_box" style="margin-top: 0px; margin-left: 0px;height: 350px; top: 80px;">
+        <h3>订单评论</h3>   
+        <img style="width:25px;height:25px;float: right;position: relative;top:-35px;left:-5px;" src="/public/images/cross27.png" class="close">
+        <div class="con_t">
+            <p>西北老狼鳗鱼店</p>
+            <p>星级评价 *****</p>
+            <p>人均消费 <input type="text" name="price" />元</p>
+            <p>评&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;论 <textarea cols="20" rows="3"></textarea></p>
+        </div>
+        <br><br>
+        <div style="float: right; margin-right: 20px;">
+            <input type="button" style="width: 70px; height: 30px;border-radius:4px;background-color:#0089cf;color: white;" value="确定" id="studetailname" name="">&nbsp;&nbsp; 
+            <input type="button" style="width: 70px; height: 30px;border-radius:4px;background-color:#0089cf;color: white;" value="取消" class="close">
+        </div>
+    </div>   
+</div> 
+<script>
+    //申请账户弹窗
+    $(document).on('click', '.comment', function(){
+           $('#comment').show().css('height',document.body.scrollHeight);
+    })
+</script>
