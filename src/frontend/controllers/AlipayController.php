@@ -5,7 +5,7 @@ use Yii;
 use yii\web\Controller;
 use backend\models\student\PayOrder;
 use backend\models\student\Students;
-
+use backend\models\student\Payment;
 /**
  * 支付宝支付
  */
@@ -112,10 +112,11 @@ class AlipayController extends Controller{
         require_once('../../vendor/alipay/lib/alipay_submit.class.php');
 
     	$alipay_config = Yii::$app->params['alipay']['alipay_config'];
+var_dump($alipay_config);
 		//计算得出通知验证结果
 		$alipayNotify  = new \AlipayNotify($alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
-		file_put_contents('/actionNotifyUrl.php','actionNotifyUrl');
+		file_put_contents('actionNotifyUrl.php','actionNotifyUrl');
 		if($verify_result) {
 			//验证成功
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -198,7 +199,7 @@ class AlipayController extends Controller{
 		//计算得出通知验证结果
 		$alipayNotify  = new \AlipayNotify($alipay_config);
 		$verify_result = $alipayNotify->verifyReturn();
-		file_put_contents('/actionReturnUrl.php','actionReturnUrl');
+		file_put_contents('actionReturnUrl.php','actionReturnUrl');
 		if($verify_result) {
 			//验证成功
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -218,28 +219,39 @@ class AlipayController extends Controller{
 			//交易状态
 			$trade_status = $_GET['trade_status'];
 
-			//更改订单状态
+			//更改订单状态 
+			$orders = new PayOrder;
 			$order = PayOrder::find()->where("order_sn='$out_trade_no'")->one();
-			file_put_contents('/a.php', $order);
-			$order->order_status = 4;
-			$order->save();
-			$order_id = $order->order_id;
-			$user_id  = $order->user_id;
-			$coin = $order->order_price;
-			//判断购买的类型
+            $orders->order_status = '4';
+            $orders->order_pay_time = time();
+            $orders->save();
+            $order_id = $order->order_id;
+            $user_id  = $order->user_id;
+            $coin = $order->order_price;
+            //判断购买的类型
 			//if ($order->type=='course') {
-				$student = Students::find()->where("student_id='$order->user_id'")->one();
-				file_put_contents('/b.php', $order);
-				if ($student->stu_money < $coin) {
-					echo "数据异常购买失败，请于管理员联系";die;
-				}
+            	$student = new Students;
+                $student = Students::find()->where("stu_id=$order->user_id")->one();
+                if ($student->stu_money < $coin) {
+                    echo "数据异常购买失败，请于管理员联系";die;
+                }
 
-				$student->stu_money = $student->stu_money + $coin;
-				$re = $student->save();
-				file_put_contents('/c.php', $re);
-				if (!$re) {
-					echo "数据异常购买失败，请于管理员联系";
-				}
+                $student->stu_money = $student->stu_money + $coin;
+                $re = $student->save();
+                if (!$re) {
+                    echo "数据异常购买失败，请于管理员联系";
+                }
+                $Payment = new Payment;
+                $Payment->user_id = $user_id;
+                $Payment->payment_type = 1;
+                $Payment->payment_addtime = time();
+                $Payment->payment_money = $coin;
+                $Payment->payment_note = '充值金币';
+                $Payment->payment_way = 2;
+                $res = $Payment -> save();
+                 if (!$res) {
+                    echo "数据异常购买失败，请于管理员联系";
+                }
 				/*//给用户添加课程
 				$courses = CourseOrderInfo::find()->where("order_id=$order_id")->asArray()->all();
 				foreach ($courses as $key => $course) {
@@ -267,7 +279,7 @@ class AlipayController extends Controller{
 		else {
 		    //验证失败
 		    //如要调试，请看alipay_notify.php页面的verifyReturn函数
-		    file_put_contents('/d.php', '失败');
+		    file_put_contents('d.php', '失败');
 		    echo "验证失败";
 		}
     }
