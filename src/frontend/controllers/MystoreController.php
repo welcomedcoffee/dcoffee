@@ -111,13 +111,46 @@ class MystoreController extends BaseController
                     $data[$k]['user_count'] = $val['user_count'];
                     unset($part_user[$k]);
                 }
-                else
-                {
-                    $data[$k]['user_count'] = "0";
-                }
             }
         }
         return $this->render("partlist",['data'=>$data]);
+    }
+
+    /**
+     * 兼职结算页面
+     */
+    public function actionSettlement()
+    {
+        /* 查询兼职详情 */
+        $job_id = yii::$app->request->get("job_id");
+        $model = new FinJobDetails();
+        $data = $model->partdetails($job_id);
+        /* 查询兼职审核通过人数 */
+        $list = new FinPartList();
+        $user = $list->getUsercount($job_id);
+        $data['usercount'] = $user;
+        return $this->render("settlement",['data'=>$model['attributes']]);
+    }
+
+    /**
+     * @return string
+     * 修改兼职状态
+     */
+    public function actionStopapply()
+    {
+        /* 修改兼职状态 */
+        $job_id = Yii::$app->request->get("job_id");
+        $model = FinJobDetails::findOne($job_id);
+        $model->job_status = 2;//修改为进行中
+        if($model->save())
+        {
+            echo 1;//修改成功
+        }
+        else
+        {
+            echo 2;//修改失败
+        }
+
     }
 
     /* 兼职评论 */
