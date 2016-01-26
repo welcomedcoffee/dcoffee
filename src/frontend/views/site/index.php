@@ -1,13 +1,20 @@
 <?php
 
 /* @var $this yii\web\View */
-
 $this->title = '首页';
 ?>
-<div class="t_min t_tit">当前位置：<a href="#">首页</a></div>
-    <div class="t_img" id="scrolldiv">
+<!-- <div class="t_min t_tit">当前位置：<a href="#">首页</a></div> -->
+    <div class="t_img" id="scrolldiv" style='margin-top:-50px;'>
         <div class="t_imglibt ">
-            <span class="bg"><a href="javascript:;" onclick="setscroll(0);"></a></span> <span><a href="javascript:;" onclick="setscroll(1);"></a></span> <span><a href="javascript:;" onclick="setscroll(2);"></a></span>
+            <span class="bg">
+                <a href="  javascript:;" onclick="setscroll(0);"></a>
+            </span> 
+            <span>
+                <a href="javascript:;" onclick="setscroll(1);"></a>
+            </span> 
+            <span>
+                <a href="javascript:;" onclick="setscroll(2);"></a>
+            </span>
         </div>
 
         <div id="top_roll_pic">
@@ -47,3 +54,15 @@ $this->title = '首页';
     </div>
     
     <!--frdl end-->
+    <!-- <script type='text/javascript' src="/public/js/pagebase.js"></script> -->
+    <script src="/public/js/globl.js" type="text/javascript"></script>
+    <script type='text/javascript' src="/public/js/jsbase.js"></script>
+    <script type='text/javascript' src='/public/js/url.js'></script>
+    <script type='text/javascript' src="/public/js/datahandle.js"></script>
+    
+    <script type="text/javascript" src="/public/js/jquery.tooltip.js"></script>
+    // <script type='text/javascript'>
+    // $(function(){
+    //       GLOBAL.pagebase.GetTop();
+    //       GLOBAL.pagebase.City();
+    // })</script>

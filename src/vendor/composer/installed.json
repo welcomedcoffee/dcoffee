@@ -10,7 +10,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "http://packagist.phpcomposer.com/files/yiisoft/yii2-composer/ca8d23707ae47d20b0454e4b135c156f6da6d7be.zip",
+            "url": "https://api.github.com/repos/yiisoft/yii2-composer/zipball/ca8d23707ae47d20b0454e4b135c156f6da6d7be",
             "reference": "ca8d23707ae47d20b0454e4b135c156f6da6d7be",
             "shasum": ""
         },
@@ -59,7 +59,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "http://packagist.phpcomposer.com/files/ezyang/htmlpurifier/6f389f0f25b90d0b495308efcfa073981177f0fd.zip",
+            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/6f389f0f25b90d0b495308efcfa073981177f0fd",
             "reference": "6f389f0f25b90d0b495308efcfa073981177f0fd",
             "shasum": ""
         },
@@ -105,7 +105,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "http://packagist.phpcomposer.com/files/cebe/markdown/54a2c49de31cc44e864ebf0500a35ef21d0010b2.zip",
+            "url": "https://api.github.com/repos/cebe/markdown/zipball/54a2c49de31cc44e864ebf0500a35ef21d0010b2",
             "reference": "54a2c49de31cc44e864ebf0500a35ef21d0010b2",
             "shasum": ""
         },
@@ -167,7 +167,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "http://packagist.phpcomposer.com/files/yiisoft/yii2-framework/f42b2eb80f61992438661b01d0d74c6738e2ff38.zip",
+            "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/f42b2eb80f61992438661b01d0d74c6738e2ff38",
             "reference": "f42b2eb80f61992438661b01d0d74c6738e2ff38",
             "shasum": ""
         },
@@ -257,7 +257,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "http://packagist.phpcomposer.com/files/swiftmailer/swiftmailer/0697e6aa65c83edf97bb0f23d8763f94e3f11421.zip",
+            "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/0697e6aa65c83edf97bb0f23d8763f94e3f11421",
             "reference": "0697e6aa65c83edf97bb0f23d8763f94e3f11421",
             "shasum": ""
         },
@@ -312,7 +312,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "http://packagist.phpcomposer.com/files/yiisoft/yii2-swiftmailer/4ec435a89e30b203cea99770910fb5499cb3627a.zip",
+            "url": "https://api.github.com/repos/yiisoft/yii2-swiftmailer/zipball/4ec435a89e30b203cea99770910fb5499cb3627a",
             "reference": "4ec435a89e30b203cea99770910fb5499cb3627a",
             "shasum": ""
         },
@@ -364,7 +364,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "http://packagist.phpcomposer.com/files/yiisoft/yii2-codeception/de5007e7a99359597abbfe1c88dca3ce620061c5.zip",
+            "url": "https://api.github.com/repos/yiisoft/yii2-codeception/zipball/de5007e7a99359597abbfe1c88dca3ce620061c5",
             "reference": "de5007e7a99359597abbfe1c88dca3ce620061c5",
             "shasum": ""
         },
@@ -411,7 +411,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "http://packagist.phpcomposer.com/files/yiisoft/yii2-bootstrap/1464f93834b1d5edb1f5625f7ffd6c3723fa4923.zip",
+            "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/1464f93834b1d5edb1f5625f7ffd6c3723fa4923",
             "reference": "1464f93834b1d5edb1f5625f7ffd6c3723fa4923",
             "shasum": ""
         },
@@ -463,7 +463,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "http://packagist.phpcomposer.com/files/yiisoft/yii2-debug/1b302e67521d46feb2413d9d96ca94ed82b39b0e.zip",
+            "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/1b302e67521d46feb2413d9d96ca94ed82b39b0e",
             "reference": "1b302e67521d46feb2413d9d96ca94ed82b39b0e",
             "shasum": ""
         },
@@ -512,7 +512,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "http://packagist.phpcomposer.com/files/phpspec/php-diff/30e103d19519fe678ae64a60d77884ef3d71b28a.zip",
+            "url": "https://api.github.com/repos/phpspec/php-diff/zipball/30e103d19519fe678ae64a60d77884ef3d71b28a",
             "reference": "30e103d19519fe678ae64a60d77884ef3d71b28a",
             "shasum": ""
         },
@@ -548,7 +548,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "http://packagist.phpcomposer.com/files/yiisoft/yii2-gii/e5a023e8779bd774194842ec1b8fb4917cf04007.zip",
+            "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/e5a023e8779bd774194842ec1b8fb4917cf04007",
             "reference": "e5a023e8779bd774194842ec1b8fb4917cf04007",
             "shasum": ""
         },
@@ -603,7 +603,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "http://packagist.phpcomposer.com/files/fzaninotto/Faker/d0190b156bcca848d401fb80f31f504f37141c8d.zip",
+            "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/d0190b156bcca848d401fb80f31f504f37141c8d",
             "reference": "d0190b156bcca848d401fb80f31f504f37141c8d",
             "shasum": ""
         },
@@ -657,7 +657,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "http://packagist.phpcomposer.com/files/yiisoft/yii2-faker/b88ca69ee226a3610b2c26c026c3203d7ac50f6c.zip",
+            "url": "https://api.github.com/repos/yiisoft/yii2-faker/zipball/b88ca69ee226a3610b2c26c026c3203d7ac50f6c",
             "reference": "b88ca69ee226a3610b2c26c026c3203d7ac50f6c",
             "shasum": ""
         },
@@ -696,6 +696,33 @@
         ]
     },
     {
+<<<<<<< HEAD
+        "name": "phpoffice/phpexcel",
+        "version": "1.8.1",
+        "version_normalized": "1.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPOffice/PHPExcel.git",
+            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+            "shasum": ""
+        },
+        "require": {
+            "ext-xml": "*",
+            "ext-xmlwriter": "*",
+            "php": ">=5.2.0"
+        },
+        "time": "2015-05-01 07:00:55",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "PHPExcel": "Classes/"
+=======
         "name": "aliyuncs/oss-sdk-php",
         "version": "v2.0.4",
         "version_normalized": "2.0.4.0",
@@ -724,10 +751,41 @@
         "autoload": {
             "psr-4": {
                 "OSS\\": "src/OSS"
+>>>>>>> 47dd7c7018db63e18b766daccd63fdbf7539eaf1
             }
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
+<<<<<<< HEAD
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Maarten Balliauw",
+                "homepage": "http://blog.maartenballiauw.be"
+            },
+            {
+                "name": "Mark Baker"
+            },
+            {
+                "name": "Franck Lefevre",
+                "homepage": "http://blog.rootslabs.net"
+            },
+            {
+                "name": "Erik Tilt"
+            }
+        ],
+        "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+        "homepage": "http://phpexcel.codeplex.com",
+        "keywords": [
+            "OpenXML",
+            "excel",
+            "php",
+            "spreadsheet",
+            "xls",
+            "xlsx"
+        ]
+=======
             "MIT"
         ],
         "authors": [
@@ -738,6 +796,7 @@
         ],
         "description": "Aliyun OSS SDK for PHP",
         "homepage": "http://www.aliyun.com/product/oss/"
+>>>>>>> 47dd7c7018db63e18b766daccd63fdbf7539eaf1
     },
     {
         "name": "bower-asset/jquery",
@@ -786,6 +845,35 @@
         ]
     },
     {
+<<<<<<< HEAD
+        "name": "bower-asset/yii2-pjax",
+        "version": "v2.0.5",
+        "version_normalized": "2.0.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/yiisoft/jquery-pjax.git",
+            "reference": "6818718408086db6bdcf33649cecb86b6b4f9b67"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/6818718408086db6bdcf33649cecb86b6b4f9b67",
+            "reference": "6818718408086db6bdcf33649cecb86b6b4f9b67",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/jquery": ">=1.8"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": "./jquery.pjax.js",
+            "bower-asset-ignore": [
+                ".travis.yml",
+                "Gemfile",
+                "Gemfile.lock",
+                "vendor/",
+                "script/",
+                "test/"
+=======
         "name": "bower-asset/jquery.inputmask",
         "version": "3.1.63",
         "version_normalized": "3.1.63.0",
@@ -823,10 +911,14 @@
                 "build.properties",
                 "build.xml",
                 "jquery.inputmask.jquery.json"
+>>>>>>> 47dd7c7018db63e18b766daccd63fdbf7539eaf1
             ]
         },
         "installation-source": "dist",
         "license": [
+<<<<<<< HEAD
+            "MIT"
+=======
             "http://opensource.org/licenses/mit-license.php"
         ],
         "description": "jquery.inputmask is a jquery plugin which create an input mask.",
@@ -837,6 +929,7 @@
             "jquery",
             "mask",
             "plugins"
+>>>>>>> 47dd7c7018db63e18b766daccd63fdbf7539eaf1
         ]
     },
     {
@@ -870,6 +963,45 @@
         "installation-source": "dist"
     },
     {
+<<<<<<< HEAD
+        "name": "bower-asset/jquery.inputmask",
+        "version": "3.1.63",
+        "version_normalized": "3.1.63.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/RobinHerbots/jquery.inputmask.git",
+            "reference": "c40c7287eadc31e341ebbf0c02352eb55b9cbc48"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/c40c7287eadc31e341ebbf0c02352eb55b9cbc48",
+            "reference": "c40c7287eadc31e341ebbf0c02352eb55b9cbc48",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/jquery": ">=1.7"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": [
+                "./dist/inputmask/jquery.inputmask.js",
+                "./dist/inputmask/jquery.inputmask.extensions.js",
+                "./dist/inputmask/jquery.inputmask.date.extensions.js",
+                "./dist/inputmask/jquery.inputmask.numeric.extensions.js",
+                "./dist/inputmask/jquery.inputmask.phone.extensions.js",
+                "./dist/inputmask/jquery.inputmask.regex.extensions.js"
+            ],
+            "bower-asset-ignore": [
+                "**/.*",
+                "qunit/",
+                "nuget/",
+                "tools/",
+                "js/",
+                "*.md",
+                "build.properties",
+                "build.xml",
+                "jquery.inputmask.jquery.json"
+=======
         "name": "bower-asset/yii2-pjax",
         "version": "v2.0.5",
         "version_normalized": "2.0.5.0",
@@ -897,11 +1029,25 @@
                 "vendor/",
                 "script/",
                 "test/"
+>>>>>>> 47dd7c7018db63e18b766daccd63fdbf7539eaf1
             ]
         },
         "installation-source": "dist",
         "license": [
+<<<<<<< HEAD
+            "http://opensource.org/licenses/mit-license.php"
+        ],
+        "description": "jquery.inputmask is a jquery plugin which create an input mask.",
+        "keywords": [
+            "form",
+            "input",
+            "inputmask",
+            "jquery",
+            "mask",
+            "plugins"
+=======
             "MIT"
+>>>>>>> 47dd7c7018db63e18b766daccd63fdbf7539eaf1
         ]
     },
     {

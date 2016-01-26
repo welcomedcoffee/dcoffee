@@ -21,6 +21,7 @@ use yii\filters\AccessControl;
 use app\models\user\Qyuser;
 use app\models\user\User;
 use app\models\user\Lguser;
+use app\models\part\FinRegion;
 /**
  * Site controller
  */
@@ -33,8 +34,8 @@ class SiteController extends BaseController
        $this->request = Yii::$app->request; 
        $session = Yii::$app->session;
        if (!$session->isActive){
-            $session->open();
-       }
+            $session->open();            
+       }       
     }
     /**
      * @inheritdoc
@@ -89,7 +90,14 @@ class SiteController extends BaseController
      * @return 首页
      */
     public function actionIndex()
-    {
+    {   
+        $cache = \Yii::$app->cache; 
+        if(is_null($cache->get('city'))){       
+            $Region = new FinRegion;
+            $dependency = new \yii\caching\FileDependency(['fileName' => 'example.txt']);
+            $regionval = $Region->getProvince();
+            $cache->set('city', json_encode($regionval,JSON_UNESCAPED_UNICODE), 3600, $dependency);
+        }              
         return $this->render('index');
     }
 
@@ -134,34 +142,37 @@ class SiteController extends BaseController
      *
      * @return 退出
      */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
+    public function actionLogtuichu()
+    {   
+        $session = Yii::$app->session;
+        $session->remove('userinfo');
+        $session->destroy();  
+        $user = array('code' => 1, 'data' =>'退出成功');        
+        $this->actionTotrans('退出', '登陆页', 'site/login', $user);
     }
 
     /**
      * Displays contact page.
      *
-     * @return mixed
+     * @return 选择地址
      */
-    public function actionContact()
+    public function actionAddress()
     {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending email.');
-            }
+        $arr = $this->request->post();
+        $cookies = Yii::$app->response->cookies;    //获取Yii\web\Controller
 
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
+        $cookies->add(new \yii\web\Cookie([         //存入cookie 有多个值 需存二维数组
+            'name' => 'city',
+            'value' => $arr
+        ])); 
+
+        $cook = Yii::$app->request->cookies;
+        if($cook->has('city')){
+            return json_encode(['code' => 1, 'data' => '存入cookie']);
+        }else{
+            return json_encode(['code' => 2, 'data' => '存入cookie失败']);
         }
+        
     }
 
     /**

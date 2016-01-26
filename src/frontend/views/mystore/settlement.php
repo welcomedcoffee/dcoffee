@@ -65,10 +65,18 @@ $this->title = "兼职详情";
         <div class="mt_rli">
             <div class="right">
                 <div class="" style="font-size: 16px">
-                    <span style="margin: 20px 20px 20px 20px;color: red">兼职详情</span>
-                    <span style="margin: 20px 20px 20px 20px">报名人员</span>
-                    <span style="margin: 20px 20px 20px 20px">通过人员</span>
-                    <span style="margin: 20px 20px 20px 20px">拒绝人员</span>
+                    <a href="<?= Url::to(['mystore/settlement','job_id'=>$job_id])?>">
+                        <span style="margin: 20px 20px 20px 20px;color: red">兼职详情</span>
+                    </a>
+                    <a href="<?= Url::to(['mystore/applyuser','job_id'=>$job_id])?>">
+                        <span style="margin: 20px 20px 20px 20px">报名人员</span>
+                    </a>
+                    <a href="<?= Url::to(['mystore/throughuser','job_id'=>$job_id])?>">
+                        <span style="margin: 20px 20px 20px 20px">通过人员</span>
+                    </a>
+                    <a href="<?= Url::to(['mystore/refuseuser','job_id'=>$job_id])?>">
+                        <span style="margin: 20px 20px 20px 20px">拒绝人员</span>
+                    </a>
                 </div>
                 <table cellpadding="0" cellspacing="0" style="margin-top: 30px;margin-left: 20px;font-size: 16px">
                     <tr>
@@ -85,47 +93,69 @@ $this->title = "兼职详情";
                     </tr>
                     <tr bgcolor="#dafff3">
                         <td style="width: 120px">地址</td>
-                        <td>北京 大兴区 嘉兴广场4号楼1704室</td>
+                        <td><?= $data['working_place']?></td>
                     </tr>
                     <tr>
                         <td style="width: 120px">时间</td>
-                        <td style="width: 800px">2015-12-11至2015-12-30</td>
+                        <td style="width: 800px"><?= date("Y-m-d",$data['job_start'])?>至<?= date("Y-m-d",$data['job_end'])?></td>
                     </tr>
                     <tr bgcolor="#dafff3">
                         <td style="width: 120px">招收人数</td>
-                        <td>50人</td>
+                        <td><?= $data['job_people']?>人</td>
                     </tr>
                     <tr>
                         <td style="width: 120px">报名人数</td>
-                        <td style="width: 800px">20人</td>
+                        <td style="width: 800px"><?= $data['userall']?>人</td>
                     </tr>
                     <tr bgcolor="#dafff3">
                         <td style="width: 120px">通过人数</td>
-                        <td>2人</td>
+                        <td><?= $data['usercount']?>人</td>
                     </tr>
                     <tr>
                         <td style="width: 120px">薪资</td>
-                        <td style="width: 800px">100元</td>
+                        <td style="width: 800px"><?= $data['job_money'];?>元</td>
                     </tr>
                     <tr bgcolor="#dafff3">
                         <td style="width: 120px">结算方式</td>
-                        <td>日结</td>
+                        <td>
+                            <?php if($data['pay_method'] == 1){?>
+                                当天结算
+                            <?php }elseif($data['pay_method'] == 2){ ?>
+                                周末结算
+                            <?php }elseif($data['pay_method'] == 3){ ?>
+                                月末结算
+                            <?php }else{ ?>
+                                完工结算
+                            <?php } ?>
+                        </td>
                     </tr>
                     <tr>
                         <td style="width: 120px">提成</td>
-                        <td style="width: 800px">有</td>
+                        <td style="width: 800px">
+                            <?php if($data['commission'] == 1){ ?>
+                                有提成
+                            <?php }else{ ?>
+                                无提成
+                            <?php } ?>
+                        </td>
                     </tr>
                     <tr bgcolor="#dafff3">
                         <td style="width: 120px">联系人</td>
-                        <td>杨先生</td>
+                        <td><?= $data['contact'];?></td>
                     </tr>
                     <tr>
                         <td style="width: 120px">联系方式</td>
-                        <td style="width: 800px">13488758795</td>
+                        <td style="width: 800px"><?= $data['contact_phone'];?></td>
                     </tr>
                     <tr bgcolor="#dafff3">
                         <td style="width: 120px">状态</td>
-                        <td>审核通过</td>
+                        <td>
+                            <?php if($data['job_status'] == 0){ ?>
+                                审核中
+                            <?php }else{ ?>
+                                审核通过
+                            <?php } ?>
+                        </td>
                     </tr>
                 </table>
                 <div id="kkpager"></div>

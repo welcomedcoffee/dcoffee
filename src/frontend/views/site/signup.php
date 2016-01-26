@@ -57,16 +57,10 @@ $this->title = 'Signup';
                     <div class="clear"></div>
                         
                 <!-- 查看协议 -->
-                <?= $form->field($model, 'agreement', ['template' =>'<p style="float:left;"><font color="red">*</font>{input}《<a href="/protocol">淘学友注册协议</a>》<font color="red">{error}</font></p>', 'inputOptions' =>[ 'data-prompt-position' => 'centerRight:250,0']])->checkboxList(['0'=>'我已阅读并同意']) ?> 
+                <?php $model->agreement = array('1') ;?>
+                <?= $form->field($model, 'agreement', ['template' =>'<p style="float:left;"><font color="red">*</font>{input}《<a href="/protocol">淘学友注册协议</a>》<font color="red">{error}</font></p>', 'inputOptions' =>[ 'data-prompt-position' => 'centerRight:250,0']])->checkboxList(['1'=>'我已阅读并同意']) ?> 
                 
                 <div style='clear:left;'></div> 
-                <!-- <p>
-                    <?=Html::checkbox('agreement',true,['id' => 'agreement', 'data-prompt-position' => 'centerRight:250,0', 'class' => 'validate[required]'])?>
-                    我已阅读并同意《
-                    
-                    》
-                </p>  -->
-
                 <li>
                     <span class="wida">&nbsp;</span>
 					<span>                      
