@@ -220,7 +220,8 @@ var_dump($alipay_config);
 			$trade_status = $_GET['trade_status'];
 
 			//更改订单状态
-			$order = PayOrder::find()->where("order_sn='56a74b5ce7e14'")->one();
+			$order = new PayOrder;
+			$order = PayOrder::find()->where("order_sn='$out_trade_no'")->one();
             $order->order_status = '4';
             $order->order_pay_time = time();
             $order->save();
@@ -229,6 +230,7 @@ var_dump($alipay_config);
             $coin = $order->order_price;
             //判断购买的类型
 			//if ($order->type=='course') {
+            	$student = new Students;
                 $student = Students::find()->where("stu_id=$order->user_id")->one();
                 if ($student->stu_money < $coin) {
                     echo "数据异常购买失败，请于管理员联系";die;
