@@ -220,11 +220,11 @@ var_dump($alipay_config);
 			$trade_status = $_GET['trade_status'];
 
 			//更改订单状态 
-			$order = new PayOrder;
+			$orders = new PayOrder;
 			$order = PayOrder::find()->where("order_sn='$out_trade_no'")->one();
-            $order->order_status = '4';
-            $order->order_pay_time = time();
-            $order->save();
+            $orders->order_status = '4';
+            $orders->order_pay_time = time();
+            $orders->save();
             $order_id = $order->order_id;
             $user_id  = $order->user_id;
             $coin = $order->order_price;
