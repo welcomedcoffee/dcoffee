@@ -62,7 +62,7 @@ AppAsset::register($this);
     $city = $cache->get('city');
     $city = json_decode($city,true);          
 ?>
-    <div class="head">
+    <div class="head" style="background: #FFFFFF;">
         <div class="t_min header">
             <div class="t_le">
                 <font class="f_l">欢迎光临淘学友 </font>                
