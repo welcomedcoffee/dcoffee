@@ -62,7 +62,7 @@ class MystoreController extends BaseController
         $model->province_id = $data['province'];
         $model->city_id = $data['city'];
         $model->area_id = $data['area'];
-        $model->job_status = 3;//审核中
+        $model->job_status = 0;//未审核
         $model->add_time = time();
         $model->merchants_id = 1;//商家ID
         unset($data);
@@ -127,10 +127,43 @@ class MystoreController extends BaseController
         $data = $model->partdetails($job_id);
         /* 查询兼职审核通过人数 */
         $list = new FinPartList();
+        /* 通过审核用户 */
         $user = $list->getUsercount($job_id);
+        /* 所有的报名用户 */
+        $userall = $list->getUserall($job_id);
         $data['usercount'] = $user;
+        $data['userall'] = $userall;
         //print_r($data);die;
-        return $this->render("settlement",['data'=>$data]);
+        return $this->render("settlement",[
+                                            'data'=>$data,
+                                            'job_id'=>$job_id
+                                            ]);
+    }
+
+    /**
+     * 报名人员
+     */
+    public function actionApplyuser()
+    {
+        $job_id = Yii::$app->request->get("job_id");
+        $model = new FinPartList();
+        $data = $model->getUser($job_id);
+    }
+
+    /**
+     * 通过人员
+     */
+    public function actionThroughuser()
+    {
+
+    }
+
+    /**
+     * 拒绝人员
+     */
+    public function actionRefuseuser()
+    {
+
     }
 
     /**
