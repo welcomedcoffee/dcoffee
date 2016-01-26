@@ -230,14 +230,14 @@ var_dump($alipay_config);
             $coin = $order['order_price'];
             //判断购买的类型
 			//if ($order->type=='course') {
-            	$student = new Students;
-                $student = Students::find()->where(['=','stu_id',$order->user_id])->one();
-                if ($student->stu_money < $coin) {
+            	$students = new Students;
+                $student = $students -> Info($user_id);
+                if ($student['stu_money'] < $coin) {
                     echo "数据异常购买失败，请于管理员联系";die;
                 }
 
-                $student->stu_money = $student->stu_money + $coin;
-                $re = $student->save();
+                $students->stu_money = $student['stu_money'] + $coin;
+                $re = $students->save();
                 if (!$re) {
                     echo "数据异常购买失败，请于管理员联系";
                 }
