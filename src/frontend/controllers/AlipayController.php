@@ -220,36 +220,36 @@ var_dump($alipay_config);
 			$trade_status = $_GET['trade_status'];
 
 			//更改订单状态
-			$order = PayOrder::find()->where("order_sn='$out_trade_no'")->one();
-			print_r($order);die;
-			file_put_contents('a.php', $order);
-			$order->order_status = 4;
-			$order->save();
-			$order_id = $order->order_id;
-			$user_id  = $order->user_id;
-			$coin = $order->order_price;
-			//判断购买的类型
+			$order = PayOrder::find()->where("order_sn='56a74b5ce7e14'")->one();
+            $order->order_status = '4';
+            $order->order_pay_time = time();
+            $order->save();
+            $order_id = $order->order_id;
+            $user_id  = $order->user_id;
+            $coin = $order->order_price;
+            //判断购买的类型
 			//if ($order->type=='course') {
-				$student = Students::find()->where("student_id='$order->user_id'")->one();
-				file_put_contents('b.php', $order);
-				if ($student->stu_money < $coin) {
-					echo "数据异常购买失败，请于管理员联系";die;
-				}
+                $student = Students::find()->where("stu_id=$order->user_id")->one();
+                if ($student->stu_money < $coin) {
+                    echo "数据异常购买失败，请于管理员联系";die;
+                }
 
-				$student->stu_money = $student->stu_money + $coin;
-				$re = $student->save();
-				file_put_contents('c.php', $re);
-				if (!$re) {
-					echo "数据异常购买失败，请于管理员联系";
-				}
-				$Payment = new Payment;
-  				$Payment ->user_id = $user_id;
-  				$Payment ->payment_type = 1;
-  				$Payment ->payment_addtime = time();
-  				$Payment ->payment_addtime = $coin;
-  				$Payment ->payment_note = '充值金币';
-  				$Payment ->payment_way = 2;
-				$Payment -> save();
+                $student->stu_money = $student->stu_money + $coin;
+                $re = $student->save();
+                if (!$re) {
+                    echo "数据异常购买失败，请于管理员联系";
+                }
+                $Payment = new Payment;
+                $Payment->user_id = $user_id;
+                $Payment->payment_type = 1;
+                $Payment->payment_addtime = time();
+                $Payment->payment_money = $coin;
+                $Payment->payment_note = '充值金币';
+                $Payment->payment_way = 2;
+                $res = $Payment -> save();
+                 if (!$res) {
+                    echo "数据异常购买失败，请于管理员联系";
+                }
 				/*//给用户添加课程
 				$courses = CourseOrderInfo::find()->where("order_id=$order_id")->asArray()->all();
 				foreach ($courses as $key => $course) {
