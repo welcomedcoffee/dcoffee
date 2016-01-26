@@ -227,7 +227,7 @@ var_dump($alipay_config);
             $order = $orders->sn($out_trade_no);
             $user_id  = $order['user_id'];
             $coin = $order['order_price'];
-            echo $user_id;
+            print_r($order);
             //判断购买的类型
 			//if ($order->type=='course') {
             	$students = new Students;
