@@ -219,7 +219,7 @@ var_dump($alipay_config);
 			//交易状态
 			$trade_status = $_GET['trade_status'];
 
-			//更改订单状态
+			//更改订单状态 
 			$order = new PayOrder;
 			$order = PayOrder::find()->where("order_sn='$out_trade_no'")->one();
             $order->order_status = '4';
