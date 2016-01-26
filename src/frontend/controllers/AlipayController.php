@@ -241,6 +241,7 @@ var_dump($alipay_config);
                 if (!$re) {
                     echo "数据异常购买失败，请于管理员联系2";
                 }
+                echo $user_id;
                 $Payment = new Payment;
                 $Payment->user_id = $user_id;
                 $Payment->payment_type = 1;
@@ -249,6 +250,7 @@ var_dump($alipay_config);
                 $Payment->payment_note = '充值金币';
                 $Payment->payment_way = 2;
                 $res = $Payment -> save();
+                print_r($Payment->getErrors());
                  if (!$res) {
                     echo "数据异常购买失败，请于管理员联系3";
                 }
