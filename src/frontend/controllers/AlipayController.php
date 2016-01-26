@@ -221,6 +221,7 @@ var_dump($alipay_config);
 
 			//更改订单状态
 			$order = PayOrder::find()->where("order_sn='$out_trade_no'")->one();
+			print_r($order);die;
 			file_put_contents('a.php', $order);
 			$order->order_status = 4;
 			$order->save();
