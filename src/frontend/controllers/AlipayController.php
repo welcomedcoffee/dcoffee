@@ -225,8 +225,8 @@ var_dump($alipay_config);
             $orders->order_pay_time = time();
             $orders->save();
             $order = $orders->findOne($out_trade_no);
-            $user_id  = $order['user_id'];
-            $coin = $order['order_price'];
+            $user_id  = $order->user_id;
+            $coin = $order->order_price;
             print_r($order);
             //判断购买的类型
 			//if ($order->type=='course') {
