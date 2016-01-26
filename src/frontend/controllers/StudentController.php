@@ -12,6 +12,7 @@ use backend\models\student\Students;
 use backend\models\student\Region;
 use backend\models\student\Skills;
 use backend\models\student\Code;
+use backend\models\student\PayOrder;
 use common\components\Get;
 
 class StudentController extends BaseController
@@ -226,6 +227,61 @@ class StudentController extends BaseController
     public function actionBalance()
     {
         return $this->render('balance');
+    }
+    /**
+     *  支付
+     */
+    public function actionPay()
+    {
+        //$session = Yii::$app->session;
+        //$user_id = $session->get('user_id');
+        $user_id = 1;
+        $price = YII::$app->request->post('price');
+        // 生成订单
+        $Order = new PayOrder;
+        $Order->order_sn      = uniqid();
+        $Order->user_id       = $user_id;
+        $Order->order_addtime = time();
+        $Order->order_price  = $price;
+        $re   = $Order->save();
+        $order_id = Yii::$app->db->getLastInsertID();
+        /*$coin     = YII::$app->request->get('coin');
+        $session  = yii::$app->session;
+        $session  ->open();
+        $user_id  = $session->get("user_id");
+        $user     = User::find()->where("user_id=$user_id")->one();
+
+        if ($user->user_virtual < $coin) {
+            echo "数据异常";die;
+        }
+        $order = CourseOrder::findOne($order_id);
+        $order ->coinAmount = $coin;
+        if ($order ->price_amount - $coin<0) {
+            $order ->amount = 0;
+        }else{
+            $order ->amount = $order ->price_amount - $coin;
+        }
+        $order ->save();*/
+
+       /* //判断用户是否还需要支付现金
+        if ($order ->amount == 0) {
+            $user->user_virtual = $user->user_virtual-$coin;
+            $user->save();
+            //
+            $order = CourseOrder::findOne($order_id);
+            $order->order_status = 1;
+            $order->save();
+            $order_id = $order->order_id;
+            $user_id  = $order->user_id;
+            if ($order->type=='course') {
+                $courses = CourseOrderInfo::find()->where("order_id=$order_id")->asArray()->all();
+                foreach ($courses as $key => $course) {
+                    $result = UserCourse::AddCourse($user_id,$course['course_id']);
+                }
+            }
+            echo "购买成功";die;
+        }*/
+        $this->redirect(['/alipay/index','order_id'=>$order_id]);
     }
 
 }
