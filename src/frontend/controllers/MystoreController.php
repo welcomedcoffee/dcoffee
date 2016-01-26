@@ -129,7 +129,8 @@ class MystoreController extends BaseController
         $list = new FinPartList();
         $user = $list->getUsercount($job_id);
         $data['usercount'] = $user;
-        return $this->render("settlement",['data'=>$model['attributes']]);
+        //print_r($data);die;
+        return $this->render("settlement",['data'=>$data]);
     }
 
     /**
