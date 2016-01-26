@@ -98,92 +98,37 @@
                         <th>操作 </th>
                     </tr>
                     </thead>
-                    <tbody id="parttimedate"></tbody>
+                    <tbody id="parttimedate">
+                        <?php foreach($data as $k=>$v){ ?>
+                            <tr>
+                                <td><?= $k;?></td>
+                                <td><?= $v['job_name'];?></td>
+                                <td><?= $v['job_type'];?></td>
+                                <td><?= $v['work_start'];?>到<?= $v['work_end'];?></td>
+                                <td><?= $v['job_money'];?><?= $v['job_treatment'];?></td>
+                                <td><?= $v['job_people'];?></td>
+                                <td><?= $v['user_count'];?></td>
+                                <td id="<?= $v['job_id'];?>">
+                                    <?php if($v['job_status'] == 1){ ?>
+                                        报名中
+                                    <?php } elseif($v['job_status'] == 2) { ?>
+                                        进行中
+                                    <?php } else { ?>
+                                        已结束
+                                    <?php } ?>
+                                </td>
+                                <td><a href="javascript:void(0)" class="stop_apply" val="<?= $v['job_id'];?>">截止报名</a> | <a href="<?= Url::to(['mystore/settlement','job_id'=>$v['job_id']])?>">结算</a></td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
                 </table>
-                <script type="text/template" id="parttimedateTemplate">
-                    <tr class="tr">
-                        <td>{number}</td>
-                        <td><a href='javascript:void(0)' onclick='GLOBAL.pagebase.searchStudentInfo({jobId})'>{name}</a></td>
-                        <td>{workTypeName}</td>
-                        <td>
-                            {workBegin}
-                            </br>到{workEnd}
-                        </td>
-                        <td>{salary}{salaryTypeName}</td>
-                        <td>{total}</td>
-                        <td>{applyCount}</td>
-                        <td>{status}</td>
-                        <td class="pay" style="cursor: pointer;color: red;" >{options} </td>
-                    </tr>
-                </script>
                 <div id="kkpager"></div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="qpzz" id="qpzz" style="display:none">
-    <div class="tip_box height700">
-        <h3 ><span class="" id="">兼职详情</span></h3>
-        <img src="/images/u162.png" class="u119 close" />
-        <div class="con_t padtop0" id="studentInfoContent">
 
-        </div>
-
-        <script type="text/template" id="studenInfoTemplate">
-            <div class="shoppttimejbdetailtext" >
-                <label><m class="letterspacing2">职</m>位</label><span id="">{name}</span>
-            </div>
-            <div class="shoppttimejbdetailtext bgcolore4e5e4">
-                <label><m class="letterspacing2">类</m>型</label><span id="">{workTypeName}</span>
-            </div>
-            <div class="shoppttimejbdetailtext">
-                <label>商家名称</label><span id="">{enterpriseName}</span>
-            </div>
-            <div class="shoppttimejbdetailtext bgcolore4e5e4">
-                <label><m class="letterspacing2">地</m>址</label><span id="">{address}</span>
-            </div>
-
-            <div class="shoppttimejbdetailtext">
-                <label>工作日期</label><span id="">{workBegin}至{workEnd}</span>
-            </div>
-            <div class="shoppttimejbdetailtext bgcolore4e5e4">
-
-                <label>工作时段</label><span id="">{workTimeHourBegin}至{workTimeHourEnd}</span>
-            </div>
-
-            <div class="shoppttimejbdetailtext ">
-                <label>招聘人数</label><span id="">{total}人</span>
-            </div>
-            <div class="shoppttimejbdetailtext bgcolore4e5e4">
-                <label>报名人数</label><span id="">{applyCount}人</span>
-            </div>
-            <div class="shoppttimejbdetailtext ">
-                <label>通过人数</label><span class="color1ea43d">{deductType}人</span>
-            </div>
-            <div class="shoppttimejbdetailtext bgcolore4e5e4">
-                <label><m class="letterspacing2">薪</m>资</label><span class="colore61c18">{salary}{salaryTypeName}</span>
-            </div>
-            <div class="shoppttimejbdetailtext ">
-                <label>结算方式</label><span id="">{settlementType}</span>
-            </div>
-            <div class="shoppttimejbdetailtext bgcolore4e5e4">
-                <label><m class="letterspacing2">提</m>成</label><span class="color1ea43d">{isDeduct}</span>
-            </div>
-            <div class="shoppttimejbdetailtext ">
-                <label><m class="letterspacing05">联系</m>人</label><span id="">{contact}</span>
-            </div>
-            <div class="shoppttimejbdetailtext bgcolore4e5e4">
-                <label>联系方式</label><span id="">{contactTel}</span>
-            </div>
-            <div class="shoppttimejbdetailtext ">
-                <label><m class="letterspacing2">状</m>态</label><span id="">{status}</span>
-            </div>
-            <input type="button" value="删除" class="martop30 wid100 bord" id="btnDelte" onclick="GLOBAL.pagebase.delteJobInfo({jobId})" />
-        </script>
-
-    </div>
-</div>
 
 
 <style type="text/css">
@@ -194,3 +139,24 @@
 </body>
 
 </html>
+<script>
+    /* 截至报名 */
+    $(".stop_apply").click(function(){
+        var job_id = $(this).attr("val");
+        $.ajax({
+            type: "GET",
+            url: "<?= Url::to(['mystore/stopapply'])?>",
+            data: "job_id="+job_id,
+            success: function(msg){
+                if(msg == 1)
+                {
+                    $("#"+job_id).html("进行中");
+                }
+                else
+                {
+                    alert(2)
+                }
+            }
+        });
+    })
+</script>

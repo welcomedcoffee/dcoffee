@@ -106,4 +106,30 @@ class FinJobDetails extends \yii\db\ActiveRecord
             'area_id' => 'Area ID',
         ];
     }
+
+    /**
+     * 查询出所有兼职信息
+     */
+    public function getDetails()
+    {
+        return self::find()
+                ->select("job_id,job_name,job_type,work_start,work_end,job_money,job_treatment,job_people,job_status")
+                ->asArray()
+                ->all();
+    }
+
+    /**
+     * 根据兼职ID查询兼职详情
+     */
+    public function partdetails($job_id)
+    {
+        return self::find()
+                ->select("details.*,type.part_name,base.mer_name")
+                ->from("fin_job_details as details")
+                ->leftJoin("fin_part_type as type","type.part_id = details.job_type")
+                ->leftJoin("fin_merchant_base as base","base.mer_id = details.merchants_id")
+                ->where(['details.job_id'=>$job_id])
+                ->asArray()
+                ->one();
+    }
 }

@@ -4,9 +4,51 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8580bd82955b1fbb80d47024e184056e",
-    "content-hash": "e1929a97e872bdbaacc8530468eccb67",
+    "hash": "f86c9d6fc97489628493efd2663ce5d0",
+    "content-hash": "1583029d23b409eec9c2602ad74a120d",
     "packages": [
+        {
+            "name": "aliyuncs/oss-sdk-php",
+            "version": "v2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aliyun/aliyun-oss-php-sdk.git",
+                "reference": "0ebcba990ed2b53fea43f66678bd2f4dd314fd78"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "http://packagist.phpcomposer.com/files/aliyun/aliyun-oss-php-sdk/0ebcba990ed2b53fea43f66678bd2f4dd314fd78.zip",
+                "reference": "0ebcba990ed2b53fea43f66678bd2f4dd314fd78",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpdocumentor/phpdocumentor": "2.*",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "OSS\\": "src/OSS"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aliyuncs",
+                    "homepage": "http://www.aliyun.com"
+                }
+            ],
+            "description": "Aliyun OSS SDK for PHP",
+            "homepage": "http://www.aliyun.com/product/oss/",
+            "time": "2015-12-26 07:29:02"
+        },
         {
             "name": "bower-asset/bootstrap",
             "version": "v3.3.5",
@@ -272,6 +314,48 @@
                 "markdown-extra"
             ],
             "time": "2015-03-06 05:28:07"
+        },
+        {
+            "name": "chonder/yii2-aliyun-oss",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chonder/yii2-aliyun-oss.git",
+                "reference": "82c460a49a63febb14bd07453c6a2bc2c07bb2f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "http://packagist.phpcomposer.com/files/chonder/yii2-aliyun-oss/82c460a49a63febb14bd07453c6a2bc2c07bb2f5.zip",
+                "reference": "82c460a49a63febb14bd07453c6a2bc2c07bb2f5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "chonder\\AliyunOSS\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "chonder",
+                    "email": "wuchonder@gmail.com"
+                }
+            ],
+            "description": "阿里云OSS官方SDK的Composer封装，支持Yii2。",
+            "homepage": "https://github.com/chonder/yii2-aliyun-oss",
+            "keywords": [
+                "AliyunOSS",
+                "aliyun",
+                "oss"
+            ],
+            "time": "2015-03-25 04:36:24"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -915,7 +999,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "chonder/yii2-aliyun-oss": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

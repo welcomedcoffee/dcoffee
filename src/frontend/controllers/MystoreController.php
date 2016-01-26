@@ -12,6 +12,7 @@ use Yii;
 use yii\web\Controller;
 use app\models\part\FinPartType;
 use app\models\part\FinRegion;
+use app\models\part\FinPartList;
 
 /**
  *  我的门店首页
@@ -94,7 +95,63 @@ class MystoreController extends BaseController
     /* 兼职列表 */
     public function actionPartlist()
     {
-        return $this->render("partlist");
+        /* 查询兼职信息 */
+        $job_details = new FinJobDetails();
+        $data = $job_details->getDetails();
+        /* 查询通过人数 */
+        $part_list = new FinPartList();
+        $part_user = $part_list->throughUser();
+        foreach($data as $k=>$v)
+        {
+            //echo $v['job_id'];die;
+            foreach($part_user as $key=>$val)
+            {
+                if($val['job_id'] == $v['job_id'])
+                {
+                    $data[$k]['user_count'] = $val['user_count'];
+                    unset($part_user[$k]);
+                }
+            }
+        }
+        return $this->render("partlist",['data'=>$data]);
+    }
+
+    /**
+     * 兼职结算页面
+     */
+    public function actionSettlement()
+    {
+        /* 查询兼职详情 */
+        $job_id = yii::$app->request->get("job_id");
+        $model = new FinJobDetails();
+        $data = $model->partdetails($job_id);
+        /* 查询兼职审核通过人数 */
+        $list = new FinPartList();
+        $user = $list->getUsercount($job_id);
+        $data['usercount'] = $user;
+        //print_r($data);die;
+        return $this->render("settlement",['data'=>$data]);
+    }
+
+    /**
+     * @return string
+     * 修改兼职状态
+     */
+    public function actionStopapply()
+    {
+        /* 修改兼职状态 */
+        $job_id = Yii::$app->request->get("job_id");
+        $model = FinJobDetails::findOne($job_id);
+        $model->job_status = 2;//修改为进行中
+        if($model->save())
+        {
+            echo 1;//修改成功
+        }
+        else
+        {
+            echo 2;//修改失败
+        }
+
     }
 
     /* 兼职评论 */
