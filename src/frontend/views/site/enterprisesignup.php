@@ -60,8 +60,9 @@ $this->title = 'Enterprisesignup';
                     <!-- 确认密码 -->
                     <?php echo $form->field($model, 'user_checkpwd', ['inputOptions' => ['class' => 'in1 validate[required,custom[password]]', 'placeholder' => '请再次输入密码']])->passwordInput(['maxlength' => 15]) ?>          
                     
-                     <!-- 查看协议 -->
-                    <?= $form->field($model, 'agreement', ['template' =>'<p style="float:left;"><font color="red">*</font>{input}《<a href="/protocol">淘学友注册协议</a>》<font color="red">{error}</font></p>', 'inputOptions' =>[ 'data-prompt-position' => 'centerRight:250,0']])->checkboxList(['0'=>'我已阅读并同意']) ?>                  
+                    <!-- 查看协议 -->
+                    <?php $model->agreement = array('1') ;?>
+                    <?= $form->field($model, 'agreement', ['template' =>'<p style="float:left;"><font color="red">*</font>{input}《<a href="/protocol">淘学友注册协议</a>》<font color="red">{error}</font></p>', 'inputOptions' =>[ 'data-prompt-position' => 'centerRight:250,0']])->checkboxList(['1'=>'我已阅读并同意']) ?>                  
                     <div style='clear:left;'></div>                     
                     <li>
                         <span class="wida">&nbsp;</span>
