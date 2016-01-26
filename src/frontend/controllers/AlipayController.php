@@ -199,7 +199,7 @@ var_dump($alipay_config);
 		//计算得出通知验证结果
 		$alipayNotify  = new \AlipayNotify($alipay_config);
 		$verify_result = $alipayNotify->verifyReturn();
-		if($verify_result) {
+		//if($verify_result) {
 			//验证成功
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			//请在这里加上商户的业务逻辑程序代码
@@ -218,21 +218,19 @@ var_dump($alipay_config);
 			//交易状态
 			$trade_status = $_GET['trade_status'];
 
-			file_put_contents('aaaa.php',"a".$out_trade_no."b".$trade_no."c".$trade_status);
+			//file_put_contents('aaaa.php',"a".$out_trade_no."b".$trade_no."c".$trade_status);
 			//更改订单状态 
 			$orders = new PayOrder;
+            $order = $orders->sn($out_trade_no);
             $orders->order_status = '4';
             $orders->order_pay_time = time();
             $orders->save();
-            $order = $orders->findOne($out_trade_no);
-            $user_id  = $order->user_id;
-            $coin = $order->order_price;
-            print_r($order);
+            $user_id  = $order['user_id'];
+            $coin = $order['order_price'];
             //判断购买的类型
 			//if ($order->type=='course') {
             	$students = new Students;
                 $student = $students -> Info($user_id);
-                print_r($student);
                 if ($student['stu_money'] < $coin) {
                     echo "数据异常购买失败，请于管理员联系1";die;
                 }
@@ -242,7 +240,6 @@ var_dump($alipay_config);
                 if (!$re) {
                     echo "数据异常购买失败，请于管理员联系2";
                 }
-                echo $user_id;
                 $Payment = new Payment;
                 $Payment->user_id = $user_id;
                 $Payment->payment_type = 1;

@@ -64,6 +64,7 @@ class PayOrder extends \yii\db\ActiveRecord
     {
         return $this -> find()
                      -> where(['=','order_sn',$order_sn])
+                     -> asArray()
                      -> one();
     }
    
