@@ -225,13 +225,14 @@ var_dump($alipay_config);
             $orders->order_pay_time = time();
             $orders->save();
             $order = $orders->sn($out_trade_no);
-            $order_id = $order['order_id'];
             $user_id  = $order['user_id'];
             $coin = $order['order_price'];
+            echo $user_id;
             //判断购买的类型
 			//if ($order->type=='course') {
             	$students = new Students;
                 $student = $students -> Info($user_id);
+                print_r($student);
                 if ($student['stu_money'] < $coin) {
                     echo "数据异常购买失败，请于管理员联系1";die;
                 }
