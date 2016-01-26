@@ -149,7 +149,7 @@ class FinJobDetails extends \yii\db\ActiveRecord
             $cond  .= " and area_id = $region";
         }
         $pages     = new Pagination([
-            'defaultPageSize'   => 12,
+            'defaultPageSize'   => 5,
             'totalCount'        => $this->find()->where($cond)->count(),
         ]);
         $parts = FinJobDetails::find()

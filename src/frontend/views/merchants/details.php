@@ -177,7 +177,7 @@ $this->title = '优质商家';
 					<li>
 						 <div style="float:left;margin-right:50px;">
 							<div>
-								<img src="public/images/u55.png" alt="">
+								<img src="/public/images/u55.png" alt="">
 							</div>
 							<div style="color:red;text-align:center;">呆萌的洒家</div>
 						</div> 
@@ -198,7 +198,7 @@ $this->title = '优质商家';
 					<li>
 						 <div style="float:left;margin-right:50px;">
 							<div>
-								<img src="public/images/u55.png" alt="">
+								<img src="/public/images/u55.png" alt="">
 							</div>
 							<div style="color:red;text-align:center;">呆萌的洒家</div>
 						</div> 

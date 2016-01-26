@@ -224,22 +224,22 @@ var_dump($alipay_config);
             $orders->order_status = '4';
             $orders->order_pay_time = time();
             $orders->save();
-            $order = $orders->sn($order_sn)
+            $order = $orders->sn($out_trade_no);
             $order_id = $order['order_id'];
             $user_id  = $order['user_id'];
             $coin = $order['order_price'];
             //判断购买的类型
 			//if ($order->type=='course') {
-            	$student = new Students;
-                $student = Students::find()->where(['=','stu_id',$order->user_id])->one();
-                if ($student->stu_money < $coin) {
-                    echo "数据异常购买失败，请于管理员联系";die;
+            	$students = new Students;
+                $student = $students -> Info($user_id);
+                if ($student['stu_money'] < $coin) {
+                    echo "数据异常购买失败，请于管理员联系1";die;
                 }
 
-                $student->stu_money = $student->stu_money + $coin;
-                $re = $student->save();
+                $students->stu_money = $student['stu_money'] + $coin;
+                $re = $students->save();
                 if (!$re) {
-                    echo "数据异常购买失败，请于管理员联系";
+                    echo "数据异常购买失败，请于管理员联系2";
                 }
                 $Payment = new Payment;
                 $Payment->user_id = $user_id;
@@ -250,7 +250,7 @@ var_dump($alipay_config);
                 $Payment->payment_way = 2;
                 $res = $Payment -> save();
                  if (!$res) {
-                    echo "数据异常购买失败，请于管理员联系";
+                    echo "数据异常购买失败，请于管理员联系3";
                 }
 				/*//给用户添加课程
 				$courses = CourseOrderInfo::find()->where("order_id=$order_id")->asArray()->all();
