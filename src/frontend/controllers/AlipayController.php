@@ -112,7 +112,6 @@ class AlipayController extends Controller{
         require_once('../../vendor/alipay/lib/alipay_submit.class.php');
 
     	$alipay_config = Yii::$app->params['alipay']['alipay_config'];
-var_dump($alipay_config);
 		//计算得出通知验证结果
 		$alipayNotify  = new \AlipayNotify($alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
@@ -218,23 +217,23 @@ var_dump($alipay_config);
 			//交易状态
 			$trade_status = $_GET['trade_status'];
 
-<<<<<<< HEAD
+
 			//更改订单状态
             $orders = PayOrder::sn($out_trade_no);
             $orders->order_status = '4';
             $orders->order_pay_time = time();
             $orders->save();
-=======
+
 			//file_put_contents('aaaa.php',"a".$out_trade_no."b".$trade_no."c".$trade_status);
 			//更改订单状态 
 		//	$orders = new PayOrder;
-var_dump($out_trade_no);
+
             $orders = PayOrder::sn($out_trade_no);
-var_dump($orders);
+
             $orders->order_status = '4';
             $orders->order_pay_time = time();
             $orders->save(false);
->>>>>>> fcacfcad98678f1d53a2ceeb97640429d97a0128
+
             $user_id  = $orders->user_id;
             $coin = $orders->order_price;
             //判断购买的类型
