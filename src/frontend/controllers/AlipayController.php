@@ -9,7 +9,7 @@ use backend\models\student\Payment;
 /**
  * 支付宝支付
  */
-class AlipayController extends Controller{
+class AlipayController extends BaseController{
     public $enableCsrfValidation = false;
 	public function actionIndex()
 	{
@@ -115,7 +115,6 @@ class AlipayController extends Controller{
 		//计算得出通知验证结果
 		$alipayNotify  = new \AlipayNotify($alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
-		file_put_contents('actionNotifyUrl.php','actionNotifyUrl');
 		if($verify_result) {
 			//验证成功
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -139,7 +138,31 @@ class AlipayController extends Controller{
 			$trade_status = $_POST['trade_status'];
 
 
-
+			//更改订单状态
+	        $orders = PayOrder::sn($out_trade_no);
+	        $time = time();
+	        $order_id = $orders->order_id;
+	        $sql1 = "update fin_pay_order set order_status = '4',order_pay_time = '$time' where order_id = $order_id";
+	        $user_id  = $orders->user_id;
+	        $coin = $orders->order_price;
+	        //给用户添加金币
+	        $student = Students::findOne($user_id);
+	        $money = $student->stu_money + $coin;
+	        $stu_id = $student ->stu_id;
+	        $sql2 = "update fin_students set stu_money = '$money' where stu_id = '$stu_id'";
+	        //生成记录
+	        $sql3 = "insert into fin_payment(user_id,payment_type,payment_addtime,payment_money,payment_note,payment_way) values('$user_id','1','$time','$coin','充值金币','2')";
+	        $connection = \Yii::$app->db;
+	        $transaction = $connection->beginTransaction();
+	        try {
+	            $connection->createCommand($sql1)->execute();
+	            $connection->createCommand($sql2)->execute();
+	            $connection->createCommand($sql3)->execute();
+	            $transaction->commit();
+	        } catch(Exception $e) {
+	            $transaction->rollBack();
+	            echo  $e->getMessage();
+	        }
 
 
 
@@ -217,57 +240,6 @@ class AlipayController extends Controller{
 			//交易状态
 			$trade_status = $_GET['trade_status'];
 
-
-			//更改订单状态
-            $orders = PayOrder::sn($out_trade_no);
-            $orders->order_status = '4';
-            $orders->order_pay_time = time();
-            $orders->save();
-
-			//file_put_contents('aaaa.php',"a".$out_trade_no."b".$trade_no."c".$trade_status);
-			//更改订单状态 
-		//	$orders = new PayOrder;
-
-            $orders = PayOrder::sn($out_trade_no);
-
-            $orders->order_status = '4';
-            $orders->order_pay_time = time();
-            $orders->save();
-
-            $user_id  = $orders->user_id;
-            $coin = $orders->order_price;
-            //判断购买的类型
-			//if ($order->type=='course') {
-                $student = Students::findOne($user_id);
-                
-
-                $student->stu_money = $student->stu_money + $coin;
-
-
-                $re = $student->save();
-                if (!$re) {
-                    echo "数据异常购买失败，请于管理员联系2";
-                }
-                $Payment = new Payment;
-                $Payment->user_id = $user_id;
-                $Payment->payment_type = 1;
-                $Payment->payment_addtime = time();
-                $Payment->payment_money = $coin;
-                $Payment->payment_note = '充值金币';
-                $Payment->payment_way = 2;
-                $res = $Payment -> save();
-                 if (!$res) {
-                    echo "数据异常购买失败，请于管理员联系3";
-                }
-				/*//给用户添加课程
-				$courses = CourseOrderInfo::find()->where("order_id=$order_id")->asArray()->all();
-				foreach ($courses as $key => $course) {
-					$result = UserCourse::AddCourse($user_id,$course['course_id']);
-				}*/
-			//}
-
-
-
 		    if($_GET['trade_status'] == 'TRADE_FINISHED' || $_GET['trade_status'] == 'TRADE_SUCCESS') {
 				//判断该笔订单是否在商户网站中已经做过处理
 				//如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
@@ -277,7 +249,7 @@ class AlipayController extends Controller{
 		      echo "trade_status=".$_GET['trade_status'];
 		    }
 
-			echo "验证成功<br />";die;
+			$this->success('充值成功!',['student/info']);
 
 			//——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
 
@@ -285,7 +257,8 @@ class AlipayController extends Controller{
 		}else{
 		    //验证失败
 		    //如要调试，请看alipay_notify.php页面的verifyReturn函数
-		    echo "验证失败";
+		    //echo "验证失败";
+		    $this->success('充值失败!',['student/info']);
 		}
     }
 }
