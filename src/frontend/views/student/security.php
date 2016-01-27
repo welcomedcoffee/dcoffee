@@ -36,7 +36,7 @@ $this->title = '账户安全';
                                 <p>两种,长度为8-20个字符的密码。</p>
                             </m>
                             <div>
-                                <a href="<?= Url::to(['student/studentsave']); ?>&type=pwd">修改</a>
+                                <a href="<?= Url::to(['student/studentsave']); ?>?type=pwd">修改</a>
                             </div>
                         </div>
                       
@@ -47,7 +47,7 @@ $this->title = '账户安全';
                                 <p>请立即更换，避免账户被盗。</p>
                             </m>
                             <div>
-                                <a href="<?= Url::to(['student/studentsave']); ?>&type=phone" >修改</a>
+                                <a href="<?= Url::to(['student/studentsave']); ?>?type=phone" >修改</a>
                             </div>
                         </div>
                         <div class="phone">
@@ -57,7 +57,7 @@ $this->title = '账户安全';
                                 <p>字母加数字或字符，长度为8-20个字符的密码。</p>
                             </m>
                             <div>
-                                <a href="<?= Url::to(['student/studentsave']); ?>&type=pay">修改</a>
+                                <a href="<?= Url::to(['student/studentsave']); ?>?type=pay">修改</a>
                             </div>
                         </div>
                     </div>

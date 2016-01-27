@@ -4,11 +4,13 @@
     我的余额
  */
 use yii\helpers\Html;
-
+use yii\helpers\Url;
+use yii\widgets\LinkPager;
 $this->title = '我的余额';
 ?>
 
 <link rel="stylesheet" href="/public/css/kkpager_orange.css">
+<link rel="stylesheet" href="/public/css/pagecss.css">
 <div class="t_min t_tit">当前位置：<a href="http://www.qutaoxue.net/">首页</a> &gt; 我的趣淘学</div>
     <!--我的趣淘学-->
     <div class="t_min">
@@ -68,14 +70,31 @@ $this->title = '我的余额';
                             <?php } ?>
                         </tbody>
                     </table>
-                    <div id="kkpager"><div><span class="disabled">首页</span><span class="disabled">上一页</span><span class="curr">1</span><span class="disabled">下一页</span><span class="disabled">尾页</span><span class="totalText"></span></div><div style="clear:both;"></div></div>
+                    <div class="tcdPageCode t_min">
+                        <?php echo LinkPager::widget([
+                            'pagination' => $pagination,
+                            'prevPageLabel'=>'上一页',
+                            'nextPageLabel'=>'下一页',
+                        ]);?>
+                    </div>
                 </div>
 
             </div>
         </div>
     </div>
-     
-<style type="text/css">
-		p{cursor:pointer}
-		
-	</style>
+<script>
+    //分页
+    /*$(document).on('click','.pagination a',function(){
+        var page = $(this).html()
+        alert(page)
+        $.ajax({
+            type : "get",
+            url : "<?php echo Url::to(['student/balance']);?>",
+            data : 'page='+page,
+            success: function(msg){
+                $("#div").html(msg)
+            }
+        });
+        return false;
+    })*/
+</script>
