@@ -232,20 +232,19 @@ class AlipayController extends Controller{
 
             $orders->order_status = '4';
             $orders->order_pay_time = time();
-            $orders->save(false);
+            $orders->save();
 
             $user_id  = $orders->user_id;
             $coin = $orders->order_price;
             //判断购买的类型
 			//if ($order->type=='course') {
-            	$students = new Students;
-                $student = $students -> Info($user_id);
-                if ($student['stu_money'] < $coin) {
-                    echo "数据异常购买失败，请于管理员联系1";die;
-                }
+                $student = Students::findOne($user_id);
+                
 
-                $students->stu_money = $student['stu_money'] + $coin;
-                $re = $students->save();
+                $student->stu_money = $student->stu_money + $coin;
+
+
+                $re = $student->save();
                 if (!$re) {
                     echo "数据异常购买失败，请于管理员联系2";
                 }
@@ -257,7 +256,6 @@ class AlipayController extends Controller{
                 $Payment->payment_note = '充值金币';
                 $Payment->payment_way = 2;
                 $res = $Payment -> save();
-                print_r($Payment->getErrors());
                  if (!$res) {
                     echo "数据异常购买失败，请于管理员联系3";
                 }
