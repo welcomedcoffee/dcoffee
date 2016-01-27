@@ -16,9 +16,7 @@ $this->title = '优质商家';
 	.moy{color:#FF8400;}
 	#l-map{height:300px;width:100%;}
     #r-result{width:100%;}
-    .btnContent{
-					margin:50px 0 120px 0;
-				}
+    .btnContent{margin:50px 0 120px 0;}
 	.btnContent ul li{
 		border:1px solid #DDDDDD;
 		width:200px;
@@ -31,6 +29,8 @@ $this->title = '优质商家';
 		border-radius:4px;
 		float:left;
 	}
+	.default{background:#FF8400;}
+	.default span a{color:#FFF;}
 </style>
 
 <!-- body -->
@@ -99,13 +99,14 @@ $this->title = '优质商家';
                 <div class="clear"></div>
 					<div class="btnContent">
 						<ul>
-						<li class="active">商家位置</li>
-						<li>商家介绍</li>
-						<li>用户评论</li>
+						<li class="default"><span><a href="#one">商家位置</a></span></li>
+						<li><span><a href="#two">商家介绍</a></span></li>
+						<li><span><a href="#three">用户评论</a></span></li>
 						</ul>
 					</div>
 				<div class="clear"></div>
 				<!--商家位置-->
+				<section id="one">
 				<div>
 					<h1>
 						<strong style="font-size:18px;"><span style="margin:0 0 0 20px"><img src="public/images/iconfont-dizhi.png" alt="" height="25px" width="25px"></span>&nbsp;&nbsp;商家位置</strong>
@@ -143,7 +144,9 @@ $this->title = '优质商家';
 					</div>
 				</div>
 				<br>
+				</section>
                 <!--商家介绍-->
+				<section id="two">
                 <div style="clear:both;padding-top: 40px;">
                     <h1>
                        <strong style="font-size:18px;"><span style="margin:0 0 0 20px"><img src="public/images/u45.png" alt="" height="25px" width="25px"></span>&nbsp;&nbsp;商家介绍</strong>
@@ -154,7 +157,9 @@ $this->title = '优质商家';
                     <?= Html::encode($mer_details['mer_introduce'])?></div>
                 </div>
 				<br>
+				</section>
             <!--订单评论-->
+            <section id="three">
         <div class="" style="padding-top:40px">
             <h1>
                  <strong style="font-size:18px;"><span style="margin:0 0 0 20px"><img src="public/images/u50.png" alt="" height="25px" width="25px"></span>&nbsp;&nbsp;订单评论</strong>
@@ -199,6 +204,7 @@ $this->title = '优质商家';
             
         ]);?>
         </div>
+    </section>    
 	</div>
     </div>
     </div>
