@@ -58,7 +58,7 @@ $this->title = '优质商家';
                             } ?>>
 
                             <?= Html::encode($region['region_name'])?></a></span>
-                        <?php }?>            
+                        <?php }?>
                             <div class="clear"></div></li>
             </ul>
         </div>

@@ -8,6 +8,8 @@ $this->title = '优质商家';
 ?>
 <link rel="stylesheet" type="text/css" href="/public/css/jquery.css" />
 <link rel="stylesheet" type="text/css" href="/public/css/pagecss.css" />
+<link rel="stylesheet" href="/public/css/ShopShow.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/MagicZoom.css" type="text/css" />
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZT4wsbKvt0nB8pvbGAREQisb"></script>
 <style type="text/css">
 	.ys{background:#FF8400;}
@@ -60,27 +62,27 @@ $this->title = '优质商家';
     <div class="t_min">
         <div class="t_sdat" id="buinessContentDemo">
             <!--商家 详情-->
-            <div class="connected-carousels" style="float:left">
-                <div class="stage" style="border:2px solid #DDDDDD;border-radius:7px">
-                    <div class="carousel carousel-stage">
-                        <ul style="margin:5px 5px 0 5px ">
-                            <li><img src="<?= Html::encode($mer_details['mer_logo'])?>" alt="" id="img" height="280" width="460"></li>
-                        </ul>
-                    </div> 
-                </div>
-				<br>
-                <div class="navigation" style="height:81px;width:392px;border:2px solid #DDDDDD;border-radius:7px">
-                    <div class="carousel carousel-navigation" style="height:81px;width:392px">
-					
-                        <ul style="height:81px;width:392px;">
-						                            <li id="first" style="float:left;margin:5px 5px 5px 5px "><img src="<?= Html::encode($mer_details['mer_image1'])?>" alt="没啥说的" height="71" width="88"></li>
-							                            <li id="first" style="float:left;margin:5px 5px 5px 5px "><img src="<?= Html::encode($mer_details['mer_image2'])?>" alt="没啥说的" height="71" width="88"></li>
-							                            <li id="first" style="float:left;margin:5px 5px 5px 5px "><img src="<?= Html::encode($mer_details['mer_image3'])?>" alt="没啥说的" height="71" width="88"></li>
-							                            
-							                        </ul>
-						
-                    </div>
-                </div>
+            <div style="float:left">
+               
+                <div id="tsShopContainer">
+	<div id="tsImgS">
+	<a href="<?= Html::encode($mer_details['mer_logo'])?>" title="Images" class="MagicZoom" id="MagicZoom"><img width="300" height="300" src="<?= Html::encode($mer_details['mer_logo'])?>" /></a></div>
+	<div id="tsPicContainer">
+		<div id="tsImgSArrL" onclick="tsScrollArrLeft()"></div>
+		<div id="tsImgSCon">
+			<ul>
+				<li onclick="showPic(0)" rel="MagicZoom" class="tsSelectImg"><img height="42" width="42" src="<?= Html::encode($mer_details['mer_logo'])?>" tsImgS="<?= Html::encode($mer_details['mer_logo'])?>" /></li>
+
+				<li onclick="showPic(1)" rel="MagicZoom"><img height="42" width="42" src="<?= Html::encode($mer_details['mer_image1'])?>" tsImgS="<?= Html::encode($mer_details['mer_image1'])?>" /></li>
+				<li onclick="showPic(2)" rel="MagicZoom"><img height="42" width="42" src="<?= Html::encode($mer_details['mer_image2'])?>" tsImgS="<?= Html::encode($mer_details['mer_image2'])?>" /></li>
+				<li onclick="showPic(3)" rel="MagicZoom"><img height="42" width="42" src="<?= Html::encode($mer_details['mer_image3'])?>" tsImgS="<?= Html::encode($mer_details['mer_image3'])?>" /></li>
+				
+			</ul>
+		</div>
+		<div id="tsImgSArrR" onclick="tsScrollArrRight()"></div>
+	</div>
+	<img class="MagicZoomLoading" width="16" height="16" src="/public/images/loading.gif" alt="Loading..." />
+</div>
             </div>
 
                 <div class="t_le t_sdtext" style="margin-left:70px">
@@ -226,6 +228,8 @@ $this->title = '优质商家';
     </div>
     </div>
 </div>
+<script src="/public/js/MagicZoom.js" type="text/javascript"></script>
+<script src="/public/js/ShopShow.js"></script>
 <script>
 $(document).ready(function(){
 	// 百度地图API功能
@@ -258,5 +262,8 @@ $(document).ready(function(){
     });
     localSearch.search(keyword);
 
-}); 
+});
+
+/*放大镜*/
+
 </script>
