@@ -62,7 +62,7 @@ class PayOrder extends \yii\db\ActiveRecord
          //查询
     public static function sn($order_sn)
     {
-        return $this -> find()
+        return self::find()
                      -> where(['=','order_sn',$order_sn])
                      -> one();
     }
