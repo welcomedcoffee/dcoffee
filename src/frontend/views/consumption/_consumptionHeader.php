@@ -13,6 +13,7 @@ $base = $merchant->getMerchant($user_id);
 <ul>
 <li><a href="<?= Url::to(['consumption/order'])?>" class="co">我的订单</a></li>
 <li><a href="<?= Url::to(['consumption/comment'])?>">订单评论</a></li>
+<li><a href="<?= Url::to(['consumption/preferential'])?>">优惠活动</a></li>
 <h2>个人设置</h2>
 <li><a href="<?= Url::to(['consumption/basedata'])?>">基本资料</a></li>
 <li><a href="<?= Url::to(['consumption/security'])?>">账户安全</a></li>

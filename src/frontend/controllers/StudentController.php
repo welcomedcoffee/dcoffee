@@ -13,6 +13,7 @@ use backend\models\student\Region;
 use backend\models\student\Skills;
 use backend\models\student\Code;
 use backend\models\student\PayOrder;
+use backend\models\student\Payment;
 use common\components\Get;
 
 class StudentController extends BaseController
@@ -226,7 +227,18 @@ class StudentController extends BaseController
     //我的余额
     public function actionBalance()
     {
-        return $this->render('balance');
+        //获取用户id
+        //$session = Yii::$app->session;
+        //$user_id = $session->get('user_id');
+        $user_id = 1;
+        $Students = new Students;
+        $student = $Students -> HeaderInfo($user_id);
+        $Payment = new Payment;
+        $PayList = $Payment -> PayList($user_id);
+        return $this->render('balance',[
+            'student' => $student,
+            'paylist' => $PayList
+        ]);
     }
     /**
      *  支付
