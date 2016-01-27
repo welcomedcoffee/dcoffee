@@ -218,15 +218,13 @@ var_dump($alipay_config);
 			//交易状态
 			$trade_status = $_GET['trade_status'];
 
-			//file_put_contents('aaaa.php',"a".$out_trade_no."b".$trade_no."c".$trade_status);
-			//更改订单状态 
-			$orders = new PayOrder;
-            $order = $orders->sn($out_trade_no);
+			//更改订单状态
+            $orders = PayOrder::sn($out_trade_no);
             $orders->order_status = '4';
             $orders->order_pay_time = time();
             $orders->save();
-            $user_id  = $order['user_id'];
-            $coin = $order['order_price'];
+            $user_id  = $orders->user_id;
+            $coin = $orders->order_price;
             //判断购买的类型
 			//if ($order->type=='course') {
             	$students = new Students;
@@ -275,8 +273,7 @@ var_dump($alipay_config);
 			//——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		}
-		else {
+		}else{
 		    //验证失败
 		    //如要调试，请看alipay_notify.php页面的verifyReturn函数
 		    echo "验证失败";
