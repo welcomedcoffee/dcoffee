@@ -53,8 +53,15 @@ class MerBase extends ActiveRecord
      */
     public function getDetail($mer_id)
     {
-        return  MerBase::find()
-                    ->where("mer_id=$mer_id")
-                    ->asArray()->one();
+        $mer_details =  MerBase::find()
+                        ->where("mer_id=$mer_id")
+                        ->asArray()->one();
+        unset($mer_details['mer_paypassword']);
+        unset($mer_details['mer_position']);
+        unset($mer_details['mer_positive']);
+        unset($mer_details['mer_reverse']);
+        unset($mer_details['register_time']);
+        unset($mer_details['mer_ allow']);
+        return $mer_details;            
     }
 }

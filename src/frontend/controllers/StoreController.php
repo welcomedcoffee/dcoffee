@@ -22,25 +22,28 @@ class StoreController extends BaseController
 	/* 门店首页 */
     public function actionIndex()
     {
-		$model   = new MerchantBase();
-		$session = Yii::$app->session;
+		$model     = new MerchantBase();
+		$session   = Yii::$app->session;
 		$session ->open();
-		$mer_id  = $session -> get('user_id') ? $session->get('user_id'):1;
+		$mer_id    = $session -> get('user_id') ? $session->get('user_id'):1;
 
-		$model   = $model->findOne($mer_id);
+		$model     = $model->findOne($mer_id);
 		//获取分类
-		$MerType = new MerType();
-		$type    = $MerType -> getType();
+		$MerType   = new MerType();
+		$type      = $MerType -> getType();
 		$childtype = $MerType -> getChildType($model->ind_type);
 
-    	/* 查询省份 */
-		$region   = new FinRegion();
-		$province = $region->getProvince();
+		/* 查询省份 */
+		$region    = new FinRegion();
+		$province  = $region->getProvince();
 		//print_r($model);die;
 		//print_r($model->mer_province);die;
-		$citys    = $region->getRegion($model->mer_province);
+		$citys     = $region->getRegion($model->mer_province);
 		//print_r($citys);die;
-		$areas    = $region->getRegion($model->mer_city);
+		$areas     = $region->getRegion($model->mer_city);
+
+		//是否被修改
+		$is_update = Yii::$app->request->get("re");
         return $this->render('index',[
 										'model'    =>$model,
 										'province' =>$province,
@@ -48,6 +51,7 @@ class StoreController extends BaseController
 										'areas'    =>$areas,
 										'type'     =>$type,
 										'childtype'=>$childtype,
+										'is_update'=>$is_update
                                     ]);
     }
 
