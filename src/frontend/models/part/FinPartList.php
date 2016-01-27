@@ -116,4 +116,16 @@ class FinPartList extends \yii\db\ActiveRecord
             ->asArray()
             ->all();
     }
+
+    /**
+     * 查询对应的兼职ID和用户ID的用户审核状态
+     */
+    public function reviewStatus($job_id,$user_id,$status)
+    {
+        $model = self::find()
+                ->where(['job_id'=>$job_id,'user_id'=>$user_id])
+                ->one();
+        $model->part_status = $status;
+        return $model->save();
+    }
 }

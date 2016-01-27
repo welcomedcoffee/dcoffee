@@ -48,7 +48,15 @@ $this->title = "报名人员";
 </style>
 <script type="text/javascript">
     //弹出隐藏层
-    function ShowDiv(show_div,bg_div,id){
+    function ShowDiv(show_div,bg_div,user_id){
+        $.ajax({
+            type: "GET",
+            url: "<?= Url::to(['mystore/usermessage'])?>",
+            data: "name=John&location=Boston",
+            success: function(msg){
+                alert( "Data Saved: " + msg );
+            }
+        });
         document.getElementById(show_div).style.display='block';
         document.getElementById(bg_div).style.display='block' ;
         var bgdiv = document.getElementById(bg_div);
@@ -174,13 +182,13 @@ $this->title = "报名人员";
                             <td><?= $v['stu_height'];?>CM</td>
                             <td><?= $v['stu_school'];?></td>
                             <td>
-                                <a href="javascript:void(0)" onclick="ShowDiv('MyDiv','fade',<?= $v['stu_id']?>)">查看</a> | <a href="<?= Url::to(['mystore/settlement'])?>">通过</a> | <a href="<?= Url::to(['mystore/settlement'])?>">不通过</a>
+                                <a href="javascript:void(0)" onclick="ShowDiv('MyDiv','fade',<?= $v['stu_id']?>)">查看</a> | <a href="<?= Url::to(['mystore/approved','job_id'=>$job_id,'user_id'=>$v['stu_id'],'status'=>'1'])?>">通过</a> | <a href="<?= Url::to(['mystore/approved','job_id'=>$job_id,'user_id'=>$v['stu_id'],'status'=>'2'])?>">不通过</a>
                             </td>
                         </tr>
                     <?php } ?>
                     </tbody>
                 </table>
-                <div id="kkpager"></div>
+                    <div id="kkpager"></div>
             </div>
         </div>
     </div>

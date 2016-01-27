@@ -95,7 +95,7 @@
                         <th>报名人数</th>
                         <th>通过人数 </th>
                         <th>状态 </th>
-                        <th>操作 </th>
+                        <th style="width: 300px;;">操作 </th>
                     </tr>
                     </thead>
                     <tbody id="parttimedate">
@@ -117,7 +117,7 @@
                                         已结束
                                     <?php } ?>
                                 </td>
-                                <td><a href="javascript:void(0)" class="stop_apply" val="<?= $v['job_id'];?>">截止报名</a> | <a href="<?= Url::to(['mystore/settlement','job_id'=>$v['job_id']])?>">结算</a></td>
+                                <td><a href="javascript:void(0)" class="stop_apply" val="<?= $v['job_id'];?>">截止报名</a> | <a href="<?= Url::to(['mystore/settlement','job_id'=>$v['job_id']])?>">结算</a> | <a href="<?= Url::to(['mystore/settlement','job_id'=>$v['job_id']])?>">详情</a></td>
                             </tr>
                         <?php } ?>
                     </tbody>

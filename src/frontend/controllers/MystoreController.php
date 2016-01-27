@@ -16,6 +16,7 @@ use app\models\part\FinPartList;
 use app\models\user\User;
 use app\models\students\Students;
 use app\models\part\FinMerchantBase;
+use frontend\models\consumption\Comment;
 
 /**
  *  我的门店首页
@@ -274,6 +275,52 @@ class MystoreController extends BaseController
         }
 
     }
+
+    /**
+     * @return string
+     * 审核通过
+     */
+    public function actionApproved()
+    {
+        $user_id = Yii::$app->request->get("user_id");
+        $job_id = Yii::$app->request->get("job_id");
+        $status = Yii::$app->request->get("status");
+        $model = new FinPartList();
+        /* 1 为审核通过 2 为审核未通过 */
+        if($status == 1)
+        {
+            $re = $model->reviewStatus($job_id,$user_id,1);
+        }
+        else
+        {
+            $re = $model->reviewStatus($job_id,$user_id,2);
+        }
+        if($re)
+        {
+            $this->success('审核成功！', ['mystore/partlist']);
+        }
+        else
+        {
+            $this->error("审核失败");
+        }
+
+    }
+
+    /**
+     * @return string
+     * 获取用户详细信息
+     */
+    public function actionUsermessage()
+        {
+            $user_id = Yii::$app->request->get("user_id");
+            /* 获取用户详细信息 */
+            $student = new Students();
+            $usermessage = $student->getStudent($user_id);
+
+            /* 获取商家对用户兼职的详细记录 */
+            $part = new Comment();
+            $partrecord = $part->
+        }
 
     /* 兼职评论 */
     public function actionPartcomment()
