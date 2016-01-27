@@ -9,6 +9,7 @@ use frontend\models\consumption\GoodsOrder;
 use frontend\models\consumption\Bill;
 use frontend\models\consumption\Payment;
 use common\components\CreateExcel;
+use frontend\models\consumption\Preferential;
 use yii\data\Pagination;
 /**
  * 消费商家
@@ -49,6 +50,40 @@ class ConsumptionController extends BaseController
 		//print_r($orderlist);die;
         return $this->render('index',['data'=>$base,'order'=>$goodsOrder,'pagination' => $pagination,'orderlist'=>$orderlist]);
     }
+	//优惠活动
+	public function actionPreferential()
+	{
+		$user_id = 1;
+		$preferential = new Preferential;
+		$list = $preferential->find()
+							->where(['merchant_id'=>$user_id])
+							->orderBy('addtime desc')
+							->all();
+		if(!empty($list)){
+			foreach($list as $k=>$v){
+				if($v->preferential_type == 1){
+					$v->preferential_content = explode(',',$v->preferential_content);
+				}
+			}
+		}
+		return $this->render('preferential',['list'=>$list,'preferential'=>$preferential]);
+	}
+	//添加优惠活动
+	public function actionSavepreferential()
+	{
+		$data = Yii::$app->request->post('Preferential');
+		$data['merchant_id'] = 1;
+		$data['preferential_start']  = strtotime($data['preferential_start']);
+		$data['preferential_end']  = strtotime($data['preferential_end']);
+		$data['addtime'] = time();
+		$preferential = new Preferential;
+		$preferential -> attributes = $data;
+		if($preferential->save()){
+			$this->redirect(['consumption/preferential']);
+		}else{
+			$this->error('对不起,您添加的活动失败了！！', ['consumption/preferential']);
+		}
+	}
 	//充值页面
 	public function actionChong()
 	{
