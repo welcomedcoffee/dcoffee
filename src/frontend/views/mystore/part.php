@@ -3,24 +3,17 @@
     use yii\helpers\Html;
     use yii\widgets\ActiveForm;
     $this->title = "发布兼职";
-?>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <title>趣淘学</title>
-    <link rel="stylesheet" href="public/css/comm.css" />
-    <link rel="stylesheet" href="public/css/shop.css" />
-    <link rel="stylesheet" href="public/css/sty.css" />
-    <link rel="stylesheet" href="public/css/skin_v2.css" />
-    <link rel="stylesheet" href="public/css/publish.css" />
+
+?>
+<link rel="stylesheet" href="/public/css/publish.css">
+<link rel="stylesheet" href="/public/css/skin_v2.css">
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZT4wsbKvt0nB8pvbGAREQisb"></script>
     <style type="text/css">
         #l-map{height:300px;width:100%;}
         #r-result{width:100%;}
     </style>
-</head>
-<body>
+
 <!--head-->
 <!--head end-->
 <!--t_nav-->
@@ -217,11 +210,9 @@
 
 </style>
 
-</body>
-</html>
 
 
-<?= Html::jsFile('public/date/My97DatePicker/WdatePicker.js')?>
+<?php $this->registerJsFile('/public/date/My97DatePicker/WdatePicker.js');?>
 <script>
     $(".province").click(function(){
         var region_id = $(this).val();
