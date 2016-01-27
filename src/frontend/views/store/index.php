@@ -78,7 +78,7 @@ span {
 			<div class="mt_rli">
 				<div class="right">
 					<div class="tittle">
-						<span>企业信息</span> <span class="wenxinart">您好，修改资料任意资料都要重新审核，建议您不要频繁修改，以免给您带来不便。</span>
+						<span>企业信息</span> <span class="wenxinart" style="color:red">您好，修改资料任意资料都要重新审核，建议您不要频繁修改，以免给您带来不便。</span>
 					</div>
 					<!-- <form class="form" method="post" action="<?php echo Url::to(['store/update'])?>"> -->
 					<?php
@@ -337,7 +337,9 @@ span {
 			</div>
 		</div>
 	</div>
-<div class="qpzz" style="display:none;">
+<div class="qpzz" style="display:<?php if ($is_update==1) {
+	echo '';
+}else{echo 'none';} ?>;">
    <div class="tip_box">
     <h3>温馨提示</h3>
     <img src="/public/images/cross27.png" style="width:25px;height:25px;float: right;position: relative;top:-35px;left:-5px;">
@@ -453,5 +455,17 @@ span {
   		 }
   });
 
+    $('#studetail').click(function() {
+    		$('.qpzz').hide('slow/400/fast');
+    });
+
+    $('#btnSave').click(function() {
+    	if (confirm("修改信息后需要重新审核！您确定要修改吗?")) {
+    		return true
+    	}else{
+    		return false
+    	}
+
+    });
 
 </script>
