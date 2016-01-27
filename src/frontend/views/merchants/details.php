@@ -19,19 +19,6 @@ $this->title = '优质商家';
     .btnContent{
 					margin:50px 0 120px 0;
 				}
-	.active{
-		border:1px solid #DDDDDD;
-		width:200px;
-		height:45px;
-		background-color:#FF9900;
-		text-align:center;
-		line-height:45px;
-		font-size:18px;
-		font-family:bold;
-		color:#FFFFFF;
-		border-radius:4px;
-		float:left;
-	}
 	.btnContent ul li{
 		border:1px solid #DDDDDD;
 		width:200px;
@@ -176,54 +163,42 @@ $this->title = '优质商家';
             </h1>
             <div>
                 <ul id="commentDemo" style="margin:0 0 0 30px;">
+				<?php foreach ($comments as $key => $comment) {?>
 					<li>
 						 <div style="float:left;margin-right:50px;">
 							<div>
-								<img src="/public/images/u55.png" alt="">
+								<img src="<?= Html::encode($comment['img']['stu_avatar'])?>" alt="">
 							</div>
-							<div style="color:red;text-align:center;">呆萌的洒家</div>
+							<div style="color:red;text-align:center;"><?= Html::encode($comment['img']['stu_name'])?></div>
 						</div> 
 						<div>
 						<p>
 							<span style="float:left">
-								<img src="public/images/u57.png" alt="">
+								<img src="/public/images/u57.png" alt="">
 							</span>
 							&nbsp;&nbsp;
-							<span style="font-size:16px;panding-buttom:10px">2016-1-25</span>&nbsp;&nbsp;
-							<span style=";font-size:16px;panding-buttom:10px;margin-left:300px;color:#FF6600;">人均：￥20</span>
+							<span style="font-size:16px;panding-buttom:10px"><?php $time = date('Y-m-d',$comment['comment_addtime']);echo $time;?></span>&nbsp;&nbsp;
+							<span style=";font-size:16px;panding-buttom:10px;margin-left:300px;color:#FF6600;">人均：￥<?= Html::encode($comment['comment_price'])?></span>
 						</p>
 						
-						<p style="font-size:16px;margin:40px 0 0 0">非常好,服务相当不错，用淘学金优惠很大，很方便，下次继续来……</p>
+						<p style="font-size:16px;margin:40px 0 0 0"><?= Html::encode($comment['comment_content'])?></p>
 						</div>
 					</li>
 					<hr style="clear:both">
-					<li>
-						 <div style="float:left;margin-right:50px;">
-							<div>
-								<img src="/public/images/u55.png" alt="">
-							</div>
-							<div style="color:red;text-align:center;">呆萌的洒家</div>
-						</div> 
-						<div>
-						<p>
-							<span style="float:left">
-								<img src="public/images/u57.png" alt="">
-							</span>
-							&nbsp;&nbsp;
-							<span style="font-size:16px;panding-buttom:10px">2016-1-25</span>&nbsp;&nbsp;
-							<span style=";font-size:16px;panding-buttom:10px;margin-left:300px;color:#FF6600;">人均：￥20</span>
-						</p>
-						
-						<p style="font-size:16px;margin:40px 0 0 0">非常好,服务相当不错，用淘学金优惠很大，很方便，下次继续来……</p>
-						</div>
-					</li>
-					<hr style="clear:both">
+				<?php }?>
 					</ul>
                 <div class="clear"></div>
                 <!--页码-->
-                <div class="tcdPageCode"><span class="disabled">上一页</span><span class="disabled">下一页</span></div>
             </div>
        </div>
+       <div class="tcdPageCode">
+        	<?php echo LinkPager::widget([
+            'pagination' =>$pages,
+            'prevPageLabel'=>'上一页',
+            'nextPageLabel'=>'下一页',
+            
+        ]);?>
+        </div>
 	</div>
     </div>
     </div>
