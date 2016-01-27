@@ -8,35 +8,60 @@
 use yii\helpers\Url;
 $this->title = "报名人员";
 ?>
-<link rel="stylesheet" href="/public/css/styles.css" type="text/css">
-<script type="text/javascript" src="/public/js/tipswindown.js"></script>
+<style>
+    .black_overlay{
+        display: none;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        z-index:1001;
+        -moz-opacity: 0.8;
+        opacity:.80;
+        filter: alpha(opacity=80);
+    }
+    .white_content {
+        display: none;
+        position: absolute;
+        top: 10%;
+        left: 30%;
+        width: 40%;
+        height: 80%;
+        background-color: white;
+        z-index:1002;
+        overflow: auto;
+    }
+    .white_content_small {
+        display: none;
+        position: absolute;
+        top: 20%;
+        left: 30%;
+        width: 40%;
+        height: 50%;
+        border: 16px solid lightblue;
+        background-color: white;
+        z-index:1002;
+        overflow: auto;
+    }
+</style>
 <script type="text/javascript">
-    /*
-     *弹出本页指定ID的内容于窗口
-     *id 指定的元素的id
-     *title:	window弹出窗的标题
-     *width:	窗口的宽,height:窗口的高
-     */
-    function showTipsWindown(title,id,width,height){
-        tipsWindown(title,"id:"+id,width,height,"true","","true",id);
-    }
-    function confirmTerm(s) {
-        parent.closeWindown();
-        if(s == 1) {
-            parent.document.getElementById("isread").checked = true;
-        }
-    }
-    //弹出层调用
-    function popTips(){
-        showTipsWindown("客服中心", 'simTestContent', 620, 450);
-        $("#isread").attr("checked", false);
-    }
-    $(document).ready(function(){
-
-        $("#isread").click(popTips);
-        $("#isread-text").click(popTips);
-
-    });
+    //弹出隐藏层
+    function ShowDiv(show_div,bg_div,id){
+        document.getElementById(show_div).style.display='block';
+        document.getElementById(bg_div).style.display='block' ;
+        var bgdiv = document.getElementById(bg_div);
+        bgdiv.style.width = document.body.scrollWidth;
+// bgdiv.style.height = $(document).height();
+        $("#"+bg_div).height($(document).height());
+    };
+    //关闭弹出层
+    function CloseDiv(show_div,bg_div)
+    {
+        document.getElementById(show_div).style.display='none';
+        document.getElementById(bg_div).style.display='none';
+    };
 </script>
 <div class="t_min t_tit">当前位置：<a href="/">首页</a> > 我的门店</div>
 <!--我的趣淘学-->
@@ -129,7 +154,7 @@ $this->title = "报名人员";
                         <td>123</td>
                         <td>123</td>
                         <td>
-                            <div class="kf_qq_r"><a href="javascript:void(0)" id="isread-text">查看</a></div> | <a href="<?= Url::to(['mystore/settlement'])?>">通过</a> | <a href="<?= Url::to(['mystore/settlement'])?>">不通过</a>
+                            <a href="javascript:void(0)" onclick="ShowDiv('MyDiv','fade','5')">查看</a> | <a href="<?= Url::to(['mystore/settlement'])?>">通过</a> | <a href="<?= Url::to(['mystore/settlement'])?>">不通过</a>
                         </td>
                     </tr>
                     <?php foreach($array as $k=>$v){ ?>
@@ -149,7 +174,7 @@ $this->title = "报名人员";
                             <td><?= $v['stu_height'];?>CM</td>
                             <td><?= $v['stu_school'];?></td>
                             <td>
-                                <a href="javascript:void(0)" class="kf_qq_r">查看</a> | <a href="<?= Url::to(['mystore/settlement'])?>">通过</a> | <a href="<?= Url::to(['mystore/settlement'])?>">不通过</a>
+                                <a href="javascript:void(0)" onclick="ShowDiv('MyDiv','fade',<?= $v['stu_id']?>)">查看</a> | <a href="<?= Url::to(['mystore/settlement'])?>">通过</a> | <a href="<?= Url::to(['mystore/settlement'])?>">不通过</a>
                             </td>
                         </tr>
                     <?php } ?>
@@ -160,123 +185,106 @@ $this->title = "报名人员";
         </div>
     </div>
 </div>
-<div style="display:none;">
-    <div id="simTestContent" class="simScrollCont">
-        <div class="mainlist">
-            <div class="kf_qq_li">
-                <div class="kf_qq_li_left kf_qq_li_1">
-                </div>
-                <div class="kf_qq_li_right">
-                    <div class="kf_r_t">
-                        <span>企业QQ：</span><a class="qyqq" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=123456&site=qq&menu=yes">在线咨询</a><span style="padding-left:19px;">400电话：4000-0000-00</span></div>
-                    <div class="kf_r_d">
-                        企业QQ与400电话采用集中调度，多人值班，受理所有业务</div>
-                </div>
-            </div>
-            <div class="kf_qq_li">
-                <div class="kf_qq_li_left kf_qq_li_2">
-                </div>
-                <div class="kf_qq_li_right">
-                    <div class="kf_qq_c">
-                        <ul>
-                            <li>
-                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=123456&site=qq&menu=yes">
-                                    售前咨询-峰</a></li>
-                            <li>
-                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=123456&site=qq&menu=yes">
-                                    售前咨询-汉</a></li>
-                            <li>
-                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=123456&site=qq&menu=yes">
-                                    售前咨询-玲</a></li>
-                            <li>
-                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=123456&site=qq&menu=yes">
-                                    售前咨询-量</a></li>
-                            <li>
-                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=12345633&site=qq&menu=yes">
-                                    售前咨询-霞</a></li>
-                            <li>
-                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=12345634&site=qq&menu=yes">
-                                    售前咨询-丽</a></li>
-                            <li>
-                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=12345638&site=qq&menu=yes">
-                                    售前咨询-乔</a></li>
-                            <li>
-                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=12345632&site=qq&menu=yes">
-                                    售前咨询-娟</a></li>
-                        </ul>
-                    </div>
-                    <div class="kf_r_d">
-                        业务相关，请咨询售前客服。为避免丢失消息，请尽量添加好友</div>
-                </div>
-            </div>
-            <div class="kf_qq_li">
-                <div class="kf_qq_li_left kf_qq_li_3">
-                </div>
-                <div class="kf_qq_li_right">
-                    <div class="kf_qq_c">
-                        <ul>
-                            <li>
-                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=123456&site=qq&menu=yes">
-                                    售后技术-财</a></li>
-                            <li>
-                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=123456&site=qq&menu=yes">
-                                    售后技术-海</a></li>
-                            <li>
-                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=123456&site=qq&menu=yes">
-                                    售后技术-斌</a></li>
-                            <li>
-                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1123456&site=qq&menu=yes">
-                                    售后技术-明</a></li>
-                            <li>
-                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1123456&site=qq&menu=yes">
-                                    售后技术-军</a></li>
-                            <li>
-                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=123456&site=qq&menu=yes">
-                                    售后技术-森</a></li>
-                        </ul>
-                    </div>
-                    <div class="kf_r_d">
-                        售后问题处理，请咨询售后技术。为避免丢失消息，请尽量添加好友</div>
-                </div>
-            </div>
-            <div class="kf_qq_li" style="background:none;">
-                <div class="kf_qq_li_left kf_qq_li_4">
-                </div>
-                <div class="kf_qq_li_right">
-                    <div class="ke_qq_jl ke_qq_jl_l">
-                        <div class="jl_left">
-                            许经理：</div>
-                        <div class="jl_right">
-                            <div class="jl_call">
-                                138-0000-0000</div>
-                            <div class="jl_qq">
-                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=12345635&site=qq&menu=yes">
-                                    投诉建议</a></div>
-                        </div>
-                        <div class="jl_left" style="padding-top:5px;">
-                            张经理：</div>
-                        <div class="jl_right" style="padding-top:5px;">
-                            <div class="jl_call">
-                                138-0000-0000</div>
-                        </div>
-                    </div>
-                    <div class="ke_qq_jl">
-                        <div class="jl_left">
-                            张经理：</div>
-                        <div class="jl_right">
-                            <div class="jl_call">
-                                138-0000-0000
-                            </div>
-                            <div class="jl_qq">
-                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=123456&site=qq&menu=yes">
-                                    商务合作</a>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div style="clear:both"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+<!--弹出层时背景层DIV-->
+<div id="fade" class="black_overlay">
 </div>
+<div id="MyDiv" class="white_content">
+    <div >
+        <span id="persons" style="font-size: 20px;padding-left: 20px;color: red;">个人详细记录</span>
+        <span id="parts" style="font-size: 20px;padding-left: 20px">兼职详细记录</span>
+        <span style="font-size: 30px;padding-left:200px;" onclick="CloseDiv('MyDiv','fade')">☒</span>
+    </div>
+    <table id="person" cellpadding="0" cellspacing="0" style="margin-top: 30px;margin-left: 20px;font-size: 16px;display: block">
+        <tr>
+            <td style="width: 120px">昵称</td>
+            <td style="width: 800px;padding-left: 20px">呆萌的洒家</td>
+        </tr>
+        <tr bgcolor="#dafff3">
+            <td style="width: 120px">真实姓名</td>
+            <td style="padding-left: 20px">帐篷</td>
+        </tr>
+        <tr>
+            <td style="width: 120px">昵称</td>
+            <td style="width: 800px;padding-left: 20px">呆萌的洒家</td>
+        </tr>
+        <tr bgcolor="#dafff3">
+            <td style="width: 120px">真实姓名</td>
+            <td style="padding-left: 20px">帐篷</td>
+        </tr>
+        <tr>
+            <td style="width: 120px">性别</td>
+            <td style="width: 800px;padding-left: 20px">男</td>
+        </tr>
+        <tr bgcolor="#dafff3">
+            <td style="width: 120px">身高</td>
+            <td style="padding-left: 20px">180cm</td>
+        </tr>
+        <tr>
+            <td style="width: 120px">学校</td>
+            <td style="width: 800px;padding-left: 20px">北京地质大学</td>
+        </tr>
+        <tr bgcolor="#dafff3">
+            <td style="width: 120px">专业</td>
+            <td style="padding-left: 20px">环境与市政工程</td>
+        </tr>
+        <tr>
+            <td style="width: 120px">地址</td>
+            <td style="width: 800px;padding-left: 20px">北京海淀区地质大学6号楼1120室</td>
+        </tr>
+        <tr bgcolor="#dafff3">
+            <td style="width: 120px">技能</td>
+            <td style="padding-left: 20px">推广/注册</td>
+        </tr>
+        <tr>
+            <td style="width: 120px">可调工作</td>
+            <td style="width: 800px;padding-left: 20px">店员/服务生</td>
+        </tr>
+        <tr bgcolor="#dafff3">
+            <td style="width: 120px">自我简介</td>
+            <td style="padding-left: 20px">本人家传绝技，胸口碎大石。</td>
+        </tr>
+        <tr>
+            <td style="width: 120px">工作经验</td>
+            <td style="width: 800px;padding-left: 20px">好多兼职都干过</td>
+        </tr>
+        <tr bgcolor="#dafff3">
+            <td style="width: 120px">申请理由</td>
+            <td style="padding-left: 20px">好多兼职都干过</td>
+        </tr>
+    </table>
+    <table class="date" cellpadding="0" cellspacing="0" id="part" style="display: none">
+        <thead style="background: #E5E5E4;">
+        <tr>
+            <th>职位</th>
+            <th>商家名称 </th>
+            <th>评分</th>
+            <th>评论内容</th>
+        </tr>
+        </thead>
+        <tbody id="parttimedate">
+        <tr>
+            <td>APP推广员</td>
+            <td>北京优势梦想有限公司</td>
+            <td>5</td>
+            <td>不错，工作认真</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    /* 显示个人详细记录 */
+    $("#persons").click(function(){
+        $("#part").css("display","none");
+        $("#person").css("display","block");
+        $("#parts").css("color","");
+        $("#persons").css("color","red");
+    })
+
+    /* 显示兼职详细记录 */
+    $("#parts").click(function(){
+        $("#person").css("display","none");
+        $("#part").css("display","block");
+        $("#persons").css("color","");
+        $("#parts").css("color","red");
+    })
+</script>
