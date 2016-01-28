@@ -316,10 +316,29 @@ class MystoreController extends BaseController
             /* 获取用户详细信息 */
             $student = new Students();
             $usermessage = $student->getStudent($user_id);
-
+            //var_dump($usermessage);die;
             /* 获取商家对用户兼职的详细记录 */
             $part = new Comment();
-            $partrecord = $part->
+            $partrecord = $part->getshopcomment($user_id,10);
+            //var_dump($partrecord);die;
+            /* 判断用户是否存在 */
+            if(!empty($usermessage)) {
+                $data = '<div id="MyDiv" class="white_content"><div ><span id="persons" style="font-size: 20px;padding-left: 20px;color: red;">个人详细记录</span><span id="parts" style="font-size: 20px;padding-left: 20px">兼职详细记录</span><span style="font-size: 30px;padding-left:200px;" onclick="CloseDiv(\'MyDiv\',\'fade\')"></span></div><table id="person" cellpadding="0" cellspacing="0" style="margin-top: 30px;margin-left: 20px;font-size: 16px;display: block"><tr><td style="width: 120px">昵称</td><td style="width: 800px;padding-left: 20px">' . $student['stu_nickname'] . '</td></tr><tr bgcolor="#dafff3"><td style="width: 120px">真实姓名</td><td style="padding-left: 20px">' . $student['stu_name'] . '</td></tr><tr><td style="width: 120px">性别</td>
+            <td style="width: 800px;padding-left: 20px">';
+                $data .= '</td></tr><tr bgcolor="#dafff3"><td style="width: 120px">身高</td><td style="padding-left: 20px">' . $student['stu_height'] . 'cm</td></tr><tr><td style="width: 120px">学校</td><td style="width: 800px;padding-left: 20px">' . $student['stu_school'] . '</td></tr><tr bgcolor="#dafff3"><td style="width: 120px">专业</td><td style="padding-left: 20px">' . $student['stu_professional'] . '</td></tr><tr><td style="width: 120px">地址</td><td style="width: 800px;padding-left: 20px">' . $student['stu_professional'] . '</td></tr><tr bgcolor="#dafff3"><td style="width: 120px">技能</td><td style="padding-left: 20px">';
+
+
+                $data .= '</td></tr><tr bgcolor="#dafff3"><td style="width: 120px">自我简介</td><td style="padding-left: 20px">' . $student['stu_introduction'] . '</td></tr><tr><td style="width: 120px">工作经验</td><td style="width: 800px;padding-left: 20px">' . $student['stu_experience'] . '</td></tr><tr bgcolor="#dafff3"><td style="width: 120px">申请理由</td><td style="padding-left: 20px">';
+
+
+                $data .= '</td></tr></table><table class="date" cellpadding="0" cellspacing="0" id="part" style="display: none"><thead style="background: #E5E5E4;"><tr><th>职位</th><th>商家名称 </th><th>评分</th><th>评论内容</th></tr></thead><tbody id="parttimedate">';
+
+                /* 循环用户兼职的详细信息 */
+
+                $data .= '</tbody></table></div>';
+
+                echo $data;
+            }
         }
 
     /* 兼职评论 */
