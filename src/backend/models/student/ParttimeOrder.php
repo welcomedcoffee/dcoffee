@@ -53,6 +53,7 @@ class ParttimeOrder extends \yii\db\ActiveRecord
     public function Count($where)
     {
         return $this->find()
+                    -> innerjoin('`fin_job_details` on `fin_parttime_order`.`position_id` = `fin_job_details`.`job_id`')
                     ->where($where)
                     ->count();
     }

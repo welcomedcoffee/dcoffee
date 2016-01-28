@@ -160,4 +160,21 @@ class FinJobDetails extends \yii\db\ActiveRecord
         $parts['pages'] = $pages;
         return $parts;             
     }
+    /*
+     * @inheritdoc 兼职列表页
+     */
+    public function getPart()
+    {
+        $cond = '1=1 and job_status=1';
+        
+        $pages     = new Pagination([
+            'defaultPageSize'   => 5,
+            'totalCount'        => $this->find()->where($cond)->count(),
+        ]);
+        return FinJobDetails::find()
+                     ->where($cond)
+                     ->offset($pages->offset)
+                     ->limit($pages->limit)
+                     ->asArray()->all();           
+    }
 }

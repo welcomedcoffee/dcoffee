@@ -21,12 +21,37 @@ use backend\models\student\Students;
 use backend\models\student\GoodsOrder;
 use backend\models\student\ParttimeOrder;
 use app\models\part\FinPartType;
+use app\models\part\FinJobDetails;
 
 class StudentController extends BaseController
 {
     public function actionIndex()
     {
-        return $this->render('index');
+        //获取用户id
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
+        $where = ['=','user_id',$user_id];
+        $GoodsOrder = new GoodsOrder;
+        $paginations = new Pagination([
+            'defaultPageSize' => 5,
+            'totalCount' => $GoodsOrder -> Count($where),
+        ]);
+        $Gorder = $GoodsOrder -> Gorder($where,$paginations);
+        $ParttimeOrder = new ParttimeOrder;
+        $pagination = new Pagination([
+            'defaultPageSize' => 5,
+            'totalCount' => $ParttimeOrder -> Count($where),
+        ]);
+        $Porder = $ParttimeOrder -> Porder($where,$pagination);
+        $FinPartType = new FinPartType;
+        $type = $FinPartType -> partComment();
+        $FinJobDetails = new FinJobDetails;
+        $part = $FinJobDetails -> getPart();
+        return $this->render('index',[
+                            'gorder' => $Gorder,
+                            'porder' => $Porder,
+                            'type' => $type
+            ]);
     }
     //学生基本信息
     public function actionInfo()
@@ -163,28 +188,84 @@ class StudentController extends BaseController
         //获取用户id
         $session = Yii::$app->session->get('userinfo');
         $user_id = $session['user_id'];
+        $request = Yii::$app->request->post();
+        $search['search'] = '';
+        $search['type'] = '';
+        if ($request) {
+            if ($request['type'] == 'order_sn') {
+                if ($request['search']) {
+                    $where = ['and',['=','user_id',$user_id],['=','order_sn',$request['search']]];
+                    $search['search'] = $request['search'];
+                    $search['type'] = 'order_sn';
+                }else{
+                    $where = ['=','user_id',$user_id];
+                }
+            }elseif ($request['type'] == 'mer_name') {
+                if ($request['search']) {
+                    $where = ['and',['=','user_id',$user_id],['like','merchant_name',$request['search']]];
+                    $search['search'] = $request['search'];
+                    $search['type'] = 'mer_name';
+                }else{
+                    $where = ['=','user_id',$user_id];
+                }
+            }
+        }else{
+            $where = ['=','user_id',$user_id];
+        }
         $GoodsOrder = new GoodsOrder;
-        $where = ['=','user_id',$user_id];
         $pagination = new Pagination([
-            'defaultPageSize' => 2,
+            'defaultPageSize' => 10,
             'totalCount' => $GoodsOrder -> Count($where),
         ]);
         $Gorder = $GoodsOrder -> Gorder($where,$pagination);
         return $this->render('goodsorder',[
             'pagination' => $pagination,
             'gorder' => $Gorder,
+            'search' => $search
         ]);
     }
     //兼职订单
     public function actionPartorder()
     {
+
         //获取用户id
         $session = Yii::$app->session->get('userinfo');
         $user_id = $session['user_id'];
+        $request = Yii::$app->request->post();
+        $search['search'] = '';
+        $search['type'] = '';
+        if ($request) {
+            if ($request['type'] == 'order_sn') {
+                if ($request['search']) {
+                    $where = ['and',['=','user_id',$user_id],['=','order_sn',$request['search']]];
+                    $search['search'] = $request['search'];
+                    $search['type'] = 'order_sn';
+                }else{
+                    $where = ['=','user_id',$user_id];
+                }
+            }elseif ($request['type'] == 'mer_name') {
+                if ($request['search']) {
+                    $where = ['and',['=','user_id',$user_id],['like','mer_name',$request['search']]];
+                    $search['search'] = $request['search'];
+                    $search['type'] = 'mer_name';
+                }else{
+                    $where = ['=','user_id',$user_id];
+                }
+            }elseif ($request['type'] == 'job_name') {
+                if ($request['search']) {
+                    $where = ['and',['=','user_id',$user_id],['like','job_name',$request['search']]];
+                    $search['search'] = $request['search'];
+                    $search['type'] = 'job_name';
+                }else{
+                    $where = ['=','user_id',$user_id];
+                }
+            }
+        }else{
+            $where = ['=','user_id',$user_id];
+        }
         $ParttimeOrder = new ParttimeOrder;
-        $where = ['=','user_id',$user_id];
         $pagination = new Pagination([
-            'defaultPageSize' => 2,
+            'defaultPageSize' => 10,
             'totalCount' => $ParttimeOrder -> Count($where),
         ]);
         $Porder = $ParttimeOrder -> Porder($where,$pagination);
@@ -193,7 +274,8 @@ class StudentController extends BaseController
         return $this->render('partorder',[
             'pagination' => $pagination,
             'porder' => $Porder,
-            'type' => $type
+            'type' => $type,
+            'search' => $search
         ]);
     }
     //我的评论

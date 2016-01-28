@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
+use yii\widgets\ActiveForm;
 $this->title = '兼职订单';
 ?>
 <link rel="stylesheet" href="/public/css/pagecss.css">
@@ -23,10 +24,37 @@ $this->title = '兼职订单';
                     <div class="order">
                         <span style="font-size: 16px;">我的订单:</span>
                     </div>
+                    <?php $form = ActiveForm::begin([
+                        'action' => Url::to(['student/partorder']),
+                        'method'=>'post',
+                    ])?>
+                        <select name="type" style="width: 100px; height: 30px; margin-left: 0px;">
+                            <?php if ($search['type'] == 'order_sn') { ?>
+                                <option value="order_sn" selected="selected">订单号</option>
+                                <option value="mer_name">商家名称</option>
+                                <option value="job_name">职位</option>
+                            <?php }elseif ($search['type'] == 'mer_name') { ?>
+                                <option value="order_sn">订单号</option>
+                                <option value="mer_name" selected="selected">商家名称</option>
+                                <option value="job_name">职位</option>
+                            <?php }elseif ($search['type'] == 'job_name') { ?>
+                                <option value="order_sn">订单号</option>
+                                <option value="mer_name">商家名称</option>
+                                <option value="job_name" selected="selected">职位</option>
+                            <?php }else{ ?>
+                                <option value="order_sn">订单号</option>
+                                <option value="mer_name">商家名称</option>
+                                <option value="job_name">职位</option>
+                            <?php } ?>
+                        </select>
+                        <input type="text" name="search" style="height: 30px; margin-left: 10px; margin-right: 10px;" value="<?= Html::encode($search['search']) ?>">
+                        <input type="submit" value="搜索" style="background-color:#f97c0e;color: white;width: 60px;">
+                    <?php $form = ActiveForm::end()?>
                     <table class="two" cellpadding="0" cellspacing="0" width="960px">
                         <thead>
                             <tr style="background:#E5E5E4 ;border: 0;">
                                 <th>序号</th>
+                                <th>订单号</th>
                                 <th>职位</th>
                                 <th>类型</th>
                                 <th>商家名称</th>
@@ -41,6 +69,7 @@ $this->title = '兼职订单';
                             <?php if ($porder) { ?>
                             <?php foreach ($porder as $key => $value) { ?>
                                 <tr>
+                                    <td><?= Html::encode($value['order_id']) ?></td>
                                     <td><?= Html::encode($value['order_sn']) ?></td>
                                     <td><?= Html::encode($value['job_name']) ?></td>
                                     <td>
@@ -53,7 +82,17 @@ $this->title = '兼职订单';
                                     <td><?= Html::encode($value['mer_name']) ?></td>
                                     <td style="width: 200px;"><?= date('Y-m-d',Html::encode($value['work_start']))."至".date('Y-m-d',Html::encode($value['work_end'])) ?></td>
                                     <td><?= Html::encode($value['job_money']) ?></td>
-                                    <td><?= Html::encode($value['job_treatment']) ?></td>
+                                    <td>
+                                        <?php if ($value['pay_method'] == 1) { ?>
+                                            当天结算
+                                        <?php }elseif ($value['pay_method'] == 2) { ?>
+                                           周末结算
+                                        <?php }elseif ($value['pay_method'] == 3) { ?>
+                                            月末结算
+                                        <?php }elseif ($value['pay_method'] == 4) { ?>
+                                            完工结算
+                                        <?php } ?>
+                                    </td>
                                     <td>
                                         <?php if ($value['commission'] == 1) { ?>
                                             <span style="color:green">有</span>
@@ -69,6 +108,8 @@ $this->title = '兼职订单';
                                         <?php }else if ($value['order_status'] == 2) { ?>
                                             未通过
                                         <?php }else if ($value['order_status'] == 3) { ?>
+                                            成功
+                                        <?php }else if ($value['order_status'] == 4) { ?>
                                             成功
                                         <?php } ?>
                                     </td>
