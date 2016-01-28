@@ -137,7 +137,7 @@ class FinJobDetails extends \yii\db\ActiveRecord
     /*
      * @inheritdoc 兼职列表页
      */
-    public function getParts($keyword)
+    public function getParts($keyword='')
     {
         $cond = '1=1 and job_status=1';
         if($keyword['type']){
