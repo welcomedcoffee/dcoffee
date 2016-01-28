@@ -14,21 +14,24 @@ class Get {
 	public function get_oss($str){
 		require_once 'oss_php_sdk_20140625/sdk.class.php';
 		
-		
-		$id= Yii::$app->params['oss']['AccessKeyId'];
-		$key= Yii::$app->params['oss']['AccessKeySecret'];
-		$host = Yii::$app->params['oss']['Host'];
+		$config = Yii::$app->params['oss'];
+		$id   = $config['AccessKeyId'];
+		$key  = $config['AccessKeySecret'];
+		$host = $config['Host'];
+        $bindUrl = $config['BindUrl'];
 
 
 
 		$callback_body = '{"callbackUrl":"http://oss-demo.aliyuncs.com:23450","callbackHost":"oss-demo.aliyuncs.com","callbackBody":"filename=${object}&size=${size}&mimeType=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}","callbackBodyType":"application/x-www-form-urlencoded"}';
+
+        //$callback_body = '{"callbackUrl":"http://finance.coffeedou.com/oss.php","callbackHost":"finance.coffeedou.com","callbackBody":"filename=${object}&size=${size}&mimeType=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}","callbackBodyType":"application/x-www-form-urlencoded"}';
 
 
 		$base64_callback_body = base64_encode($callback_body);
 		
 		
 		$now = time();
-		$expire = 30; //设置该policy超时时间是10s. 即这个policy过了这个有效时间，将不能访问
+		$expire = 10; //设置该policy超时时间是10s. 即这个policy过了这个有效时间，将不能访问
 		$end = $now + $expire;
 		$expiration = $this -> gmt_iso8601($end);
 		
@@ -60,6 +63,7 @@ class Get {
 		$response['signature'] = $signature;
 		$response['expire'] = $end;
 		$response['callback'] = $base64_callback_body;
+        $response['bindUrl'] = $bindUrl;
 		//这个参数是设置用户上传指定的前缀
 		$response['dir'] = $dir;
 		echo json_encode($response);
