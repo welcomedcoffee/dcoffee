@@ -22,7 +22,7 @@ class Oss
         $config = Yii::$app->params['oss'];
         
         try {
-            $ossClient = new OssClient($config['access_id'], $config['access_key'], $config['endpoint'], $isCname);
+            $ossClient = new OssClient($config['AccessKeyId'], $config['AccessKeySecret'], $config['Endpoint'], $isCname);
         } catch (OssException $e) {
             self::$error  = $e->getMessage();
             return null;
