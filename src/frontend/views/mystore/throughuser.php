@@ -8,6 +8,69 @@
 use yii\helpers\Url;
 $this->title = "报名人员";
 ?>
+<style>
+    .black_overlay{
+        display: none;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        z-index:1001;
+        -moz-opacity: 0.8;
+        opacity:.80;
+        filter: alpha(opacity=80);
+    }
+    .white_content {
+        display: none;
+        position: absolute;
+        top: 10%;
+        left: 30%;
+        width: 40%;
+        height: 80%;
+        background-color: white;
+        z-index:1002;
+        overflow: auto;
+    }
+    .white_content_small {
+        display: none;
+        position: absolute;
+        top: 20%;
+        left: 30%;
+        width: 40%;
+        height: 50%;
+        border: 16px solid lightblue;
+        background-color: white;
+        z-index:1002;
+        overflow: auto;
+    }
+</style>
+<script type="text/javascript">
+    //弹出隐藏层
+    function ShowDiv(show_div,bg_div,user_id,job_id){
+        $.ajax({
+            type: "GET",
+            url: "<?= Url::to(['mystore/usermessage'])?>",
+            data: "user_id="+user_id+"&job_id="+job_id,
+            success: function(msg){
+                $("#MyDiv").html(msg);
+            }
+        });
+        document.getElementById(show_div).style.display='block';
+        document.getElementById(bg_div).style.display='block' ;
+        var bgdiv = document.getElementById(bg_div);
+        bgdiv.style.width = document.body.scrollWidth;
+// bgdiv.style.height = $(document).height();
+        $("#"+bg_div).height($(document).height());
+    };
+    //关闭弹出层
+    function CloseDiv(show_div,bg_div)
+    {
+        document.getElementById(show_div).style.display='none';
+        document.getElementById(bg_div).style.display='none';
+    };
+</script>
 <div class="t_min t_tit">当前位置：<a href="/">首页</a> > 我的门店</div>
 <!--我的趣淘学-->
 <div class="t_min">
@@ -91,6 +154,7 @@ $this->title = "报名人员";
                     </tr>
                     </thead>
                     <tbody id="parttimedate">
+
                     <?php foreach($array as $k=>$v){ ?>
                         <tr>
                             <td><input type="checkbox" name=""></td>
@@ -119,3 +183,26 @@ $this->title = "报名人员";
         </div>
     </div>
 </div>
+<!--弹出层时背景层DIV-->
+<div id="fade" class="black_overlay">
+</div>
+<div id="MyDiv" class="white_content">
+</div>
+<script>
+    /* 显示个人详细记录 */
+
+    $(document).on("click","#persons",function(){
+        $("#part").css("display","none");
+        $("#person").css("display","block");
+        $("#parts").css("color","");
+        $("#persons").css("color","red");
+    })
+
+    /* 显示兼职详细记录 */
+    $(document).on("click","#parts",function(){
+        $("#person").css("display","none");
+        $("#part").css("display","block");
+        $("#persons").css("color","");
+        $("#parts").css("color","red");
+    })
+</script>

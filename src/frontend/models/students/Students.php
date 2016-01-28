@@ -102,8 +102,10 @@ class Students extends \yii\db\ActiveRecord
     public function getStudent($user_id)
     {
         return self::find()
-                ->select("stu_nickname,stu_name,stu_sex,stu_height,stu_school")
-                ->where(['stu_id'=>$user_id])
+                ->select("student.stu_nickname,student.stu_name,student.stu_sex,student.stu_height,student.stu_school,GROUP_CONCAT(skill.skills_name SEPARATOR ' / ') AS skills_name")
+                ->from("fin_students as student")
+                ->leftJoin("fin_skills as skill","student.skills_id =skill.skills_id")
+                ->where(['student.stu_id'=>$user_id])
                 ->asArray()
                 ->one();
     }
@@ -116,6 +118,7 @@ class Students extends \yii\db\ActiveRecord
         return Students::find()
                     ->select('stu_id,stu_name,stu_avatar')
                     ->where(['stu_id'=>$user_id])
-                    ->asArray()->one();
+                    ->asArray()
+                    ->one();
     }
 }

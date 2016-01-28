@@ -36,7 +36,7 @@ class Comment extends ActiveRecord
 	 * @return array|\yii\db\ActiveRecord[]
 	 * 获取限定条数商家评论
 	 */
-	public function getshopcomment($user_id,$limit)
+	public function getshopcomment($user_id,$job_id,$limit)
 	{
 		return $this->find()
 				->limit($limit)
