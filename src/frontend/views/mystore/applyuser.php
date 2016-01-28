@@ -48,7 +48,15 @@ $this->title = "报名人员";
 </style>
 <script type="text/javascript">
     //弹出隐藏层
-    function ShowDiv(show_div,bg_div,id){
+    function ShowDiv(show_div,bg_div,user_id,job_id){
+        $.ajax({
+            type: "GET",
+            url: "<?= Url::to(['mystore/usermessage'])?>",
+            data: "user_id="+user_id+"&job_id="+job_id,
+            success: function(msg){
+                $("#MyDiv").html(msg);
+            }
+        });
         document.getElementById(show_div).style.display='block';
         document.getElementById(bg_div).style.display='block' ;
         var bgdiv = document.getElementById(bg_div);
@@ -146,17 +154,17 @@ $this->title = "报名人员";
                     </tr>
                     </thead>
                     <tbody id="parttimedate">
-                    <tr>
-                        <td><input type="checkbox" name=""></td>
-                        <td>123</td>
-                        <td>123</td>
-                        <td>123</td>
-                        <td>123</td>
-                        <td>123</td>
-                        <td>
-                            <a href="javascript:void(0)" onclick="ShowDiv('MyDiv','fade','5')">查看</a> | <a href="<?= Url::to(['mystore/settlement'])?>">通过</a> | <a href="<?= Url::to(['mystore/settlement'])?>">不通过</a>
-                        </td>
-                    </tr>
+<!--                    <tr>-->
+<!--                        <td><input type="checkbox" name=""></td>-->
+<!--                        <td>123</td>-->
+<!--                        <td>123</td>-->
+<!--                        <td>123</td>-->
+<!--                        <td>123</td>-->
+<!--                        <td>123</td>-->
+<!--                        <td>-->
+<!--                            <a href="javascript:void(0)" onclick="ShowDiv('MyDiv','fade','5','5')">查看</a> | <a href="--><?//= Url::to(['mystore/settlement'])?><!--">通过</a> | <a href="--><?//= Url::to(['mystore/settlement'])?><!--">不通过</a>-->
+<!--                        </td>-->
+<!--                    </tr>-->
                     <?php foreach($array as $k=>$v){ ?>
                         <tr>
                             <td><input type="checkbox" name=""></td>
@@ -174,13 +182,13 @@ $this->title = "报名人员";
                             <td><?= $v['stu_height'];?>CM</td>
                             <td><?= $v['stu_school'];?></td>
                             <td>
-                                <a href="javascript:void(0)" onclick="ShowDiv('MyDiv','fade',<?= $v['stu_id']?>)">查看</a> | <a href="<?= Url::to(['mystore/settlement'])?>">通过</a> | <a href="<?= Url::to(['mystore/settlement'])?>">不通过</a>
+                                <a href="javascript:void(0)" onclick="ShowDiv('MyDiv','fade',<?= $v['stu_id']?>,<?= $job_id; ?>)">查看</a> | <a href="<?= Url::to(['mystore/approved','job_id'=>$job_id,'user_id'=>$v['stu_id'],'status'=>'1'])?>">通过</a> | <a href="<?= Url::to(['mystore/approved','job_id'=>$job_id,'user_id'=>$v['stu_id'],'status'=>'2'])?>">不通过</a>
                             </td>
                         </tr>
                     <?php } ?>
                     </tbody>
                 </table>
-                <div id="kkpager"></div>
+                    <div id="kkpager"></div>
             </div>
         </div>
     </div>
@@ -189,91 +197,11 @@ $this->title = "报名人员";
 <div id="fade" class="black_overlay">
 </div>
 <div id="MyDiv" class="white_content">
-    <div >
-        <span id="persons" style="font-size: 20px;padding-left: 20px;color: red;">个人详细记录</span>
-        <span id="parts" style="font-size: 20px;padding-left: 20px">兼职详细记录</span>
-        <span style="font-size: 30px;padding-left:200px;" onclick="CloseDiv('MyDiv','fade')">☒</span>
-    </div>
-    <table id="person" cellpadding="0" cellspacing="0" style="margin-top: 30px;margin-left: 20px;font-size: 16px;display: block">
-        <tr>
-            <td style="width: 120px">昵称</td>
-            <td style="width: 800px;padding-left: 20px">呆萌的洒家</td>
-        </tr>
-        <tr bgcolor="#dafff3">
-            <td style="width: 120px">真实姓名</td>
-            <td style="padding-left: 20px">帐篷</td>
-        </tr>
-        <tr>
-            <td style="width: 120px">昵称</td>
-            <td style="width: 800px;padding-left: 20px">呆萌的洒家</td>
-        </tr>
-        <tr bgcolor="#dafff3">
-            <td style="width: 120px">真实姓名</td>
-            <td style="padding-left: 20px">帐篷</td>
-        </tr>
-        <tr>
-            <td style="width: 120px">性别</td>
-            <td style="width: 800px;padding-left: 20px">男</td>
-        </tr>
-        <tr bgcolor="#dafff3">
-            <td style="width: 120px">身高</td>
-            <td style="padding-left: 20px">180cm</td>
-        </tr>
-        <tr>
-            <td style="width: 120px">学校</td>
-            <td style="width: 800px;padding-left: 20px">北京地质大学</td>
-        </tr>
-        <tr bgcolor="#dafff3">
-            <td style="width: 120px">专业</td>
-            <td style="padding-left: 20px">环境与市政工程</td>
-        </tr>
-        <tr>
-            <td style="width: 120px">地址</td>
-            <td style="width: 800px;padding-left: 20px">北京海淀区地质大学6号楼1120室</td>
-        </tr>
-        <tr bgcolor="#dafff3">
-            <td style="width: 120px">技能</td>
-            <td style="padding-left: 20px">推广/注册</td>
-        </tr>
-        <tr>
-            <td style="width: 120px">可调工作</td>
-            <td style="width: 800px;padding-left: 20px">店员/服务生</td>
-        </tr>
-        <tr bgcolor="#dafff3">
-            <td style="width: 120px">自我简介</td>
-            <td style="padding-left: 20px">本人家传绝技，胸口碎大石。</td>
-        </tr>
-        <tr>
-            <td style="width: 120px">工作经验</td>
-            <td style="width: 800px;padding-left: 20px">好多兼职都干过</td>
-        </tr>
-        <tr bgcolor="#dafff3">
-            <td style="width: 120px">申请理由</td>
-            <td style="padding-left: 20px">好多兼职都干过</td>
-        </tr>
-    </table>
-    <table class="date" cellpadding="0" cellspacing="0" id="part" style="display: none">
-        <thead style="background: #E5E5E4;">
-        <tr>
-            <th>职位</th>
-            <th>商家名称 </th>
-            <th>评分</th>
-            <th>评论内容</th>
-        </tr>
-        </thead>
-        <tbody id="parttimedate">
-        <tr>
-            <td>APP推广员</td>
-            <td>北京优势梦想有限公司</td>
-            <td>5</td>
-            <td>不错，工作认真</td>
-        </tr>
-        </tbody>
-    </table>
 </div>
 <script>
     /* 显示个人详细记录 */
-    $("#persons").click(function(){
+
+    $(document).on("click","#persons",function(){
         $("#part").css("display","none");
         $("#person").css("display","block");
         $("#parts").css("color","");
@@ -281,7 +209,7 @@ $this->title = "报名人员";
     })
 
     /* 显示兼职详细记录 */
-    $("#parts").click(function(){
+    $(document).on("click","#parts",function(){
         $("#person").css("display","none");
         $("#part").css("display","block");
         $("#persons").css("color","");

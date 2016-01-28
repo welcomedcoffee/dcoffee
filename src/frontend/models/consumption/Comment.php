@@ -30,6 +30,20 @@ class Comment extends ActiveRecord
 					->all();
 	}
 
+	/**
+	 * @param $user_id
+	 * @param $pagination
+	 * @return array|\yii\db\ActiveRecord[]
+	 * 获取限定条数商家评论
+	 */
+	public function getshopcomment($user_id,$job_id,$limit)
+	{
+		return $this->find()
+				->limit($limit)
+				->where(['and',['model_id'=>$user_id,'comment_type'=>1,'comment_status'=>1]])
+				->all();
+	}
+
 	/*
 	 * @inheritdoc 获取用户评论
 	 */
