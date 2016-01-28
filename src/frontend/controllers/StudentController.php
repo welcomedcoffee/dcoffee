@@ -50,7 +50,8 @@ class StudentController extends BaseController
         return $this->render('index',[
                             'gorder' => $Gorder,
                             'porder' => $Porder,
-                            'type' => $type
+                            'type' => $type,
+                            'part' => $part
             ]);
     }
     //学生基本信息

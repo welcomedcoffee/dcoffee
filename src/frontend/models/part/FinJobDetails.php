@@ -175,6 +175,8 @@ class FinJobDetails extends \yii\db\ActiveRecord
                      ->where($cond)
                      ->offset($pages->offset)
                      ->limit($pages->limit)
-                     ->asArray()->all();           
+                     ->orderBy(['add_time'=>SORT_DESC])
+                     ->asArray()
+                     ->all();           
     }
 }
