@@ -23,7 +23,7 @@ class User extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%fin_user}}';
+        return '{{%user}}';
     }
 
     /**
@@ -32,7 +32,7 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'user_phone', 'user_password', 'user_type', 'user_addtime', 'user_lastlogin', 'user_lastip', 'user_status'], 'required'],
+            [['user_id'], 'required'],
             [['user_id', 'user_type', 'user_addtime', 'user_lastlogin', 'user_status'], 'integer'],
             [['user_phone'], 'string', 'max' => 11],
             [['user_password'], 'string', 'max' => 32],
@@ -55,5 +55,18 @@ class User extends \yii\db\ActiveRecord
             'user_lastip' => 'User Lastip',
             'user_status' => 'User Status',
         ];
+    }
+    //查询用户密码
+    public function password($user_id,$password)
+    {
+        return $this -> find()
+                     -> where(['and',['=','user_id',$user_id],['=','user_password',$password]])
+                     -> one();
+    }
+    public function phone($phone)
+    {
+        return $this -> find()
+                     -> where(['=','user_phone',$phone])
+                     -> one();
     }
 }

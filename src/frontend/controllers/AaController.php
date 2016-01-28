@@ -28,36 +28,32 @@ class AaController extends BaseController
 
  public function actionAa()
     {
-            $order = PayOrder::find()->where("order_sn='56a74b5ce7e14'")->one();
-            $order->order_status = '4';
-            $order->order_pay_time = time();
-            $order->save();
-            $order_id = $order->order_id;
-            $user_id  = $order->user_id;
-            $coin = $order->order_price;
-
-                $student = Students::find()->where("stu_id=$order->user_id")->one();
-                if ($student->stu_money < $coin) {
-                    echo "数据异常购买失败，请于管理员联系";die;
-                }
-
-                $student->stu_money = $student->stu_money + $coin;
-                $re = $student->save();
-                if (!$re) {
-                    echo "数据异常购买失败，请于管理员联系";
-                }
-                $Payment = new Payment;
-                $Payment->user_id = $user_id;
-                $Payment->payment_type = 1;
-                $Payment->payment_addtime = time();
-                $Payment->payment_money = $coin;
-                $Payment->payment_note = '充值金币';
-                $Payment->payment_way = 2;
-                $res = $Payment -> save();
-                 if (!$res) {
-                    echo "数据异常购买失败，请于管理员联系";
-                }
-
-            }
+        //更改订单状态
+        $orders = PayOrder::sn('56a82aeab957e');
+        $time = time();
+        $order_id = $orders->order_id;
+        $sql1 = "update fin_pay_order set order_status = '4',order_pay_time = '$time' where order_id = $order_id";
+        $user_id  = $orders->user_id;
+        $coin = $orders->order_price;
+        //给用户添加金币
+        $student = Students::findOne($user_id);
+        $money = $student->stu_money + $coin;
+        $stu_id = $student ->stu_id;
+        $sql2 = "update fin_students set stu_money = '$money' where stu_id = '$stu_id'";
+        //生成记录
+        $sql3 = "insert into fin_payment(user_id,payment_type,payment_addtime,payment_money,payment_note,payment_way) values('$user_id','1','$time','$coin','充值金币','2')";
+        $connection = \Yii::$app->db;
+        $transaction = $connection->beginTransaction();
+        try {
+            $connection->createCommand($sql1)->execute();
+            $connection->createCommand($sql2)->execute();
+            $connection->createCommand($sql3)->execute();
+            $transaction->commit();
+        } catch(Exception $e) {
+            $transaction->rollBack();
+            echo  $e->getMessage();
+        }
+            
+    }
 
 }

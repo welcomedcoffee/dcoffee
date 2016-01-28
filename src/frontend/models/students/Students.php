@@ -107,4 +107,15 @@ class Students extends \yii\db\ActiveRecord
                 ->asArray()
                 ->one();
     }
+
+    /*
+     * @inheritdoc 学生头像
+     */
+    public function getImg($user_id)
+    {
+        return Students::find()
+                    ->select('stu_id,stu_name,stu_avatar')
+                    ->where(['stu_id'=>$user_id])
+                    ->asArray()->one();
+    }
 }

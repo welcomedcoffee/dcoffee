@@ -157,23 +157,27 @@ class MystoreController extends BaseController
             $model = new User();
             $type = $model->usertype($v['user_id']);
             /* 状态为学生 */
+            $array=[];
             if($type['user_type'] == 1)
             {
                 $stu = new Students();
                 $array[$k] = $stu->getStudent($v['user_id']);
             }
             /* 状态为企业兼职 */
-            elseif($type['user_type'] == 3)
-            {
-                $base = new FinMerchantBase();
-                $array[$k] = $base->getMessage($v['user_id']);
-            }
-            else
-            {
-
-            }
+//            elseif($type['user_type'] == 3)
+//            {
+//                $base = new FinMerchantBase();
+//                $array[$k] = $base->getMessage($v['user_id']);
+//            }
+//            else
+//            {
+//
+//            }
         }
-        return $this->render("applyuser",['array'=>$array]);
+        return $this->render("applyuser",[
+                                            'array'=>$array,
+                                            'job_id'=>$job_id
+                                            ]);
     }
 
     /**
@@ -190,23 +194,27 @@ class MystoreController extends BaseController
             $model = new User();
             $type = $model->usertype($v['user_id']);
             /* 状态为学生 */
+            $array=[];
             if($type['user_type'] == 1)
             {
                 $stu = new Students();
                 $array[$k] = $stu->getStudent($v['user_id']);
             }
             /* 状态为企业兼职 */
-            elseif($type['user_type'] == 3)
-            {
-                $base = new FinMerchantBase();
-                $array[$k] = $base->getMessage($v['user_id']);
-            }
-            else
-            {
-
-            }
+//            elseif($type['user_type'] == 3)
+//            {
+//                $base = new FinMerchantBase();
+//                $array[$k] = $base->getMessage($v['user_id']);
+//            }
+//            else
+//            {
+//
+//            }
         }
-        return $this->render("throughuser",['array'=>$array]);
+        return $this->render("throughuser",[
+                                                'array'=>$array,
+                                                'job_id'=>$job_id
+                                            ]);
     }
 
     /**
@@ -218,6 +226,7 @@ class MystoreController extends BaseController
         $model = new FinPartList();
         /* 查询用户类型 */
         $data = $model->getrefuseUser($job_id);
+        $array = [];
         foreach($data as $k=>$v)
         {
             $model = new User();
@@ -239,7 +248,10 @@ class MystoreController extends BaseController
 
             }
         }
-        return $this->render("refuseuser",['array'=>$array]);
+        return $this->render("fuseuser",[
+                                            'array'=>$array,
+                                            'job_id'=>$job_id
+                                        ]);
     }
 
     /**
