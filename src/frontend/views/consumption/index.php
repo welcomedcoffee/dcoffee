@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
+use yii\widgets\ActiveForm;
 ?>
 <div class="mt_rli">
 <div class="studentdetailtop bor0">
@@ -24,7 +25,7 @@ use yii\widgets\LinkPager;
 				</div>
 				<!-- <p class="dis marleft100">结算日：每月15日</p> -->
 				<div class="dis marleft100 "><a href="<?= Url::to(['consumption/bill'])?>">对账单</a></div>
-				<p class="dis marleft100 back pad5 textcenter white wid70  fonw" id='top-up'>账户充值</p>
+				<p class="dis marleft100 back pad5 textcenter white wid70  fonw" ><a href="javascript:void(0)" class='top_up'>账户充值</a></p>
 				<p class="dis marleft100 back pad5 textcenter white wid70  fonw" id='limimoney'>申请限额</p>
 			</div>
 		</div>
@@ -79,9 +80,35 @@ use yii\widgets\LinkPager;
 </div>
 <div class="clear"></div>
 </div>
+<!-- 弹窗 -->
+<div style="display: none;" class="qpzz" id="top_up">
+    <div class="tip_box" style="margin-top: 0px; margin-left: 0px; height: 200px;">
+        <h3>充值金额</h3>   
+        <img style="width:25px;height:25px;float: right;position: relative;top:-35px;left:-5px;" src="/public/images/cross27.png" class="close">
+        <?php $form = ActiveForm::begin([
+                            'action' => Url::to(['consumption/pay']),
+                            'method'=>'post',
+                        ])?>
+        <div class="con_t">
+            <p id="titleBox">充值个人淘学金账户</p>
+            <p>请输入充值金额：<input type="text" name="price" />元</p>
+        </div>
+        <br><br>
+        <div style="float: right; margin-right: 20px;">
+            <input type="submit" style="width: 70px; height: 30px;border-radius:4px;background-color:#0089cf;color: white;" value="确定">&nbsp;&nbsp; 
+            <input type="button" style="width: 70px; height: 30px;border-radius:4px;background-color:#0089cf;color: white;" value="取消" class="close">
+        </div>
+        <?php $form = ActiveForm::end()?>
+    </div>   
+</div>
 <script>
-	$('#top-up').click(function(){
-		location.href="<?= Url::to(['consumption/chong'])?>";
+	//申请账户弹窗
+	$(document).on('click', '.top_up', function(){
+		   $('#top_up').show().css('height',document.body.scrollHeight);
+	})
+	//关闭弹窗
+	$(document).on('click', '.close', function(){
+		   $('.qpzz').hide()
 	})
 	$('#limimoney').click(function(){
 		location.href="<?= Url::to(['consumption/limimoney'])?>";
