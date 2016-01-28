@@ -9,6 +9,8 @@ use frontend\models\students\MerType;
 use frontend\models\students\Circles;
 use frontend\models\students\MerBase;
 use frontend\models\students\Region;
+use frontend\models\consumption\Comment;
+use app\models\students\Students;
 
 /**
  * 优质商家
@@ -61,25 +63,50 @@ class MerchantsController extends BaseController
     {
         if (Yii::$app->request->isGet)
         {
-            $mer_id         = Yii::$app->request->get('mer_id');
-            $model          = new MerBase;
-            $mer_details    = $model->getDetail($mer_id);
-            unset($mer_details['mer_paypassword']);
-            unset($mer_details['mer_position']);
-            unset($mer_details['mer_positive']);
-            unset($mer_details['mer_reverse']);
-            unset($mer_details['register_time']);
-            unset($mer_details['mer_ allow']);
-            return $this->render('details',['mer_details'=>$mer_details]);
+            $modelsDetail  = new MerBase;   //实例化商家信息
+            $modelsComment = new Comment;  //实例化评论
+            $modelsUser    = new Students;//实例化用户信息
+            $mer_id        = Yii::$app->request->get('mer_id');
+            $mer_details   = $modelsDetail->getDetail($mer_id);
+            $comments      = $modelsComment->getUserComment($mer_id);
+            $pages         = $comments['pages'];
+            unset($comments['pages']);
+            foreach ($comments as $key => $comment) {
+                $user_id         = $comment['user_id'];
+                $comments[$key]['img'] = $modelsUser->getImg($user_id);
+            }
+            $mer_id        = $mer_details['mer_id'];
+            $session       = yii::$app->session;
+            $session->set('mer_id',$mer_id);
+            return $this->render('details',
+                    [
+                        'mer_details' => $mer_details,
+                        'comments'    => $comments,
+                        'pages'       => $pages,
+                    ]);
         }
     	
     }
-    
     /*
-     * @inheritdoc  支付
+     * @inheritdoc  支付信息
      */
     public function actionPay()
     {
-        return $this->render('payment');
+        $modelDetail= new MerBase; //实例化商家信息
+        $modelStu   = new Students; //实例化学生
+        $session    = yii::$app->session;
+        $mer_id     = $session->get('mer_id');
+        $user_info  = $session->get('userinfo');
+        $payDetail  = $modelDetail->getSmall($mer_id);
+        $user       = $modelStu->getPassword($user_info['user_id']);
+        return $this->render('payment',['payDetail'=>$payDetail,'user'=>$user]);
+    }
+    /*
+     * @inheritdoc 确认支付
+     */
+    public function actionConfirmPay()
+    {
+        echo "123";die;
+         print_r(yii::$app->request->post());die;  
     }
 }

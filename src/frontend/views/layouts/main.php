@@ -62,7 +62,7 @@ AppAsset::register($this);
     $city = $cache->get('city');
     $city = json_decode($city,true);          
 ?>
-    <div class="head">
+    <div class="head" style="background: #FFFFFF;">
         <div class="t_min header">
             <div class="t_le">
                 <font class="f_l">欢迎光临淘学友 </font>                
@@ -178,7 +178,7 @@ AppAsset::register($this);
             </li>
             <li class="nbo">
                 <h1>关注二维码</h1>
-                <p><img src="/public/images/er_01.jpg" width="80" height="80" />&nbsp;&nbsp;<img src="/public/images/er_02.jpg" width="80" height="80" /></p>
+                <p><img src="/public/images/QRcode/bwphp.png" width="80" height="80" />&nbsp;&nbsp;<img src="/public/images/QRcode/finance-coffeedou.png" width="80" height="80" /></p>
                 <p>下载APP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关注微信</p>
             </li>
         </ul>
@@ -187,7 +187,7 @@ AppAsset::register($this);
 </div>
 <div class="footer">
     <div class="footeri t_min">
-        <p>京ICP备15001122 qutaoxue 2015-2018 优时梦想网络科技（北京）有限公司</p>
+        <p>京ICP备15001122 qutaoxue 2015-2018 一鸣信息科技（北京）有限公司</p>
         <p>
             <img src="/public/images/textimg/b_01.jpg" width="112" height="40" />&nbsp;&nbsp;
             <img src="/public/images/textimg/b_02.jpg" width="129" height="40" />&nbsp;&nbsp;

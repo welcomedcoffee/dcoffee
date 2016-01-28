@@ -58,7 +58,7 @@ $this->title = '优质商家';
                             } ?>>
 
                             <?= Html::encode($region['region_name'])?></a></span>
-                        <?php }?>            
+                        <?php }?>
                             <div class="clear"></div></li>
             </ul>
         </div>
@@ -83,10 +83,10 @@ $this->title = '优质商家';
         <?php foreach($mers as $key=>$mer){?>
             <li>
             <p>
-                 <a href="<?= Url::to(['merchants/details'])?>&mer_id=<?= Html::encode($mer['mer_id'])?>"><img src="<?= Html::encode($mer['mer_logo'])?>" alt="商家logo" height="205" width="256"></a>
+                 <a href="<?= Url::to(['merchants/details'])?>?mer_id=<?= Html::encode($mer['mer_id'])?>"><img src="<?= Html::encode($mer['mer_logo'])?>" alt="商家logo" height="205" width="256"></a>
             </p>
             <h1>
-                <a href="<?= Url::to(['merchants/details'])?>&mer_id=<?= Html::encode($mer['mer_id'])?>"><?= Html::encode($mer['mer_name'])?></a>
+                <a href="<?= Url::to(['merchants/details'])?>?mer_id=<?= Html::encode($mer['mer_id'])?>"><?= Html::encode($mer['mer_name'])?></a>
             </h1>
             <h2 title=""> </h2>
             <div class="ifo">
@@ -132,7 +132,7 @@ $this->title = '优质商家';
         <!--t_slist end-->
     </div>
     <!--页码-->
-    <div class="tcdPageCode t_min" id="pages">
+    <div class="tcdPageCode t_min" >
     <?php echo LinkPager::widget([
             'pagination' =>$pages,
             'prevPageLabel'=>'上一页',

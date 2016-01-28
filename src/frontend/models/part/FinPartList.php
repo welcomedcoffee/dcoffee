@@ -72,13 +72,15 @@ class FinPartList extends \yii\db\ActiveRecord
     }
 
     /**
-     * 根据兼职ID查询该兼职下的通过审核用户详细信息
+     * 根据兼职ID查询该兼职下的通过审核用户ID
      */
     public function getUserthrough($job_id)
     {
         return self::find()
+            ->select("user_id")
             ->where(['job_id'=>$job_id,'part_status'=>1])
-            ->count();
+            ->asArray()
+            ->all();
     }
 
     /**
@@ -92,13 +94,50 @@ class FinPartList extends \yii\db\ActiveRecord
     }
 
     /**
-     * 根据兼职ID查询该兼职下用户
+     * 根据兼职ID查询该兼职下用户ID
      */
     public function getUser($job_id)
     {
         return self::find()
+            ->select("user_id")
             ->where(['job_id'=>$job_id])
             ->asArray()
             ->all();
+    }
+
+    /**
+     * 根据兼职ID查询该兼职下审核未通过的用户ID
+     */
+    public function getrefuseUser($job_id)
+    {
+        return self::find()
+            ->select("user_id")
+            ->where(['job_id'=>$job_id,'part_status'=>2])
+            ->asArray()
+            ->all();
+    }
+
+    /**
+     * 修改对应的兼职ID和用户ID的用户审核状态
+     */
+    public function reviewStatus($job_id,$user_id,$status)
+    {
+        $model = self::find()
+                ->where(['job_id'=>$job_id,'user_id'=>$user_id])
+                ->one();
+        $model->part_status = $status;
+        return $model->save();
+    }
+
+    /**
+     * 查询对应的用户的兼职申请理由
+     */
+    public function getreasons($user_id,$job_id)
+    {
+        return self::find()
+                ->select("part_reasons")
+                ->where(['user_id'=>$user_id,'job_id'=>$job_id])
+                ->asArray()
+                ->one();
     }
 }

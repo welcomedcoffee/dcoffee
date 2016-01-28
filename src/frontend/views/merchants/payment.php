@@ -10,7 +10,12 @@ $this->title = '付款';
     <!--支付-->
     <div class="t_zhif">
         <div class="t_zhift">
-            <h2 id="bname">北京优时梦想网络科技有限公司</h2>
+            <h2 id="bname"><?= Html::encode($payDetail['mer_name'])?></h2>
+            <?php $form = ActiveForm::begin([
+                            'action' => Url::to(['merchants/ConfirmPay']),
+                            'method'=>'post',
+                            'id'=>'myForm',
+                        ])?>
             <ul>
                 <li>
                     <span class="w1">消费总额</span>
@@ -24,12 +29,20 @@ $this->title = '付款';
 
                 <li>
                     <span class="w1">优惠信息</span>
-                    <span class="co1" id="favorableInput" atr="" amount="">无优惠</span>
+                    <span class="co1" id="favorableInput" atr="" amount="">
+                    <?php 
+                        if(!$payDetail['preferential']){
+                            echo $payDetail['preferential']['preferential_content'];
+                        }else{
+                            echo "无优惠";
+                        }
+                    ?>
+                    </span>
                     <div class="clear"></div>
                 </li>
                 <li>
                     <span class="w1">淘学金余额</span>
-                    <span class="co1" id="amountInput">1,000.00</span>
+                    <span class="co1" id="amountInput"><?= Html::encode($user['stu_money'])?></span>
                     <div class="clear"></div>
                 </li>
             </ul>
@@ -44,16 +57,18 @@ $this->title = '付款';
             <ul>
                 <li>
                     <span class="w1">输入支付密码：</span>
-                    <span><input name="payPWD" class="it1" type="password"></span>
-                    <span><a href="javascript:GLOBAL.pagebase.forgetPwdInfo('')">忘记支付密码</a></span>
+                    <span><input name="pwd" class="password" type="password"></span>
+                    <span><a href="<?= Url::to(['student/studentsave'])?>?type=pay">忘记支付密码&nbsp;&nbsp;</a></span>
+                    <span id="error"> </span>
                     <div class="clear"></div>
                 </li>
                 <li>
                     <span class="w1">&nbsp;</span>
-                    <span><input class="bt1" value="立即支付" id="PayBtn" type="button"></span>
+                    <span><input class="bt1" value="立即支付" id="PayBtn" type="submit"></span>
                     <div class="clear"></div>
                 </li>
             </ul>
+            <?php $form = ActiveForm::end()?>
         </div>
     </div>
 </div> 
@@ -71,4 +86,19 @@ $this->title = '付款';
         <input name="" id="back" value="确定" style="width: 70px; height: 30px;border-radius:4px;background-color:#0089cf;color: white;" type="button">
      </div>
    </div>
-</div>       
+</div>
+<script src="/public/js/md5-min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $('#PayBtn').click(function(){
+        var pwd = hex_md5($('.password').val());
+        var stu_pwd = "<?= Html::encode($user['stu_pwd'])?>";
+       if (pwd!=stu_pwd) {    
+            $('#error').html("<span id='error'><font color='red'>支付密码不正确</font></span>");
+            $("#myForm").submit(function(){
+                return false;
+            });
+            history.go(0);
+       } 
+        
+    });
+</script>      

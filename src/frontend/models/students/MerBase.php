@@ -3,6 +3,7 @@ namespace frontend\models\students;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\data\Pagination;
+use frontend\models\store\Preferential;
 class MerBase extends ActiveRecord
 {
 
@@ -20,6 +21,13 @@ class MerBase extends ActiveRecord
     public function rules()
     {
         return ;
+    }
+    /*
+     * @return 关联优惠表
+     */
+    public function getPreferential()
+    {
+        return $this->hasOne(Preferential::className(),['merchant_id'=>'mer_id']);
     }
     /*
      * @inheritdoc 获取商商家信息
@@ -53,8 +61,29 @@ class MerBase extends ActiveRecord
      */
     public function getDetail($mer_id)
     {
-        return  MerBase::find()
-                    ->where("mer_id=$mer_id")
-                    ->asArray()->one();
+        $mer_details =  MerBase::find()
+                        ->where("mer_id=$mer_id")
+                        ->asArray()->one();
+        unset($mer_details['mer_paypassword']);
+        unset($mer_details['mer_position']);
+        unset($mer_details['mer_positive']);
+        unset($mer_details['mer_reverse']);
+        unset($mer_details['register_time']);
+        unset($mer_details['mer_ allow']);
+        return $mer_details;            
     }
+
+    /*
+     * @inheritdoc 获取商家优惠详细信息
+     */
+    public function getSmall($mer_id)
+    {
+        $mer_details =  MerBase::find()
+                        ->select('mer_id,mer_name,merchant_id')
+                        ->joinwith('preferential')
+                        ->where("mer_id=$mer_id")
+                        ->asArray()->one();
+        return $mer_details;            
+    }
+
 }

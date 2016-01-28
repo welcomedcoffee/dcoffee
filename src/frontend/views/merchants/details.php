@@ -8,28 +8,15 @@ $this->title = '优质商家';
 ?>
 <link rel="stylesheet" type="text/css" href="/public/css/jquery.css" />
 <link rel="stylesheet" type="text/css" href="/public/css/pagecss.css" />
+<link rel="stylesheet" href="/public/css/ShopShow.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/MagicZoom.css" type="text/css" />
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZT4wsbKvt0nB8pvbGAREQisb"></script>
 <style type="text/css">
 	.ys{background:#FF8400;}
 	.moy{color:#FF8400;}
 	#l-map{height:300px;width:100%;}
     #r-result{width:100%;}
-    .btnContent{
-					margin:50px 0 120px 0;
-				}
-	.active{
-		border:1px solid #DDDDDD;
-		width:200px;
-		height:45px;
-		background-color:#FF9900;
-		text-align:center;
-		line-height:45px;
-		font-size:18px;
-		font-family:bold;
-		color:#FFFFFF;
-		border-radius:4px;
-		float:left;
-	}
+    .btnContent{margin:50px 0 120px 0;}
 	.btnContent ul li{
 		border:1px solid #DDDDDD;
 		width:200px;
@@ -42,6 +29,8 @@ $this->title = '优质商家';
 		border-radius:4px;
 		float:left;
 	}
+	.default{background:#FF8400;}
+	.default span a{color:#FFF;}
 </style>
 
 <!-- body -->
@@ -60,27 +49,27 @@ $this->title = '优质商家';
     <div class="t_min">
         <div class="t_sdat" id="buinessContentDemo">
             <!--商家 详情-->
-            <div class="connected-carousels" style="float:left">
-                <div class="stage" style="border:2px solid #DDDDDD;border-radius:7px">
-                    <div class="carousel carousel-stage">
-                        <ul style="margin:5px 5px 0 5px ">
-                            <li><img src="<?= Html::encode($mer_details['mer_logo'])?>" alt="" id="img" height="280" width="460"></li>
-                        </ul>
-                    </div> 
-                </div>
-				<br>
-                <div class="navigation" style="height:81px;width:392px;border:2px solid #DDDDDD;border-radius:7px">
-                    <div class="carousel carousel-navigation" style="height:81px;width:392px">
-					
-                        <ul style="height:81px;width:392px;">
-						                            <li id="first" style="float:left;margin:5px 5px 5px 5px "><img src="<?= Html::encode($mer_details['mer_image1'])?>" alt="没啥说的" height="71" width="88"></li>
-							                            <li id="first" style="float:left;margin:5px 5px 5px 5px "><img src="<?= Html::encode($mer_details['mer_image2'])?>" alt="没啥说的" height="71" width="88"></li>
-							                            <li id="first" style="float:left;margin:5px 5px 5px 5px "><img src="<?= Html::encode($mer_details['mer_image3'])?>" alt="没啥说的" height="71" width="88"></li>
-							                            
-							                        </ul>
-						
-                    </div>
-                </div>
+            <div style="float:left">
+               
+                <div id="tsShopContainer">
+	<div id="tsImgS">
+	<a href="<?= Html::encode($mer_details['mer_logo'])?>" title="Images" class="MagicZoom" id="MagicZoom"><img width="300" height="300" src="<?= Html::encode($mer_details['mer_logo'])?>" /></a></div>
+	<div id="tsPicContainer">
+		<div id="tsImgSArrL" onclick="tsScrollArrLeft()"></div>
+		<div id="tsImgSCon">
+			<ul>
+				<li onclick="showPic(0)" rel="MagicZoom" class="tsSelectImg"><img height="42" width="42" src="<?= Html::encode($mer_details['mer_logo'])?>" tsImgS="<?= Html::encode($mer_details['mer_logo'])?>" /></li>
+
+				<li onclick="showPic(1)" rel="MagicZoom"><img height="42" width="42" src="<?= Html::encode($mer_details['mer_image1'])?>" tsImgS="<?= Html::encode($mer_details['mer_image1'])?>" /></li>
+				<li onclick="showPic(2)" rel="MagicZoom"><img height="42" width="42" src="<?= Html::encode($mer_details['mer_image2'])?>" tsImgS="<?= Html::encode($mer_details['mer_image2'])?>" /></li>
+				<li onclick="showPic(3)" rel="MagicZoom"><img height="42" width="42" src="<?= Html::encode($mer_details['mer_image3'])?>" tsImgS="<?= Html::encode($mer_details['mer_image3'])?>" /></li>
+				
+			</ul>
+		</div>
+		<div id="tsImgSArrR" onclick="tsScrollArrRight()"></div>
+	</div>
+	<img class="MagicZoomLoading" width="16" height="16" src="/public/images/loading.gif" alt="Loading..." />
+</div>
             </div>
 
                 <div class="t_le t_sdtext" style="margin-left:70px">
@@ -110,13 +99,14 @@ $this->title = '优质商家';
                 <div class="clear"></div>
 					<div class="btnContent">
 						<ul>
-						<li class="active">商家位置</li>
-						<li>商家介绍</li>
-						<li>用户评论</li>
+						<li class="default"><span><a href="#one">商家位置</a></span></li>
+						<li><span><a href="#two">商家介绍</a></span></li>
+						<li><span><a href="#three">用户评论</a></span></li>
 						</ul>
 					</div>
 				<div class="clear"></div>
 				<!--商家位置-->
+				<section id="one">
 				<div>
 					<h1>
 						<strong style="font-size:18px;"><span style="margin:0 0 0 20px"><img src="public/images/iconfont-dizhi.png" alt="" height="25px" width="25px"></span>&nbsp;&nbsp;商家位置</strong>
@@ -154,7 +144,9 @@ $this->title = '优质商家';
 					</div>
 				</div>
 				<br>
+				</section>
                 <!--商家介绍-->
+				<section id="two">
                 <div style="clear:both;padding-top: 40px;">
                     <h1>
                        <strong style="font-size:18px;"><span style="margin:0 0 0 20px"><img src="public/images/u45.png" alt="" height="25px" width="25px"></span>&nbsp;&nbsp;商家介绍</strong>
@@ -165,7 +157,9 @@ $this->title = '优质商家';
                     <?= Html::encode($mer_details['mer_introduce'])?></div>
                 </div>
 				<br>
+				</section>
             <!--订单评论-->
+            <section id="three">
         <div class="" style="padding-top:40px">
             <h1>
                  <strong style="font-size:18px;"><span style="margin:0 0 0 20px"><img src="public/images/u50.png" alt="" height="25px" width="25px"></span>&nbsp;&nbsp;订单评论</strong>
@@ -174,58 +168,49 @@ $this->title = '优质商家';
             </h1>
             <div>
                 <ul id="commentDemo" style="margin:0 0 0 30px;">
+				<?php foreach ($comments as $key => $comment) {?>
 					<li>
 						 <div style="float:left;margin-right:50px;">
 							<div>
-								<img src="public/images/u55.png" alt="">
+								<img src="<?= Html::encode($comment['img']['stu_avatar'])?>" alt="">
 							</div>
-							<div style="color:red;text-align:center;">呆萌的洒家</div>
+							<div style="color:red;text-align:center;"><?= Html::encode($comment['img']['stu_name'])?></div>
 						</div> 
 						<div>
 						<p>
 							<span style="float:left">
-								<img src="public/images/u57.png" alt="">
+								<img src="/public/images/u57.png" alt="">
 							</span>
 							&nbsp;&nbsp;
-							<span style="font-size:16px;panding-buttom:10px">2016-1-25</span>&nbsp;&nbsp;
-							<span style=";font-size:16px;panding-buttom:10px;margin-left:300px;color:#FF6600;">人均：￥20</span>
+							<span style="font-size:16px;panding-buttom:10px"><?php $time = date('Y-m-d',$comment['comment_addtime']);echo $time;?></span>&nbsp;&nbsp;
+							<span style=";font-size:16px;panding-buttom:10px;margin-left:300px;color:#FF6600;">人均：￥<?= Html::encode($comment['comment_price'])?></span>
 						</p>
 						
-						<p style="font-size:16px;margin:40px 0 0 0">非常好,服务相当不错，用淘学金优惠很大，很方便，下次继续来……</p>
+						<p style="font-size:16px;margin:40px 0 0 0"><?= Html::encode($comment['comment_content'])?></p>
 						</div>
 					</li>
 					<hr style="clear:both">
-					<li>
-						 <div style="float:left;margin-right:50px;">
-							<div>
-								<img src="public/images/u55.png" alt="">
-							</div>
-							<div style="color:red;text-align:center;">呆萌的洒家</div>
-						</div> 
-						<div>
-						<p>
-							<span style="float:left">
-								<img src="public/images/u57.png" alt="">
-							</span>
-							&nbsp;&nbsp;
-							<span style="font-size:16px;panding-buttom:10px">2016-1-25</span>&nbsp;&nbsp;
-							<span style=";font-size:16px;panding-buttom:10px;margin-left:300px;color:#FF6600;">人均：￥20</span>
-						</p>
-						
-						<p style="font-size:16px;margin:40px 0 0 0">非常好,服务相当不错，用淘学金优惠很大，很方便，下次继续来……</p>
-						</div>
-					</li>
-					<hr style="clear:both">
+				<?php }?>
 					</ul>
                 <div class="clear"></div>
                 <!--页码-->
-                <div class="tcdPageCode"><span class="disabled">上一页</span><span class="disabled">下一页</span></div>
             </div>
        </div>
+       <div class="tcdPageCode">
+        	<?php echo LinkPager::widget([
+            'pagination' =>$pages,
+            'prevPageLabel'=>'上一页',
+            'nextPageLabel'=>'下一页',
+            
+        ]);?>
+        </div>
+    </section>    
 	</div>
     </div>
     </div>
 </div>
+<script src="/public/js/MagicZoom.js" type="text/javascript"></script>
+<script src="/public/js/ShopShow.js"></script>
 <script>
 $(document).ready(function(){
 	// 百度地图API功能
@@ -258,5 +243,8 @@ $(document).ready(function(){
     });
     localSearch.search(keyword);
 
-}); 
+});
+
+/*放大镜*/
+
 </script>

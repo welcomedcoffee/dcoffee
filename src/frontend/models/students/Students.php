@@ -95,4 +95,40 @@ class Students extends \yii\db\ActiveRecord
             'stu_updtime' => 'Stu Updtime',
         ];
     }
+
+    /**
+     * 查询学生信息
+     */
+    public function getStudent($user_id)
+    {
+        return self::find()
+                ->select("student.stu_nickname,student.stu_name,student.stu_sex,student.stu_height,student.stu_school,GROUP_CONCAT(skill.skills_name SEPARATOR ' / ') AS skills_name")
+                ->from("fin_students as student")
+                ->leftJoin("fin_skills as skill","student.skills_id =skill.skills_id")
+                ->where(['student.stu_id'=>$user_id])
+                ->asArray()
+                ->one();
+    }
+
+    /*
+     * @inheritdoc 学生头像
+     */
+    public function getImg($user_id)
+    {
+        return Students::find()
+                    ->select('stu_id,stu_name,stu_avatar')
+                    ->where(['stu_id'=>$user_id])
+                    ->asArray()
+                    ->one();
+    }
+
+
+    public function getPassword($user_id)
+    {
+        return Students::find()
+                    ->select('stu_id,stu_money,stu_pwd')
+                    ->where(['stu_id'=>$user_id])
+                    ->asArray()->one();
+    }
 }
+

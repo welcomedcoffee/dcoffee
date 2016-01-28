@@ -25,7 +25,7 @@ class Comment extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%fin_comment}}';
+        return '{{%comment}}';
     }
 
     /**
@@ -34,11 +34,10 @@ class Comment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['comment_id'], 'required'],
-            [['comment_id', 'comment_type', 'comment_level', 'model_id', 'comment_addtime', 'user_id', 'comment_status'], 'integer'],
+            [['comment_id', 'comment_type', 'comment_level', 'model_id', 'comment_addtime', 'user_id'], 'integer'],
             [['comment_price'], 'number'],
             [['comment_content'], 'string'],
-            [['user_name'], 'string', 'max' => 30]
+            
         ];
     }
 

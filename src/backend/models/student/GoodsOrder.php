@@ -28,7 +28,7 @@ class GoodsOrder extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%fin_goods_order}}';
+        return '{{%goods_order}}';
     }
 
     /**
@@ -64,5 +64,23 @@ class GoodsOrder extends \yii\db\ActiveRecord
             'order_addtime' => 'Order Addtime',
             'order_status' => 'Order Status',
         ];
+    }
+    //条数
+    public function Count($where)
+    {
+        return $this->find()
+                    ->where($where)
+                    ->count();
+    }
+    //查询当前用户的id
+    public function Gorder($where,$pagination)
+    {
+        return $this -> find()
+                     -> where($where)
+                     -> orderBy(['order_addtime'=>SORT_DESC])
+                     -> offset($pagination->offset)
+                     -> limit($pagination->limit)
+                     -> asarray()
+                     -> all();
     }
 }

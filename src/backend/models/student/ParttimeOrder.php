@@ -21,7 +21,7 @@ class ParttimeOrder extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%fin_parttime_order}}';
+        return '{{%parttime_order}}';
     }
 
     /**
@@ -48,5 +48,25 @@ class ParttimeOrder extends \yii\db\ActiveRecord
             'order_addtime' => 'Order Addtime',
             'order_status' => 'Order Status',
         ];
+    }
+    //条数
+    public function Count($where)
+    {
+        return $this->find()
+                    ->where($where)
+                    ->count();
+    }
+    //查询当前用户的id
+    public function Porder($where,$pagination)
+    {
+        return $this -> find()
+                     -> select('*')
+                     -> innerjoin('`fin_job_details` on `fin_parttime_order`.`position_id` = `fin_job_details`.`job_id`')
+                     -> where($where)
+                     -> orderBy(['order_addtime'=>SORT_DESC])
+                     -> offset($pagination->offset)
+                     -> limit($pagination->limit)
+                     -> asarray()
+                     -> all();
     }
 }

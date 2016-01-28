@@ -1,5 +1,4 @@
 .tcdPageCode{
-	padding: 15px 20px;
 	text-align: left;
 	color: #ccc;
 }
@@ -19,7 +18,8 @@
 }
 .tcdPageCode a:hover{
 	text-decoration: none;
-	border: 1px solid #428bca;
+	color:#fff;
+	background-color: #5D94D2;
 }
 .tcdPageCode span.current{
 	display: inline-block;
@@ -34,6 +34,11 @@
 	vertical-align: middle;
 }
 
+.tcdPageCode li.active a{
+	text-decoration: none;
+	color:#fff;
+	background-color: #5D94D2;
+}
 
 .tcdPageCode li.disabled{
 	display: inline-block;

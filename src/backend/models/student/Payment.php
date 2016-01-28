@@ -22,7 +22,7 @@ class Payment extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%fin_payment}}';
+        return '{{%payment}}';
     }
 
     /**
@@ -31,7 +31,7 @@ class Payment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'payment_type', 'payment_addtime', 'payment_money', 'payment_note', 'payment_way'], 'required'],
+            [['user_id'], 'required'],
             [['user_id', 'payment_type', 'payment_addtime', 'payment_way'], 'integer'],
             [['payment_money'], 'number'],
             [['payment_note'], 'string', 'max' => 255]
@@ -52,5 +52,25 @@ class Payment extends \yii\db\ActiveRecord
             'payment_note' => 'Payment Note',
             'payment_way' => 'Payment Way',
         ];
+    }
+    /**
+    * 查询
+    */
+    public function Count($user_id)
+    {
+        return $this->find()
+                    ->where(['=','user_id',$user_id])
+                    ->count();
+    }
+    //查询当前用户
+    public function PayList($user_id,$pagination)
+    {
+        return $this -> find()
+                     -> where(['=','user_id',$user_id])
+                     -> orderBy(['payment_addtime'=>SORT_DESC])
+                     -> offset($pagination->offset)
+                     -> limit($pagination->limit)
+                     -> asArray()
+                     -> all();
     }
 }

@@ -8,12 +8,19 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
-use backend\models\student\Students;
+use yii\data\Pagination;
+use common\components\Get;
+use backend\models\student\Code;
+use backend\models\student\User;
 use backend\models\student\Region;
 use backend\models\student\Skills;
-use backend\models\student\Code;
+use backend\models\student\Comment;
+use backend\models\student\Payment;
 use backend\models\student\PayOrder;
-use common\components\Get;
+use backend\models\student\Students;
+use backend\models\student\GoodsOrder;
+use backend\models\student\ParttimeOrder;
+use app\models\part\FinPartType;
 
 class StudentController extends BaseController
 {
@@ -25,9 +32,8 @@ class StudentController extends BaseController
     public function actionInfo()
     {
         //获取用户id
-        //$session = Yii::$app->session;
-        //$user_id = $session->get('user_id');
-        $user_id = 1;
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
         $students = new Students;
         $student = $students -> Info($user_id);
         $region = new Region();
@@ -83,9 +89,8 @@ class StudentController extends BaseController
     public function actionHeadportrait()
     {
         //获取用户id
-        //$session = Yii::$app->session;
-        //$user_id = $session->get('user_id');
-        $user_id = 1;
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
         $students = new Students;
         $student = $students -> HeaderInfo($user_id);
         return $this->render('headportrait',[
@@ -144,9 +149,8 @@ class StudentController extends BaseController
     public function actionCard()
     {
         //获取用户id
-        //$session = Yii::$app->session;
-        //$user_id = $session->get('user_id');
-        $user_id = 1;
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
         $students = new Students;
         $student = $students -> HeaderInfo($user_id);
         $str = $student['stu_phone'];
@@ -157,25 +161,91 @@ class StudentController extends BaseController
     //商品订单
     public function actionGoodsorder()
     {
-        return $this->render('goodsorder');
+        //获取用户id
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
+        $GoodsOrder = new GoodsOrder;
+        $where = ['=','user_id',$user_id];
+        $pagination = new Pagination([
+            'defaultPageSize' => 2,
+            'totalCount' => $GoodsOrder -> Count($where),
+        ]);
+        $Gorder = $GoodsOrder -> Gorder($where,$pagination);
+        return $this->render('goodsorder',[
+            'pagination' => $pagination,
+            'gorder' => $Gorder,
+        ]);
     }
     //兼职订单
     public function actionPartorder()
     {
-        return $this->render('partorder');
+        //获取用户id
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
+        $ParttimeOrder = new ParttimeOrder;
+        $where = ['=','user_id',$user_id];
+        $pagination = new Pagination([
+            'defaultPageSize' => 2,
+            'totalCount' => $ParttimeOrder -> Count($where),
+        ]);
+        $Porder = $ParttimeOrder -> Porder($where,$pagination);
+        $FinPartType = new FinPartType;
+        $type = $FinPartType -> partComment();
+        return $this->render('partorder',[
+            'pagination' => $pagination,
+            'porder' => $Porder,
+            'type' => $type
+        ]);
     }
     //我的评论
     public function actionComment()
     {
         return $this->render('comment');
     }
+    //兼职评论
+    public function actionPartcomment()
+    {
+        return $this->render('partcomment');
+    }
+    //查询要评论的商家
+    public function actionOrdercomment()
+    {
+        //获取用户id
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
+        $request = Yii::$app->request->post();
+        $Comment = new Comment;
+        $Comment -> user_id = $user_id;
+        $Comment -> comment_level = $request['comment_level'];
+        $Comment -> comment_content = $request['comment_content'];
+        $Comment -> model_id = $request['model_id'];
+        $Comment -> comment_addtime = time();
+        //兼职
+        if ($request['type'] == 'part') {
+            $Comment -> comment_type = 2;
+            if ($Comment -> save()) {
+                $this->success('评论成功!',['student/partcomment']);
+            }else{
+                $this->error('评论失败!',['student/partcomment']);
+            }
+        //商品
+        }else if ($request['type'] == 'goods') {
+            $Comment -> comment_type = 1;
+            $Comment -> comment_price = $request['comment_price'];
+            if ($Comment -> save()) {
+                $this->success('评论成功!',['student/comment']);
+            }else{
+                $this->error('评论失败!',['student/comment']);
+            }
+        }
+
+    }
     //账户安全
     public function actionSecurity()
     {
         //获取用户id
-        //$session = Yii::$app->session;
-        //$user_id = $session->get('user_id');
-        $user_id = 1;
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
         $students = new Students;
         $student = $students -> HeaderInfo($user_id);
         $student['stu_phone'] = substr_replace($student['stu_phone'], '****', 3,4);
@@ -185,9 +255,8 @@ class StudentController extends BaseController
     public function actionStudentsave()
     {
         //获取用户id
-        //$session = Yii::$app->session;
-        //$user_id = $session->get('user_id');
-        $user_id = 1;
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
         $students = new Students;
         $student = $students -> HeaderInfo($user_id);
         //获取要修改的类型
@@ -224,19 +293,167 @@ class StudentController extends BaseController
             echo 3;
         }
     }
+    /*
+    * 手机号码是否存在
+    */
+    public function actionUserphone()
+    {   
+        $request = Yii::$app->request->post();
+        $User = new User;
+        $res = $User -> phone($request['phone']);
+        if ($res) {
+            echo '1';//存在
+        }else{
+            echo '2';//不存在
+        }
+    }
+    /*
+    * 获取用户表密码是否正确
+    */
+    public function actionUserpwd()
+    {   
+        $request = Yii::$app->request->post();
+        $User = new User;
+        $res = $User -> password($request['id'],md5($request['password']));
+        if ($res) {
+            echo '1';
+        }else{
+            echo '2';
+        }
+    }
+    /*
+    * 修改密码
+    */
+    public function actionPwd()
+    {
+        $request = Yii::$app->request->post();
+        //修改用户密码
+        if ($request['type'] == 'pwd') {
+             if(!empty($request['oldpassword']) && !empty($request['password']) && !empty($request['ispassword'])){
+                $User = new User;
+                $re = $User -> password($request['stu_id'],md5($request['oldpassword']));
+                if ($re) {
+                    preg_match('/\w{5,17}/',$request['password'],$str);
+                    preg_match('/\w{5,17}/',$request['ispassword'],$strs);
+                    //验证是否合法
+                    if ($str && $strs) {
+                        //验证密码密码是否一致
+                        if ($request['password'] == $request['ispassword']) {
+                            //修改支付密码
+                            $user = User::findOne($request['stu_id']);
+                            $user -> user_password = md5($request['ispassword']);
+                            $res = $user -> save();
+                            if ($res) {
+                                    $this->success('修改成功!',['student/info']);
+                                }else{
+                                    $this->error('修改失败!',['student/studentsave']);
+                                }
+                        }else{
+                            $this->error('密码与确认密码不一致请重新输入!',['student/studentsave']);
+                        }
+                    }else{
+                        $this->error('密码必须6-18位!',['student/studentsave']);
+                    }
+                }else{
+                    $this->error('旧密码错误!',['student/studentsave']);
+                }
+             }else{
+                $this->error('数据不能为空!',['student/studentsave']);
+             }
+        //修改支付密码
+        }else if($request['type'] == 'pay'){
+            if(!empty($request['paypassword']) && !empty($request['ispaypassword']) && !empty($request['code']) && !empty($request['stu_id'])){
+                    preg_match('/\w{5,17}/',$request['paypassword'],$str);
+                    preg_match('/\w{5,17}/',$request['ispaypassword'],$strs);
+                    //验证是否合法
+                    if ($str && $strs) {
+                        //验证密码密码是否一致
+                        if ($request['paypassword'] == $request['ispaypassword']) {
+                            //验证验证码是否合法
+                            $code = new Code();
+                            $code = $code->getUsercode($request['str_phone']);
+                            if($code ==$request['code']){
+                                //修改支付密码
+                                $stu = Students::findOne($request['stu_id']);
+                                $stu -> stu_pwd = md5($request['ispaypassword']);
+                                $res = $stu -> save();
+                                if ($res) {
+                                    $this->success('修改成功!',['student/info']);
+                                }else{
+                                    $this->error('修改失败!',['student/studentsave']);
+                                }
+                            }else{
+                                $this->error('验证码错误!',['student/studentsave']);
+                            }
+                            
+                        }else{
+                            $this->error('密码与确认密码不一致请重新输入!',['student/studentsave']);
+                        }
+                    }else{
+                        $this->error('密码必须6-18位!',['student/studentsave']);
+                    }
+            }else{
+                $this->error('数据不能为空!',['student/studentsave']);
+            }
+        //手机验证
+        }else if($request['type'] == 'phone'){
+            if(!empty($request['phone']) && !empty($request['code'])){
+                 $User = new User;
+                 $re = $User -> phone($request['phone']);
+                if (!$re) {
+                    preg_match('/(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}/',$request['phone'],$str);
+                    //验证是否合法
+                    if ($str) {
+                        //修改支付密码
+                        $user = User::findOne($request['stu_id']);
+                        $user -> user_phone = $request['phone'];
+                        $res1 = $user -> save();
+                        $user = Students::findOne($request['stu_id']);
+                        $user -> stu_phone = $request['phone'];
+                        $res2 = $user -> save();
+                        if ($res1 && $res2) {
+                                $this->success('修改成功!',['student/info']);
+                            }else{
+                                $this->error('修改失败!',['student/studentsave']);
+                            }
+                    }else{
+                        $this->error('手机号码格式不正确!',['student/studentsave']);
+                    }
+                }else{
+                    $this->error('手机号码已存在!',['student/studentsave']);
+                }
+             }else{
+                $this->error('数据不能为空!',['student/studentsave']);
+             }
+        }
+    }
     //我的余额
     public function actionBalance()
     {
-        return $this->render('balance');
+        //获取用户id
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
+        $Students = new Students;
+        $student = $Students -> HeaderInfo($user_id);
+        $Payment = new Payment;
+        $pagination = new Pagination([
+            'defaultPageSize' => 8,
+            'totalCount' => $Payment -> Count($user_id),
+        ]);
+        $PayList = $Payment -> PayList($user_id,$pagination);
+        return $this->render('balance',[
+            'pagination' => $pagination,
+            'student' => $student,
+            'paylist' => $PayList
+        ]);
     }
     /**
      *  支付
      */
     public function actionPay()
     {
-        //$session = Yii::$app->session;
-        //$user_id = $session->get('user_id');
-        $user_id = 1;
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
         $price = YII::$app->request->post('price');
         // 生成订单
         $Order = new PayOrder;
