@@ -14,10 +14,13 @@ use backend\models\student\Code;
 use backend\models\student\User;
 use backend\models\student\Region;
 use backend\models\student\Skills;
+use backend\models\student\Comment;
 use backend\models\student\Payment;
 use backend\models\student\PayOrder;
 use backend\models\student\Students;
-
+use backend\models\student\GoodsOrder;
+use backend\models\student\ParttimeOrder;
+use app\models\part\FinPartType;
 
 class StudentController extends BaseController
 {
@@ -29,9 +32,8 @@ class StudentController extends BaseController
     public function actionInfo()
     {
         //获取用户id
-        //$session = Yii::$app->session;
-        //$user_id = $session->get('user_id');
-        $user_id = 1;
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
         $students = new Students;
         $student = $students -> Info($user_id);
         $region = new Region();
@@ -87,9 +89,8 @@ class StudentController extends BaseController
     public function actionHeadportrait()
     {
         //获取用户id
-        //$session = Yii::$app->session;
-        //$user_id = $session->get('user_id');
-        $user_id = 1;
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
         $students = new Students;
         $student = $students -> HeaderInfo($user_id);
         return $this->render('headportrait',[
@@ -148,9 +149,8 @@ class StudentController extends BaseController
     public function actionCard()
     {
         //获取用户id
-        //$session = Yii::$app->session;
-        //$user_id = $session->get('user_id');
-        $user_id = 1;
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
         $students = new Students;
         $student = $students -> HeaderInfo($user_id);
         $str = $student['stu_phone'];
@@ -160,25 +160,91 @@ class StudentController extends BaseController
     //商品订单
     public function actionGoodsorder()
     {
-        return $this->render('goodsorder');
+        //获取用户id
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
+        $GoodsOrder = new GoodsOrder;
+        $where = ['=','user_id',$user_id];
+        $pagination = new Pagination([
+            'defaultPageSize' => 2,
+            'totalCount' => $GoodsOrder -> Count($where),
+        ]);
+        $Gorder = $GoodsOrder -> Gorder($where,$pagination);
+        return $this->render('goodsorder',[
+            'pagination' => $pagination,
+            'gorder' => $Gorder,
+        ]);
     }
     //兼职订单
     public function actionPartorder()
     {
-        return $this->render('partorder');
+        //获取用户id
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
+        $ParttimeOrder = new ParttimeOrder;
+        $where = ['=','user_id',$user_id];
+        $pagination = new Pagination([
+            'defaultPageSize' => 2,
+            'totalCount' => $ParttimeOrder -> Count($where),
+        ]);
+        $Porder = $ParttimeOrder -> Porder($where,$pagination);
+        $FinPartType = new FinPartType;
+        $type = $FinPartType -> partComment();
+        return $this->render('partorder',[
+            'pagination' => $pagination,
+            'porder' => $Porder,
+            'type' => $type
+        ]);
     }
     //我的评论
     public function actionComment()
     {
         return $this->render('comment');
     }
+    //兼职评论
+    public function actionPartcomment()
+    {
+        return $this->render('partcomment');
+    }
+    //查询要评论的商家
+    public function actionOrdercomment()
+    {
+        //获取用户id
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
+        $request = Yii::$app->request->post();
+        $Comment = new Comment;
+        $Comment -> user_id = $user_id;
+        $Comment -> comment_level = $request['comment_level'];
+        $Comment -> comment_content = $request['comment_content'];
+        $Comment -> model_id = $request['model_id'];
+        $Comment -> comment_addtime = time();
+        //兼职
+        if ($request['type'] == 'part') {
+            $Comment -> comment_type = 2;
+            if ($Comment -> save()) {
+                $this->success('评论成功!',['student/partcomment']);
+            }else{
+                $this->error('评论失败!',['student/partcomment']);
+            }
+        //商品
+        }else if ($request['type'] == 'goods') {
+            $Comment -> comment_type = 1;
+            $Comment -> comment_price = $request['comment_price'];
+            if ($Comment -> save()) {
+                $this->success('评论成功!',['student/comment']);
+            }else{
+                $this->error('评论失败!',['student/comment']);
+            }
+        }
+
+    }
     //账户安全
     public function actionSecurity()
     {
         //获取用户id
-        //$session = Yii::$app->session;
-        //$user_id = $session->get('user_id');
-        $user_id = 1;
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
         $students = new Students;
         $student = $students -> HeaderInfo($user_id);
         $student['stu_phone'] = substr_replace($student['stu_phone'], '****', 3,4);
@@ -188,9 +254,8 @@ class StudentController extends BaseController
     public function actionStudentsave()
     {
         //获取用户id
-        //$session = Yii::$app->session;
-        //$user_id = $session->get('user_id');
-        $user_id = 1;
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
         $students = new Students;
         $student = $students -> HeaderInfo($user_id);
         //获取要修改的类型
@@ -365,9 +430,8 @@ class StudentController extends BaseController
     public function actionBalance()
     {
         //获取用户id
-        //$session = Yii::$app->session;
-        //$user_id = $session->get('user_id');
-        $user_id = 1;
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
         $Students = new Students;
         $student = $Students -> HeaderInfo($user_id);
         $Payment = new Payment;
@@ -387,9 +451,8 @@ class StudentController extends BaseController
      */
     public function actionPay()
     {
-        //$session = Yii::$app->session;
-        //$user_id = $session->get('user_id');
-        $user_id = 1;
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
         $price = YII::$app->request->post('price');
         // 生成订单
         $Order = new PayOrder;

@@ -76,33 +76,33 @@ $this->title = '修改密码';
                             </li>
                         </a>
                     <?php }elseif ($type == 'phone') { ?>
-                        <a href="javascript:void(0)" onclick="GLOBAL.pagebase.updateClassPage(1)">
+                        <a href="javascript:void(0)" class="save" type="pwd">
                             <li style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 51);" id="a1">
                                 <b>修改登录密码</b>
                             </li>
                         </a>
-                        <a href="javascript:void(0)" onclick="GLOBAL.pagebase.updateClassPage(2)">
+                        <a href="javascript:void(0)" class="save" type="pay">
                             <li style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 51);" id="a2">
                                 <b>修改支付密码</b>
                             </li>
                         </a>
-                        <a href="javascript:void(0)" onclick="GLOBAL.pagebase.updateClassPage(3)">
+                        <a href="javascript:void(0)" class="save" type="phone">
                             <li style="background-color: rgb(243, 151, 0); color: rgb(255, 255, 255);" id="a3">
                                 <b>手机验证</b>
                             </li>
                         </a>
                     <?php }elseif ($type == 'pay') { ?>
-                        <a href="javascript:void(0)" onclick="GLOBAL.pagebase.updateClassPage(1)">
+                        <a href="javascript:void(0)" class="save" type="pwd">
                             <li style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 51);" id="a1">
                                 <b>修改登录密码</b>
                             </li>
                         </a>
-                        <a href="javascript:void(0)" onclick="GLOBAL.pagebase.updateClassPage(2)">
+                        <a href="javascript:void(0)" class="save" type="pay">
                             <li style="background-color: rgb(243, 151, 0); color: rgb(255, 255, 255);" id="a2">
                                 <b>修改支付密码</b>
                             </li>
                         </a>
-                        <a href="javascript:void(0)" onclick="GLOBAL.pagebase.updateClassPage(3)">
+                        <a href="javascript:void(0)" class="save" type="phone">
                             <li style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 51);" id="a3">
                                 <b>手机验证</b>
                             </li>
@@ -241,12 +241,259 @@ $this->title = '修改密码';
                             <br> <br> <br>
                             <input id="paybutton" value="完成" style="width: 100px; height: 30px; background: #f39700; color: white; margin-left: 12%;" type="submit">
                         <?php $form = ActiveForm::end()?>
-
-                        
                     <?php }elseif ($type == 'phone') { ?>
+                        <!-- 修改用户密码 -->
+                        <?php $form = ActiveForm::begin([
+                            'action' => Url::to(['student/pwd']),
+                            'method'=>'post',
+                            'options' => ['enctype' => 'multipart/form-data',
+                                            'id' => 'pwd',
+                                            'class' => 'form',
+                                            'style' => 'display: none'
+                                        ],
+                        ])?>
+                        <input type="hidden" name="stu_id" value="<?= Html::encode($student['stu_id']) ?>">
+                        <input type="hidden" name="type" value="pwd">
+                            <span style="font-size: 12px;">
+                                <span style="color: #da1f29">*</span>
+                                &nbsp;输入旧密码&nbsp;:
+                                <input id="oldpassword" class="in1" placeholder="请输入旧密码" style="height:25px" type="password" name="oldpassword">
+                                <span id="o_pwd"></span>
+                            </span>
+                            <br>
+                            <span style="color: #9f9fa0; font-size: 12px;margin-left:80px">长度六位以上的数字和字母结合</span>
+                            <br> <br> 
+                            <span style="font-size: 12px;">
+                                <span style="color: #da1f29">*</span>
+                                &nbsp;设置新密码&nbsp;:
+                                <input id="password" class="in1" name="password" placeholder="请输入新密码" style="height:25px" type="password">
+                                <span id="s_pwd"></span>
+                            </span>
+                            <br>
+                            <span style="color: #9f9fa0; font-size: 12px;margin-left:80px">不想更换请留空</span>
+                            <br> <br>
+                            <span style="font-size: 12px;">
+                                <span style="color: #da1f29">*</span>
+                                &nbsp;重复新密码&nbsp;:
+                                
+                                <input name="ispassword" id="ispassword" class="in1" placeholder="请输入确认密码" style="height:25px" type="password">
+                                <span id="s_pwds"></span>
+                            </span>
+                            <br>
+                            <span style="color: #9f9fa0; font-size: 12px;margin-left:80px">再次输入与上面相同的密码</span>
+                            <br> <br> 
+                            <input id="button" value="完成" style="width: 100px; height: 30px; background: #f39700; color: white; margin-left: 15%;" type="submit">
+                        <?php $form = ActiveForm::end()?>
 
+                        <!-- 修改手机号码 -->
+                        <?php $form = ActiveForm::begin([
+                            'action' => Url::to(['student/pwd']),
+                            'method'=>'post',
+                            'options' => ['enctype' => 'multipart/form-data',
+                                            'id' => 'phone',
+                                            'class' => 'form',
+                                            
+                                        ],
+                        ])?>
+                        <input type="hidden" id="phone_id" name="stu_id" value="<?= Html::encode($student['stu_id']) ?>">
+                        <input type="hidden" name="type" value="phone">
+                            <span style="font-size: 12px;">
+                                <span style="color: #da1f29">*</span>
+                                &nbsp;您的手机号码&nbsp;&nbsp;:&nbsp;
+                                <input name="phone" id="phones" class="in1" placeholder="请输入手机号码" style="height:25px" type="text" >
+                                <span id="s_phone"></span>
+                            </span>
+                            <br> <br>
+                            <span style="font-size: 12px;margin-left:20px">
+                                <span style="color: #da1f29">*</span>
+                                &nbsp;<span>短信验证码</span>:&nbsp;
+                                <input name="code" id="phone_code" class="in2 phone_code" placeholder="您的手机短信验证码" style="height:25px;width: 200px;" type="text">
+                                <span id="pcode"></span>
+                                 <input id="p_button" value="获取验证码" style="cursor: pointer; background:#46babb;width: 130px;" class="mag" type="button" onclick="send_sms(this);" t_type='phones'>
+                                <br>
+                                <span style="color: #9f9fa0; font-size: 12px;margin-left:100px">稍后您的手机将会收到短信验证码 60s后重发</span>
+
+                            </span>
+                            &nbsp;&nbsp;
+                            <span style="color: #9f9fa0; font-size: 12px;"></span>
+                            <br> <br> <br>
+                            <input id="p_button" value="完成" style="width: 100px; height: 30px; background: #f39700; color: white; margin-left: 9%;" type="submit">
+                            &nbsp;&nbsp;&nbsp;
+                        <?php $form = ActiveForm::end()?>
+
+                        <!-- 修改支付密码 -->
+                        <?php $form = ActiveForm::begin([
+                            'action' => Url::to(['student/pwd']),
+                            'method'=>'post',
+                            'options' => ['enctype' => 'multipart/form-data',
+                                            'id' => 'pay',
+                                            'class' => 'form',
+                                            'style' => 'display: none'
+                                        ],
+                        ])?>
+                        <input type="hidden" id="id" name="stu_id" value="<?= Html::encode($student['stu_id']) ?>">
+                        <input type="hidden" name="type" value="pay">
+                            <span style="font-size: 12px;margin-left:5px">
+                                <span style="color: #da1f29">*</span>
+                                <span style="display:inline-block;">您的手机号码</span>&nbsp;:
+                                <input name="str_phone" id="str_phone" class="in1" placeholder="请输入手机号码" style="height:25px" type="text" value="<?= Html::encode($student['stu_phone']) ?>">
+                            </span>
+                            <br>
+                            <span style="color: #9f9fa0; font-size: 12px;margin-left:90px">&nbsp;稍后您的手机将会收到短信验证码 60s后重发</span>
+                            <br><br>
+                            <span style="font-size: 12px;">
+                                <span style="color: #da1f29">*</span>
+                                &nbsp;短信验证码&nbsp;&nbsp;&nbsp;:&nbsp;
+                                <input name="code" id="code"  class="in2 phone_code" placeholder="您的手机短信验证码" style="height:25px;width: 200px;" type="text">
+                             <input id="p_button" value="获取验证码" style="cursor: pointer; background:#46babb;width: 130px;" class="mag" type="button" onclick="send_sms(this);" t_type='str_phone'>
+                            <span style="color: #9f9fa0; font-size: 12px;"></span>
+                            <br> <br>
+                            <span style="font-size: 12px;">
+                                <span style="color: #da1f29">*</span>
+                                &nbsp;设置新密码&nbsp;&nbsp;&nbsp;:&nbsp;
+                                <input name="paypassword" id="paypassword" class="in1 pwd" placeholder="请输入新密码" style="height:25px" type="password">
+                                <span id="ppwds"></span>
+                            </span>
+                            <br>
+                            <span style="color: #9f9fa0; font-size: 12px;margin-left:90px">长度为六位以上的数字和字母的组合</span>
+                            <br><br>
+                            <span style="font-size: 12px;">
+                                <span style="color: #da1f29">*</span>
+                                &nbsp;重复新密码&nbsp;&nbsp;&nbsp;:&nbsp;
+                                <input name="ispaypassword" id="ispaypassword" class="in1 pwd" placeholder="请输入确认密码" style="height:25px" type="password">
+                                <span id="pwds"></span>
+                            </span>
+                            <br>
+                            <span style="color: #9f9fa0; font-size: 12px;margin-left:90px">您再次输入与上面相同的密码</span>
+                            <br> <br> <br>
+                            <input id="paybutton" value="完成" style="width: 100px; height: 30px; background: #f39700; color: white; margin-left: 12%;" type="submit">
+                        <?php $form = ActiveForm::end()?>
                     <?php }elseif ($type == 'pay') { ?>
+                        <!-- 修改用户密码 -->
+                        <?php $form = ActiveForm::begin([
+                            'action' => Url::to(['student/pwd']),
+                            'method'=>'post',
+                            'options' => ['enctype' => 'multipart/form-data',
+                                            'id' => 'pwd',
+                                            'class' => 'form',
+                                            'style' => 'display: none',
+                                        ],
+                        ])?>
+                        <input type="hidden" name="stu_id" value="<?= Html::encode($student['stu_id']) ?>">
+                        <input type="hidden" name="type" value="pwd">
+                            <span style="font-size: 12px;">
+                                <span style="color: #da1f29">*</span>
+                                &nbsp;输入旧密码&nbsp;:
+                                <input id="oldpassword" class="in1" placeholder="请输入旧密码" style="height:25px" type="password" name="oldpassword">
+                                <span id="o_pwd"></span>
+                            </span>
+                            <br>
+                            <span style="color: #9f9fa0; font-size: 12px;margin-left:80px">长度六位以上的数字和字母结合</span>
+                            <br> <br> 
+                            <span style="font-size: 12px;">
+                                <span style="color: #da1f29">*</span>
+                                &nbsp;设置新密码&nbsp;:
+                                <input id="password" class="in1" name="password" placeholder="请输入新密码" style="height:25px" type="password">
+                                <span id="s_pwd"></span>
+                            </span>
+                            <br>
+                            <span style="color: #9f9fa0; font-size: 12px;margin-left:80px">不想更换请留空</span>
+                            <br> <br>
+                            <span style="font-size: 12px;">
+                                <span style="color: #da1f29">*</span>
+                                &nbsp;重复新密码&nbsp;:
+                                
+                                <input name="ispassword" id="ispassword" class="in1" placeholder="请输入确认密码" style="height:25px" type="password">
+                                <span id="s_pwds"></span>
+                            </span>
+                            <br>
+                            <span style="color: #9f9fa0; font-size: 12px;margin-left:80px">再次输入与上面相同的密码</span>
+                            <br> <br> 
+                            <input id="button" value="完成" style="width: 100px; height: 30px; background: #f39700; color: white; margin-left: 15%;" type="submit">
+                        <?php $form = ActiveForm::end()?>
 
+                        <!-- 修改手机号码 -->
+                        <?php $form = ActiveForm::begin([
+                            'action' => Url::to(['student/pwd']),
+                            'method'=>'post',
+                            'options' => ['enctype' => 'multipart/form-data',
+                                            'id' => 'phone',
+                                            'class' => 'form',
+                                            'style' => 'display: none'
+                                        ],
+                        ])?>
+                        <input type="hidden" id="phone_id" name="stu_id" value="<?= Html::encode($student['stu_id']) ?>">
+                        <input type="hidden" name="type" value="phone">
+                            <span style="font-size: 12px;">
+                                <span style="color: #da1f29">*</span>
+                                &nbsp;您的手机号码&nbsp;&nbsp;:&nbsp;
+                                <input name="phone" id="phones" class="in1" placeholder="请输入手机号码" style="height:25px" type="text" >
+                                <span id="s_phone"></span>
+                            </span>
+                            <br> <br>
+                            <span style="font-size: 12px;margin-left:20px">
+                                <span style="color: #da1f29">*</span>
+                                &nbsp;<span>短信验证码</span>:&nbsp;
+                                <input name="code" id="phone_code" class="in2 phone_code" placeholder="您的手机短信验证码" style="height:25px;width: 200px;" type="text">
+                                <span id="pcode"></span>
+                                 <input id="p_button" value="获取验证码" style="cursor: pointer; background:#46babb;width: 130px;" class="mag" type="button" onclick="send_sms(this);" t_type='phones'>
+                                <br>
+                                <span style="color: #9f9fa0; font-size: 12px;margin-left:100px">稍后您的手机将会收到短信验证码 60s后重发</span>
+
+                            </span>
+                            &nbsp;&nbsp;
+                            <span style="color: #9f9fa0; font-size: 12px;"></span>
+                            <br> <br> <br>
+                            <input id="p_button" value="完成" style="width: 100px; height: 30px; background: #f39700; color: white; margin-left: 9%;" type="submit">
+                            &nbsp;&nbsp;&nbsp;
+                        <?php $form = ActiveForm::end()?>
+
+                        <!-- 修改支付密码 -->
+                        <?php $form = ActiveForm::begin([
+                            'action' => Url::to(['student/pwd']),
+                            'method'=>'post',
+                            'options' => ['enctype' => 'multipart/form-data',
+                                            'id' => 'pay',
+                                            'class' => 'form',
+                                        ],
+                        ])?>
+                        <input type="hidden" id="id" name="stu_id" value="<?= Html::encode($student['stu_id']) ?>">
+                        <input type="hidden" name="type" value="pay">
+                            <span style="font-size: 12px;margin-left:5px">
+                                <span style="color: #da1f29">*</span>
+                                <span style="display:inline-block;">您的手机号码</span>&nbsp;:
+                                <input name="str_phone" id="str_phone" class="in1" placeholder="请输入手机号码" style="height:25px" type="text" value="<?= Html::encode($student['stu_phone']) ?>">
+                            </span>
+                            <br>
+                            <span style="color: #9f9fa0; font-size: 12px;margin-left:90px">&nbsp;稍后您的手机将会收到短信验证码 60s后重发</span>
+                            <br><br>
+                            <span style="font-size: 12px;">
+                                <span style="color: #da1f29">*</span>
+                                &nbsp;短信验证码&nbsp;&nbsp;&nbsp;:&nbsp;
+                                <input name="code" id="code"  class="in2 phone_code" placeholder="您的手机短信验证码" style="height:25px;width: 200px;" type="text">
+                             <input id="p_button" value="获取验证码" style="cursor: pointer; background:#46babb;width: 130px;" class="mag" type="button" onclick="send_sms(this);" t_type='str_phone'>
+                            <span style="color: #9f9fa0; font-size: 12px;"></span>
+                            <br> <br>
+                            <span style="font-size: 12px;">
+                                <span style="color: #da1f29">*</span>
+                                &nbsp;设置新密码&nbsp;&nbsp;&nbsp;:&nbsp;
+                                <input name="paypassword" id="paypassword" class="in1 pwd" placeholder="请输入新密码" style="height:25px" type="password">
+                                <span id="ppwds"></span>
+                            </span>
+                            <br>
+                            <span style="color: #9f9fa0; font-size: 12px;margin-left:90px">长度为六位以上的数字和字母的组合</span>
+                            <br><br>
+                            <span style="font-size: 12px;">
+                                <span style="color: #da1f29">*</span>
+                                &nbsp;重复新密码&nbsp;&nbsp;&nbsp;:&nbsp;
+                                <input name="ispaypassword" id="ispaypassword" class="in1 pwd" placeholder="请输入确认密码" style="height:25px" type="password">
+                                <span id="pwds"></span>
+                            </span>
+                            <br>
+                            <span style="color: #9f9fa0; font-size: 12px;margin-left:90px">您再次输入与上面相同的密码</span>
+                            <br> <br> <br>
+                            <input id="paybutton" value="完成" style="width: 100px; height: 30px; background: #f39700; color: white; margin-left: 12%;" type="submit">
+                        <?php $form = ActiveForm::end()?>
                     <?php } ?>
                     
 
