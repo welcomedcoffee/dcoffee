@@ -118,4 +118,12 @@ class Students extends \yii\db\ActiveRecord
                     ->where(['stu_id'=>$user_id])
                     ->asArray()->one();
     }
+
+    public function getPassword($user_id)
+    {
+        return Students::find()
+                    ->select('stu_id,stu_money,stu_pwd')
+                    ->where(['stu_id'=>$user_id])
+                    ->asArray()->one();
+    }
 }

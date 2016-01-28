@@ -75,6 +75,9 @@ class MerchantsController extends BaseController
                 $user_id         = $comment['user_id'];
                 $comments[$key]['img'] = $modelsUser->getImg($user_id);
             }
+            $mer_id        = $mer_details['mer_id'];
+            $session       = yii::$app->session;
+            $session->set('mer_id',$mer_id);
             return $this->render('details',
                     [
                         'mer_details' => $mer_details,
@@ -84,12 +87,26 @@ class MerchantsController extends BaseController
         }
     	
     }
-    
     /*
-     * @inheritdoc  支付
+     * @inheritdoc  支付信息
      */
     public function actionPay()
     {
-        return $this->render('payment');
+        $modelDetail= new MerBase; //实例化商家信息
+        $modelStu   = new Students; //实例化学生
+        $session    = yii::$app->session;
+        $mer_id     = $session->get('mer_id');
+        $user_info  = $session->get('userinfo');
+        $payDetail  = $modelDetail->getSmall($mer_id);
+        $user       = $modelStu->getPassword($user_info['user_id']);
+        return $this->render('payment',['payDetail'=>$payDetail,'user'=>$user]);
+    }
+    /*
+     * @inheritdoc 确认支付
+     */
+    public function actionConfirmPay()
+    {
+        echo "123";die;
+         print_r(yii::$app->request->post());die;  
     }
 }
