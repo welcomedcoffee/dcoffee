@@ -180,6 +180,7 @@ class StudentController extends BaseController
         $students = new Students;
         $student = $students -> HeaderInfo($user_id);
         $str = $student['stu_phone'];
+        $str = 'test';
         $get = new Get;
         return $get -> get_oss($str);
     }

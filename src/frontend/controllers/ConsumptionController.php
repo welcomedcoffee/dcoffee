@@ -14,6 +14,9 @@ use app\models\part\FinRegion;
 use frontend\models\store\MerType;
 use frontend\models\store\MerchantBase;
 use yii\data\Pagination;
+use backend\models\student\Code;
+use backend\models\student\User;
+use backend\models\student\PayOrder;
 /**
  * 消费商家
  */
@@ -265,20 +268,214 @@ class ConsumptionController extends BaseController
 	//账户安全
 	public function actionSecurity()
 	{
-		return $this->render('security');
+		//获取用户id
+        //$session = Yii::$app->session;
+        //$user_id = $session->get('user_id');
+        $user_id = 1;
+        $merchants = new Merchant;
+        $merchant = $merchants -> getMerchant($user_id);
+        $merchant->mer_phone = substr_replace($merchant->mer_phone, '****', 3,4);
+		return $this->render('security',['merchant'=>$merchant]);
 	}
 	//修改账户信息
 	public function actionMerchantsave()
 	{
-		$type = Yii::$app->request->get('type','pwd');
+		
+        //获取用户id
+        //$session = Yii::$app->session;
+        //$user_id = $session->get('user_id');
+        $user_id = 1;
+        $merchants = new Merchant;
+        $merchant = $merchants -> getMerchant($user_id);
+        //获取要修改的类型
+        $type = Yii::$app->request->get('type','pwd');
         return $this->render('merchantsave',[
-                        'type' => $type
+                        'type' => $type,
+                        'merchant' => $merchant,
         ]);
 	}
+	/*
+    *   发送验证码
+    */
+    public function actionCodes()
+    {
+        $code = new Code();
+        $request = Yii::$app->request;
+        $phone = $request->post('phone');
+        echo $code->getCode($phone);
+    }
+    /*
+    * 验证手机的验证码
+    */
+    public function actionValidationcodes()
+    {
+        $phone=Yii::$app->request->post('phone');
+        $codes=Yii::$app->request->post('code');
+        $code = new Code();
+        $re = $code->getUsercode($phone);
+        if($re == ''){
+            echo 1;
+        }else if($re == $codes){
+            echo 2;
+        }else{
+            echo 3;
+        }
+    }
+    /*
+    * 手机号码是否存在
+    */
+    public function actionUserphone()
+    {   
+        $request = Yii::$app->request->post();
+        $User = new User;
+        $res = $User -> phone($request['phone']);
+        if ($res) {
+            echo '1';//存在
+        }else{
+            echo '2';//不存在
+        }
+    }
+    /*
+    * 获取用户表密码是否正确
+    */
+    public function actionUserpwd()
+    {   
+        $request = Yii::$app->request->post();
+        $User = new User;
+        $res = $User -> password($request['id'],md5($request['password']));
+        if ($res) {
+            echo '1';
+        }else{
+            echo '2';
+        }
+    }
+    /*
+    * 修改密码
+    */
+    public function actionPwd()
+    {
+        $request = Yii::$app->request->post();
+        //修改用户密码
+        if ($request['type'] == 'pwd') {
+             if(!empty($request['oldpassword']) && !empty($request['password']) && !empty($request['ispassword'])){
+                $User = new User;
+                $re = $User -> password($request['mer_id'],md5($request['oldpassword']));
+                if ($re) {
+                    preg_match('/\w{5,17}/',$request['password'],$str);
+                    preg_match('/\w{5,17}/',$request['ispassword'],$strs);
+                    //验证是否合法
+                    if ($str && $strs) {
+                        //验证密码密码是否一致
+                        if ($request['password'] == $request['ispassword']) {
+                            //修改支付密码
+                            $user = User::findOne($request['mer_id']);
+                            $user -> user_password = md5($request['ispassword']);
+                            $res = $user -> save();
+                            if ($res) {
+                                    $this->success('修改成功!',['consumption/security']);
+                                }else{
+                                    $this->error('修改失败!',['consumption/merchantsave']);
+                                }
+                        }else{
+                            $this->error('密码与确认密码不一致请重新输入!',['consumption/merchantsave']);
+                        }
+                    }else{
+                        $this->error('密码必须6-18位!',['consumption/merchantsave']);
+                    }
+                }else{
+                    $this->error('旧密码错误!',['consumption/merchantsave']);
+                }
+             }else{
+                $this->error('数据不能为空!',['consumption/merchantsave']);
+             }
+        //修改支付密码
+        }else if($request['type'] == 'pay'){
+            if(!empty($request['paypassword']) && !empty($request['ispaypassword']) && !empty($request['code']) && !empty($request['mer_id'])){
+                    preg_match('/\w{5,17}/',$request['paypassword'],$str);
+                    preg_match('/\w{5,17}/',$request['ispaypassword'],$strs);
+                    //验证是否合法
+                    if ($str && $strs) {
+                        //验证密码密码是否一致
+                        if ($request['paypassword'] == $request['ispaypassword']) {
+                            //验证验证码是否合法
+                            $code = new Code();
+                            $code = $code->getUsercode($request['str_phone']);
+                            if($code ==$request['code']){
+                                //修改支付密码
+                                $merchant = Merchant::findOne($request['mer_id']);
+                                $merchant -> mer_paypassword = md5($request['ispaypassword']);
+								print_R($nerchant);die;
+                                $res = $merchant -> save();
+                                if ($res) {
+                                    $this->success('修改成功!',['consumption/security']);
+                                }else{
+                                    $this->error('修改失败!',['consumption/merchantsave']);
+                                }
+                            }else{
+                                $this->error('验证码错误!',['consumption/merchantsave']);
+                            }
+                            
+                        }else{
+                            $this->error('密码与确认密码不一致请重新输入!',['consumption/merchantsave']);
+                        }
+                    }else{
+                        $this->error('密码必须6-18位!',['consumption/merchantsave']);
+                    }
+            }else{
+                $this->error('数据不能为空!',['consumption/merchantsave']);
+            }
+        //手机验证
+        }else if($request['type'] == 'phone'){
+            if(!empty($request['phone']) && !empty($request['code'])){
+                 $User = new User;
+                 $re = $User -> phone($request['phone']);
+                if (!$re) {
+                    preg_match('/(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}/',$request['phone'],$str);
+                    //验证是否合法
+                    if ($str) {
+                        //修改支付密码
+                        $user = User::findOne($request['mer_id']);
+                        $user -> user_phone = $request['phone'];
+                        $res1 = $user -> save();
+                        $user = Merchant::findOne($request['mer_id']);
+                        $user -> mer_phone = $request['phone'];
+                        $res2 = $user -> save();
+                        if ($res1 && $res2) {
+                                $this->success('修改成功!',['consumption/security']);
+                            }else{
+                                $this->error('修改失败!',['consumption/merchantsave']);
+                            }
+                    }else{
+                        $this->error('手机号码格式不正确!',['consumption/merchantsave']);
+                    }
+                }else{
+                    $this->error('手机号码已存在!',['consumption/merchantsave']);
+                }
+             }else{
+                $this->error('数据不能为空!',['consumption/merchantsave']);
+             }
+        }
+    }
 	//账户余额
 	public function actionLimoney()
 	{
-		return $this->render('limoney');
+		//获取用户id
+        //$session = Yii::$app->session->get('userinfo');
+        //$user_id = $session['user_id'];
+		$user_id = 1;
+        $merchant = new Merchant;
+        $merchant = $merchant -> getMerchant($user_id);
+        $Payment = new Payment;
+        $pagination = new Pagination([
+            'defaultPageSize' => 8,
+            'totalCount' => $Payment -> Count($user_id),
+        ]);
+        $PayList = $Payment -> PayList($user_id,$pagination);
+        return $this->render('limoney',[
+            'pagination' => $pagination,
+            'merchant' => $merchant,
+            'paylist' => $PayList
+        ]);
 	}
 
 	/**
@@ -355,5 +552,59 @@ class ConsumptionController extends BaseController
 			$this->redirect(array('/consumption/basedata','re'=>$re));
 		}
 
+    }
+	/**
+     *  支付
+     */
+    public function actionPay()
+    {
+        $session = Yii::$app->session->get('userinfo');
+        $user_id = $session['user_id'];
+        $price = YII::$app->request->post('price');
+        // 生成订单
+        $Order = new PayOrder;
+        $Order->order_sn      = uniqid();
+        $Order->user_id       = $user_id;
+        $Order->order_addtime = time();
+        $Order->order_price  = $price;
+        $re   = $Order->save();
+        $order_id = Yii::$app->db->getLastInsertID();
+        /*$coin     = YII::$app->request->get('coin');
+        $session  = yii::$app->session;
+        $session  ->open();
+        $user_id  = $session->get("user_id");
+        $user     = User::find()->where("user_id=$user_id")->one();
+
+        if ($user->user_virtual < $coin) {
+            echo "数据异常";die;
+        }
+        $order = CourseOrder::findOne($order_id);
+        $order ->coinAmount = $coin;
+        if ($order ->price_amount - $coin<0) {
+            $order ->amount = 0;
+        }else{
+            $order ->amount = $order ->price_amount - $coin;
+        }
+        $order ->save();*/
+
+       /* //判断用户是否还需要支付现金
+        if ($order ->amount == 0) {
+            $user->user_virtual = $user->user_virtual-$coin;
+            $user->save();
+            //
+            $order = CourseOrder::findOne($order_id);
+            $order->order_status = 1;
+            $order->save();
+            $order_id = $order->order_id;
+            $user_id  = $order->user_id;
+            if ($order->type=='course') {
+                $courses = CourseOrderInfo::find()->where("order_id=$order_id")->asArray()->all();
+                foreach ($courses as $key => $course) {
+                    $result = UserCourse::AddCourse($user_id,$course['course_id']);
+                }
+            }
+            echo "购买成功";die;
+        }*/
+        $this->redirect(['/alipay/index','order_id'=>$order_id]);
     }
 }
