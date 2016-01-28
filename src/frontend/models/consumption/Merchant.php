@@ -17,7 +17,10 @@ class Merchant extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        return ;
+        return [
+			['mer_paypassword','string'],
+			['mer_phone','integer']
+		];
     }
 	/*
 	*	获取商家信息
