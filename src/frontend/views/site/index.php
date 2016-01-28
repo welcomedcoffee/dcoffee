@@ -101,7 +101,6 @@ $this->title = '首页';
             <img class='t_imgli1' src="/public/images/banner-logo/2b2781dfd70fee07b83da520bf66e40e.jpg" alt="">
             <img class='t_imgli1' src="/public/images/banner-logo/fdb1313a1e6c23b009f3fbd634b1825f.jpg" alt="">            
         </div>
-
     </div>
     <!--t_box-->
     <div class="t_box">
