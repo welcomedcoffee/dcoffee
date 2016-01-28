@@ -71,7 +71,7 @@ $this->title = '商品评论';
                             <div style="height: 40px; float:left;margin-top: 16px;width: 550px;">
                                 <span class="floatleft marright10" style="font-size: 24px;">地址：江宁区科学园天元东路891天景山商业中心</span>
                             </div>
-                            <div class="comment floatright martop15 marright30" name="applaybtn" style="margin-right: 70px;">已评论商家</div>
+                            <div class="floatright martop15 marright30" name="applaybtn" style="margin-right: 70px;">已评论商家</div>
                         </div>
                     </li>
                 </ul>
