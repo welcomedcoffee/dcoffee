@@ -53,13 +53,23 @@ class Payment extends \yii\db\ActiveRecord
             'payment_way' => 'Payment Way',
         ];
     }
-
+    /**
+    * 查询
+    */
+    public function Count($user_id)
+    {
+        return $this->find()
+                    ->where(['=','user_id',$user_id])
+                    ->count();
+    }
     //查询当前用户
-    public function PayList($user_id)
+    public function PayList($user_id,$pagination)
     {
         return $this -> find()
                      -> where(['=','user_id',$user_id])
                      -> orderBy(['payment_addtime'=>SORT_DESC])
+                     -> offset($pagination->offset)
+                     -> limit($pagination->limit)
                      -> asArray()
                      -> all();
     }
