@@ -55,7 +55,7 @@ $this->title = '咖啡豆项目管理后台';
             'template' => '<div class="row cl"><label class="form-label col-3"><i class="Hui-iconfont">&#xe60d;</i></label><div class="formControls col-8">{input}{error}</div></div>',
         ])->textInput() 
         ?>
-
+        
         <!--密码-->
 
         <?= $form->field($model, 'password',
@@ -64,24 +64,23 @@ $this->title = '咖啡豆项目管理后台';
             'template' => '<div class="row cl"><label class="form-label col-3"><i class="Hui-iconfont">&#xe60e;</i></label><div class="formControls col-8">{input}{error}</div></div>',
         ])->passwordInput() ?>
 
-      <!--验证码-->
-
+        <!--验证码-->
 
         <?= $form->field($model, 'verifyCode')->widget(Captcha::className(),[
            'template' => '<div class="row cl"><div class="formControls col-8 col-offset-3" id="verify-div">{image}<span id="imgcode">{input}</span></div></div>',
            'imageOptions' => ['alt' => '验证码'],
-           'captchaAction' => 'site/captcha',
+           'captchaAction' => 'login/captcha',
            'options' =>['placeholder' => '请输入验证码', 'class' => 'input-text size-L', 'id' => 'verify'],
         ]);?>
-
-      <!--登陆-->      
-      <div class="row">
-        <div class="formControls col-8 col-offset-3">
-            <?= Html::submitButton('登陆', ['class' => 'btn btn-success radius size-L']) ?>
-            <?= Html::resetButton('重置', ['class' => 'btn btn-default radius size-L']) ?>
-				
+        
+        <!--登陆-->      
+        <div class="row">
+            <div class="formControls col-8 col-offset-3">
+                <?= Html::submitButton('登陆', ['class' => 'btn btn-success radius size-L']) ?>
+                <?= Html::resetButton('重置', ['class' => 'btn btn-default radius size-L']) ?>
+                    
+            </div>
         </div>
-      </div>
 
     <?php ActiveForm::end(); ?>
   </div>

@@ -13,24 +13,7 @@ class SiteController extends BaseController
 {
     
 
-    /**
-     * @inheritdoc
-     */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-            //验证码
-			'captcha' => [
-              'class' => 'yii\captcha\CaptchaAction',
-              'maxLength' => 5,
-              'minLength' => 5
-            ],
-        ];
-    }
-
+    
     /**
      * 后台框架
      */
