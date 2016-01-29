@@ -151,6 +151,8 @@ class AlipayController extends BaseController{
 
 			$out_trade_no = $_POST['out_trade_no'];
 
+			$type = substr($out_trade_no,0,3);
+
 			//支付宝交易号
 
 			$trade_no     = $_POST['trade_no'];
@@ -158,7 +160,7 @@ class AlipayController extends BaseController{
 			//交易状态
 			$trade_status = $_POST['trade_status'];
 
-			if ($type=='MER_GOODS') {
+			if ($type=='110') {
 				//更改订单状态
 		        $orders = GoodsOrder::sn($out_trade_no);
 		        $time = time();
@@ -186,7 +188,7 @@ class AlipayController extends BaseController{
 		            $transaction->rollBack();
 		            echo  $e->getMessage();
 		        }
-			}elseif ($type=='STU_PAY') {
+			}elseif ($type=='100') {
 				//更改订单状态
 		        $orders = PayOrder::sn($out_trade_no);
 		        $time = time();
