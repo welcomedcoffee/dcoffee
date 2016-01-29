@@ -17,6 +17,7 @@ use app\models\user\User;
 use app\models\students\Students;
 use app\models\part\FinMerchantBase;
 use frontend\models\consumption\Comment;
+use app\models\part\FinSettlement;
 
 /**
  *  我的门店首页
@@ -360,6 +361,54 @@ class MystoreController extends BaseController
                 echo $data;
             }
         }
+
+    /**
+     * @return string
+     * 兼职结算列表
+     */
+    public function actionSettlementlist()
+    {
+        $job_id = Yii::$app->request->get("job_id");
+        $settle = new FinSettlement();
+        $data = $settle->getsettlement($job_id);
+        return $this->render("settlementlist",[
+                                                'data'=>$data,
+                                                'job_id'=>$job_id
+                                            ]);
+    }
+
+    /**
+     * @return string
+     * 处理结算业务之前
+     *
+     */
+    public function actionSettlementbefore()
+    {
+        /* 用户id */
+        $user = Yii::$app->request->get("user_id");
+        //$user_id = explode(",",$user);
+
+        /* 用户姓名 */
+        $name = Yii::$app->request->get("user_name");
+        //$user_name = explode(",",$name);
+
+        /* 工作id */
+        $job_id = Yii::$app->request->get("job_id");
+
+        /* 根据兼职ID查找商家余额及工资合计 */
+        $model = new FinJobDetails();
+        $data = $model->getBalance($job_id);
+        /* 商家余额 */
+        $balance = $data['mer_money'];
+        /* 工资合计 */
+        $combined = $data['job_money']*count($user);
+        return $this->render("onlinesettlement",[
+                                                    'user'=>$user,
+                                                    'name'=>$name,
+                                                    'balance'=>$balance,
+                                                    'combined'=>$combined
+                                                ]);
+    }
 
     /* 兼职评论 */
     public function actionPartcomment()
