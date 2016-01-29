@@ -120,7 +120,7 @@ $this->title = '兼职机会';
                     </span>
                     <span class="floatnone marbot20">
 
-                        <a href="http://www.qutaoxue.net/ParttimeShow?url=jzjh&amp;jid=253&amp;bid=2157"><?= Html::encode($type['job_name'])?></a>
+                        <a href="<?= Url::to(['parttime/details'])?>?job_id=<?= Html::encode($type['job_id'])?>"><?= Html::encode($type['job_name'])?></a>
 					<span class="backcolor floatnone marleft5 partjobtype">寒假兼职</span>
 					</span>
 
