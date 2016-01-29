@@ -78,7 +78,7 @@ $fun = $this->context->action->id;
 		<li><a href="<?= Url::to(['student/security']); ?>" atr="security">账户安全</a></li>  
 		<li><a href="<?= Url::to(['student/balance']); ?>" atr="balance">账户余额</a></li>   
 	</ul>
-<?php }elseif ($fun == 'info') { ?>
+<?php }elseif ($fun == 'info' || $fun == 'headportrait') { ?>
 	<a href="<?= Url::to(['student/index']); ?>" atr="index">
 		<h1> 我的趣淘学  </h1>
 	</a>

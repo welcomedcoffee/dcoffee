@@ -59,4 +59,25 @@ class Comment extends \yii\db\ActiveRecord
             'comment_status' => 'Comment Status',
         ];
     }
+    //条数
+    public function CCount($where)
+    {
+        return $this->find()
+                    ->innerjoin('`fin_merchant_base` on `fin_comment`.`model_id` = `fin_merchant_base`.`mer_id`')
+                    ->where($where)
+                    ->count();
+    }
+    //查询当前商家评论
+    public function Ccomment($where,$pagination)
+    {
+        return $this -> find()
+                     -> select('*')
+                     -> innerjoin('`fin_merchant_base` on `fin_comment`.`model_id` = `fin_merchant_base`.`mer_id`')
+                     -> where($where)
+                     -> orderBy(['comment_addtime'=>SORT_DESC])
+                     -> offset($pagination->offset)
+                     -> limit($pagination->limit)
+                     -> asarray()
+                     -> all();
+    }
 }

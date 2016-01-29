@@ -57,7 +57,7 @@ class ParttimeOrder extends \yii\db\ActiveRecord
                     ->where($where)
                     ->count();
     }
-    //查询当前用户的id
+    //查询
     public function Porder($where,$pagination)
     {
         return $this -> find()
@@ -69,5 +69,48 @@ class ParttimeOrder extends \yii\db\ActiveRecord
                      -> limit($pagination->limit)
                      -> asarray()
                      -> all();
+    }
+    //评论条数
+    public function Ccount($where)
+    {
+        return $this->find()
+                    -> innerjoin('`fin_job_details` on `fin_parttime_order`.`position_id` = `fin_job_details`.`job_id`')
+                    -> innerjoin('`fin_merchant_base` on `fin_job_details`.`merchants_id` = `fin_merchant_base`.`mer_id`')
+                    ->where($where)
+                    ->count();
+    }
+    //评论查询
+    public function Corder($where,$pagination)
+    {
+        return $this -> find()
+                     -> select('*')
+                     -> innerjoin('`fin_job_details` on `fin_parttime_order`.`position_id` = `fin_job_details`.`job_id`')
+                     -> innerjoin('`fin_merchant_base` on `fin_job_details`.`merchants_id` = `fin_merchant_base`.`mer_id`')
+                     -> where($where)
+                     -> orderBy(['order_addtime'=>SORT_DESC])
+                     -> offset($pagination->offset)
+                     -> limit($pagination->limit)
+                     -> asarray()
+                     -> all();
+    }
+    //查询当前用户的id
+    public function Mid($where)
+    {
+        $arr = $this -> find()
+                     -> select('order_id,merchants_id')
+                     -> innerjoin('`fin_job_details` on `fin_parttime_order`.`position_id` = `fin_job_details`.`job_id`')
+                     -> where($where)
+                     -> asarray()
+                     -> all();
+        if ($arr) {
+            foreach ($arr as $key => $value) {
+                $m_id[] = $value['merchants_id'];
+            }
+            $m_id = implode(',',$m_id);
+        }else{
+            $m_id = '';
+        }
+        
+        return $m_id;
     }
 }

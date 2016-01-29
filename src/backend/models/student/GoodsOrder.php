@@ -83,4 +83,44 @@ class GoodsOrder extends \yii\db\ActiveRecord
                      -> asarray()
                      -> all();
     }
+    //条数
+    public function Ccount($where)
+    {
+        return $this->find()
+                    ->innerjoin('`fin_merchant_base` on `fin_goods_order`.`merchant_id` = `fin_merchant_base`.`mer_id`')
+                    ->where($where)
+                    ->count();
+    }
+    //条数
+    public function Corder($where,$pagination)
+    {
+        return $this-> find()
+                    -> select('*')
+                    -> innerjoin('`fin_merchant_base` on `fin_goods_order`.`merchant_id` = `fin_merchant_base`.`mer_id`')
+                    -> where($where)
+                    -> orderBy(['order_addtime'=>SORT_DESC])
+                    -> offset($pagination->offset)
+                    -> limit($pagination->limit)
+                    -> asarray()
+                    -> all();
+    }
+    //查询当前用户的id
+    public function Mid($where)
+    {
+        $arr = $this -> find()
+                     -> select('order_id,merchant_id')
+                     -> where($where)
+                     -> asarray()
+                     -> all();
+        if ($arr) {
+            foreach ($arr as $key => $value) {
+                $m_id[] = $value['merchant_id'];
+            }
+            $m_id = implode(',',$m_id);
+        }else{
+            $m_id = '';
+        }
+        
+        return $m_id;
+    }
 }

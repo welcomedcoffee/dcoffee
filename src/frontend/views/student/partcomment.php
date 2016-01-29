@@ -1,13 +1,13 @@
 <?php
 
 /* 
-    商品评论
+    兼职评论
  */
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
 use yii\widgets\ActiveForm;
-$this->title = '商品评论';
+$this->title = '兼职评论';
 ?>
 <link rel="stylesheet" href="/public/css/WdatePicker.css">
 <link rel="stylesheet" href="/public/css/validationEngine.css">
@@ -19,7 +19,6 @@ $this->title = '商品评论';
         <?php echo $this->render('_menuLeft') ?>
 
         <div class="mt_ri t_ri">
-
             <div class="mt_rli">
                 <div id="top" style="border-bottom: solid 1px #ccd6d7; height: 64px;  width: 950px; border-bottom:">
                     <ul id="uppwUL">
@@ -35,27 +34,57 @@ $this->title = '商品评论';
                         </a>
                     </ul>
                 </div>
-
+                <?php if ($porder) { ?>
+                <?php foreach ($porder as $key => $value) { ?>
                 <ul id="unfinished" class="ul">
-                <?php if ($gorder) { ?>
-                <?php foreach ($gorder as $key => $value) { ?>
                     <li class="height150 paddingtop gray paddingleft20 martop15 marbot20" style="width: 900px;">
                         <a href="<?= Url::to(['merchants/details'])?>?mer_id=<?= Html::encode($value['mer_id']) ?>">
                             <span class="floatleft marright10"><img src="<?= Html::encode($value['mer_logo']) ?>" height="126" width="168"></span>
                         </a>
                         <div>
-                            <div style="height: 40px; float:left;width: 610px;">
+                            <div style="height: 25px; float:left;width: 500px;">
                                 <div style="float:left;"><span class="floatleft marright10 floatnone" style="font-size: 24px;"><?= Html::encode($value['mer_name']) ?></span></div>
-                                <div style="float:right;"><span class="floatleft marright10 floatnone" style="font-size: 24px;">实付金额：<b style="font-size: 24px;"><?= Html::encode($value['order_amount']) ?>元</b></span></div>
                             </div>
-                                
-                            <div style="height: 40px; float:left;margin-top: 60px;width: 550px;">
-                                <span style="font-size: 24px;float:left"><?= Html::encode($value['mer_address']) ?></span>
+                            <div style="height: 25px; float:left;width: 550px; margin-top: 10px;">
+                                <div style="float:left;"><span class="floatleft marright10 floatnone" style="font-size: 18px;">职位：<?= Html::encode($value['job_name']) ?></span></div>
+                                <div style="float:right;"><span class="floatleft marright10 floatnone" style="font-size: 18px;">时间：<?= date('Y-m-d',Html::encode($value['work_start'])) ?>至<?= date('Y-m-d',Html::encode($value['work_end'])) ?></span></div>
                             </div>
                             <div class="comment floatright backcolor martop15 marright30 bgYel floatnone partjobtype" name="applaybtn" style="cursor: pointer ;outline: medium none;" type="<?= Html::encode($value['mer_id']) ?>" s_name="<?= Html::encode($value['mer_name']) ?>">评论</div>
+                            <div style="height: 25px; float:left;width: 550px; margin-top: 10px;">
+                                <div style="float:left;"><span class="floatleft marright10 floatnone" style="font-size: 18px;">薪资：<b style="font-size: 18px;"><?= Html::encode($value['job_money']) ?></b>
+                                        <?php if ($value['job_treatment'] == 1) { ?>
+                                            元/天
+                                        <?php }else if ($value['job_treatment'] == 2) { ?>
+                                            元/小时
+                                        <?php }else if ($value['job_treatment'] == 3) { ?>
+                                            元/周
+                                        <?php }else if ($value['job_treatment'] == 4) { ?>
+                                            元/月
+                                        <?php }else if ($value['job_treatment'] == 5) { ?>
+                                            元/次
+                                        <?php }else if ($value['job_treatment'] == 6) { ?>
+                                            元/个
+                                        <?php }else if ($value['job_treatment'] == 7) { ?>
+                                            元/单 
+                                        <?php }else if ($value['job_treatment'] == 8) { ?>
+                                            元/面议
+                                        <?php }?>
+                                </span></div>
+                                <div style="float:right;margin-right: 203px;"><span class="floatleft marright10 floatnone" style="font-size: 18px;">提成：
+                                        <?php if ($value['commission'] == 1) { ?>
+                                            <b style="color:green;font-size: 18px;">有</b>
+                                        <?php }else{ ?>
+                                            <b style="color:red;font-size: 18px;">无</b>
+                                        <?php } ?></span></div>
+                            </div>
+                            <div style="height: 25px; float:left;width: 550px; margin-top: 10px;">
+                                <div style="float:left;"><span class="floatleft marright10 floatnone" style="font-size: 18px;"><?= Html::encode($value['mer_address']) ?></span></div>
+                            </div>
+                            
                         </div>
                     </li>
-                    <div class="tcdPageCode t_min">
+                </ul>
+                <div class="tcdPageCode t_min">
                         <?php echo LinkPager::widget([
                             'pagination' => $pagination,
                             'prevPageLabel'=>'上一页',
@@ -68,7 +97,6 @@ $this->title = '商品评论';
                          <span style="font-size: 24px;">您暂时没有订单</span>
                     </li>
                 <?php } ?>
-                </ul>
                 <?php if ($comment) { ?>
                 <?php foreach ($comment as $key => $value) { ?>
                 <ul id="finished" class="ul" style="display:none">
@@ -143,14 +171,13 @@ $this->title = '商品评论';
             <div class="con_t">
                 <p id="s_name"></p>
                 <input type="hidden" name="model_id" id="model_id" value="">
-                <input type="hidden" name="type" value="goods">
+                <input type="hidden" name="type" value="part">
                 <p>星级评价:&nbsp;&nbsp;<input type='radio' name="comment_level" value="1" />1星
                             &nbsp;&nbsp;<input type='radio' name="comment_level" value="2" />2星
                             &nbsp;&nbsp;<input type='radio' name="comment_level" value="3" />3星
                             &nbsp;&nbsp;<input type='radio' name="comment_level" value="4" />4星
                             &nbsp;&nbsp;<input type='radio' name="comment_level" value="5" />5星
                 </p>
-                <p>人均消费 <input type="text" name="comment_price" />元</p>
                 <p>评&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;论 <textarea name="comment_content" cols="20" rows="3"></textarea></p>
             </div>
             <br><br>
@@ -178,4 +205,5 @@ $this->title = '商品评论';
         $('.ul').hide();
         $('#'+type).show();
     })
+
 </script>
