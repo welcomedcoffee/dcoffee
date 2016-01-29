@@ -303,7 +303,7 @@ class AlipayController extends BaseController{
 		    }
 
 		    if ($type=='110') {
-		    	$this->success('支付成功!',['merchants/pay_success']);
+		    	return $this->render('pay_success',['out_trade_no'=>$out_trade_no]);
 		    }elseif ($type=='100') {
 		    	$this->success('充值成功!',['student/info']);
 		    }
@@ -317,7 +317,7 @@ class AlipayController extends BaseController{
 		    //如要调试，请看alipay_notify.php页面的verifyReturn函数
 		    //echo "验证失败";
 		    if ($type=='110') {
-		    	$this->success('支付失败!',['merchants/pay_success']);
+		    	return $this->render('pay_success',['out_trade_no'=>$out_trade_no]);
 		    }elseif ($type=='100') {
 		    	$this->success('充值失败!',['student/info']);
 		    }	
