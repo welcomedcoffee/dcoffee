@@ -158,32 +158,64 @@ class AlipayController extends BaseController{
 			//交易状态
 			$trade_status = $_POST['trade_status'];
 
-
-			//更改订单状态
-	        $orders = PayOrder::sn($out_trade_no);
-	        $time = time();
-	        $order_id = $orders->order_id;
-	        $sql1 = "update fin_pay_order set order_status = '4',order_pay_time = '$time' where order_id = $order_id";
-	        $user_id  = $orders->user_id;
-	        $coin = $orders->order_price;
-	        //给用户添加金币
-	        $student = Students::findOne($user_id);
-	        $money = $student->stu_money + $coin;
-	        $stu_id = $student ->stu_id;
-	        $sql2 = "update fin_students set stu_money = '$money' where stu_id = '$stu_id'";
-	        //生成记录
-	        $sql3 = "insert into fin_payment(user_id,payment_type,payment_addtime,payment_money,payment_note,payment_way) values('$user_id','1','$time','$coin','充值金币','2')";
-	        $connection = \Yii::$app->db;
-	        $transaction = $connection->beginTransaction();
-	        try {
-	            $connection->createCommand($sql1)->execute();
-	            $connection->createCommand($sql2)->execute();
-	            $connection->createCommand($sql3)->execute();
-	            $transaction->commit();
-	        } catch(Exception $e) {
-	            $transaction->rollBack();
-	            echo  $e->getMessage();
-	        }
+			if ($type=='MER_GOODS') {
+				//更改订单状态
+		        $orders = GoodsOrder::sn($out_trade_no);
+		        echo '123';die;
+		        $time = time();
+		        $order_id = $orders->order_id;
+		        $sql1 = "update fin_goods_order set order_status = '4',order_pay_time = '$time' where order_id = $order_id";
+		        $user_id  = $orders->user_id;
+		        $order_amount = $orders->order_amount;
+		        $order_price = $orders->order_price;
+		        $coin = $order_price-$order_amount;
+		        //给用户减金币
+		        $student = Students::findOne($user_id);
+		        $money = $student->stu_money - $coin;
+		        $stu_id = $student ->stu_id;
+		        $sql2 = "update fin_students set stu_money = '$money' where stu_id = '$stu_id'";
+		        //生成记录
+		        $sql3 = "insert into fin_payment(user_id,payment_type,payment_addtime,payment_money,payment_note,payment_way) values('$user_id','1','$time','$coin','商家订单','2')";
+		        $connection = \Yii::$app->db;
+		        $transaction = $connection->beginTransaction();
+		        try {
+		            $connection->createCommand($sql1)->execute();
+		            $connection->createCommand($sql2)->execute();
+		            $connection->createCommand($sql3)->execute();
+		            $transaction->commit();
+		        } catch(Exception $e) {
+		            $transaction->rollBack();
+		            echo  $e->getMessage();
+		        }
+			}elseif ($type=='STU_PAY') {
+				echo '456';die;
+				//更改订单状态
+		        $orders = PayOrder::sn($out_trade_no);
+		        $time = time();
+		        $order_id = $orders->order_id;
+		        $sql1 = "update fin_pay_order set order_status = '4',order_pay_time = '$time' where order_id = $order_id";
+		        $user_id  = $orders->user_id;
+		        $coin = $orders->order_price;
+		        //给用户添加金币
+		        $student = Students::findOne($user_id);
+		        $money = $student->stu_money + $coin;
+		        $stu_id = $student ->stu_id;
+		        $sql2 = "update fin_students set stu_money = '$money' where stu_id = '$stu_id'";
+		        //生成记录
+		        $sql3 = "insert into fin_payment(user_id,payment_type,payment_addtime,payment_money,payment_note,payment_way) values('$user_id','1','$time','$coin','充值金币','2')";
+		        $connection = \Yii::$app->db;
+		        $transaction = $connection->beginTransaction();
+		        try {
+		            $connection->createCommand($sql1)->execute();
+		            $connection->createCommand($sql2)->execute();
+		            $connection->createCommand($sql3)->execute();
+		            $transaction->commit();
+		        } catch(Exception $e) {
+		            $transaction->rollBack();
+		            echo  $e->getMessage();
+		        }
+			}
+			
 
 
 
@@ -270,7 +302,14 @@ class AlipayController extends BaseController{
 		      echo "trade_status=".$_GET['trade_status'];
 		    }
 
-			$this->success('充值成功!',['student/info']);
+		    if ($type=='MER_GOODS') {
+		    	echo 'ok123';die;
+		    	$this->success('支付成功!',['merchants/pay_success']);die;
+		    }elseif ($type=='STU_PAY') {
+		    	echo "ok456";die;
+		    	$this->success('充值成功!',['student/info']);die;
+		    }
+			
 
 			//——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
 
@@ -279,7 +318,13 @@ class AlipayController extends BaseController{
 		    //验证失败
 		    //如要调试，请看alipay_notify.php页面的verifyReturn函数
 		    //echo "验证失败";
-		    $this->success('充值失败!',['student/info']);
+		    if ($type=='MER_GOODS') {
+		    	echo "no123";die;
+		    	$this->success('支付失败!',['merchants/pay_success']);die;
+		    }elseif ($type=='STU_PAY') {
+		    	echo 'no456';die;	
+		    	$this->success('充值失败!',['student/info']);die;
+		    }	
 		}
     }
 }
