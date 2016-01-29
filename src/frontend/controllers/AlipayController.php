@@ -284,6 +284,8 @@ class AlipayController extends BaseController{
 
 			$out_trade_no = $_GET['out_trade_no'];
 
+
+			$type = substr($out_trade_no,0,3);
 			//支付宝交易号
 
 			$trade_no     = $_GET['trade_no'];
@@ -300,12 +302,10 @@ class AlipayController extends BaseController{
 		      echo "trade_status=".$_GET['trade_status'];
 		    }
 
-		    if ($type=='MER_GOODS') {
-		    	echo 'ok123';
-		    	$this->success('支付成功!',['merchants/pay_success']);die;
-		    }elseif ($type=='STU_PAY') {
-		    	echo "ok456";
-		    	$this->success('充值成功!',['student/info']);die;
+		    if ($type=='110') {
+		    	$this->success('支付成功!',['merchants/pay_success']);
+		    }elseif ($type=='100') {
+		    	$this->success('充值成功!',['student/info']);
 		    }
 			
 
@@ -316,12 +316,10 @@ class AlipayController extends BaseController{
 		    //验证失败
 		    //如要调试，请看alipay_notify.php页面的verifyReturn函数
 		    //echo "验证失败";
-		    if ($type=='MER_GOODS') {
-		    	echo "no123";
-		    	$this->success('支付失败!',['merchants/pay_success']);die;
-		    }elseif ($type=='STU_PAY') {
-		    	echo 'no456';
-		    	$this->success('充值失败!',['student/info']);die;
+		    if ($type=='110') {
+		    	$this->success('支付失败!',['merchants/pay_success']);
+		    }elseif ($type=='100') {
+		    	$this->success('充值失败!',['student/info']);
 		    }	
 		}
     }
