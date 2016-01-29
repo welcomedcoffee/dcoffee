@@ -51,4 +51,12 @@ class ParttimeController extends BaseController
                 ]);
     }
 
+    /*
+     * @inheritdoc 兼职详情页
+     */
+    public function actionDetails()
+    {
+        return $this->render('details');
+    }
+
 }

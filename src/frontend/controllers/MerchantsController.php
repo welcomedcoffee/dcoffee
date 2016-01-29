@@ -10,7 +10,7 @@ use frontend\models\students\Circles;
 use frontend\models\students\MerBase;
 use frontend\models\students\Region;
 use frontend\models\consumption\Comment;
-use backend\models\student\PayOrder;
+use frontend\models\consumption\GoodsOrder;
 use app\models\students\Students;
 
 /**
@@ -107,14 +107,15 @@ class MerchantsController extends BaseController
      */
     public function actionConfirms()
     {
-        $models     = new PayOrder;  //实例化订单
+        $models     = new GoodsOrder;  //实例化订单
         $students   = new Students; //实例化学生
-        $request    = yii::$app->request;
+        $request    = yii::$app->request->post();
         $session    = yii::$app->session->get('userinfo');
         $user_id    = $session['user_id'];
         $user       = $students->getStuDetails($user_id);
-        $Realpay    = $request['costTotal']-$request['stu_money'];
-        $models->order_sn      = uniqid();
+        $Realpay    = $request['costTotal']-$request['money'];
+        /*生成订单*/
+        $models->order_sn      = abs(uniqid(time()));
         $models->user_id       = $user_id;
         $models->user_name     = $user['stu_name'];
         $models->user_phone    = $session['user_phone'];
@@ -124,10 +125,21 @@ class MerchantsController extends BaseController
         $models->order_addtime = time();
         $models->order_price   = $request['costTotal'];
         $res   = $models->save();
-        if ($res) {
-            return ;
-        }
+        $order_id = Yii::$app->db->getLastInsertID();
+        $type = 'MER_GOODS';
+        if ($res) 
+        {
+            $this->redirect(['/alipay/index','order_id'=>$order_id,'type'=>$type]);
+        }else{
+            $this->error('支付失败');
+        }  
+    }
 
-        $this->redirect(['/alipay/index','order_id'=>$order_id]);  
+    /*
+     * @inheritdoc 支付后跳转页面
+     */
+    public function getPaysuccess()
+    {
+        return $this->render('pay_success');
     }
 }

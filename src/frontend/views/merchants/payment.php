@@ -18,6 +18,7 @@ $this->title = '付款';
                         ])?>
                 <input type="hidden" name="mer_id" value="<?= Html::encode($payDetail['mer_id'])?>"/>
                 <input type="hidden" name="mer_name" value="<?= Html::encode($payDetail['mer_name'])?>"/>
+                <input type="hidden" name="money" value="<?= Html::encode($user['stu_money'])?>" />
             <ul>
                 <li>
                     <span class="w1">消费总额</span>
