@@ -34,9 +34,9 @@ $this->title = '兼职评论';
                         </a>
                     </ul>
                 </div>
-                <?php if ($porder) { ?>
-                <?php foreach ($porder as $key => $value) { ?>
                 <ul id="unfinished" class="ul">
+                    <?php if ($porder) { ?>
+                    <?php foreach ($porder as $key => $value) { ?>
                     <li class="height150 paddingtop gray paddingleft20 martop15 marbot20" style="width: 900px;">
                         <a href="<?= Url::to(['merchants/details'])?>?mer_id=<?= Html::encode($value['mer_id']) ?>">
                             <span class="floatleft marright10"><img src="<?= Html::encode($value['mer_logo']) ?>" height="126" width="168"></span>
@@ -83,23 +83,24 @@ $this->title = '兼职评论';
                             
                         </div>
                     </li>
+                    <div class="tcdPageCode t_min">
+                            <?php echo LinkPager::widget([
+                                'pagination' => $pagination,
+                                'prevPageLabel'=>'上一页',
+                                'nextPageLabel'=>'下一页',
+                            ]);?>
+                        </div>
+                    <?php } ?>
+                    <?php }else{ ?>
+                        <li class="paddingtop gray paddingleft20 martop15 marbot20" style="width: 900px;">
+                             <span style="font-size: 24px;">您暂时没有订单</span>
+                        </li>
+                    <?php } ?>
                 </ul>
-                <div class="tcdPageCode t_min">
-                        <?php echo LinkPager::widget([
-                            'pagination' => $pagination,
-                            'prevPageLabel'=>'上一页',
-                            'nextPageLabel'=>'下一页',
-                        ]);?>
-                    </div>
-                <?php } ?>
-                <?php }else{ ?>
-                    <li class="paddingtop gray paddingleft20 martop15 marbot20" style="width: 900px;">
-                         <span style="font-size: 24px;">您暂时没有订单</span>
-                    </li>
-                <?php } ?>
+                <ul id="finished" class="ul" style="display:none">
                 <?php if ($comment) { ?>
                 <?php foreach ($comment as $key => $value) { ?>
-                <ul id="finished" class="ul" style="display:none">
+                
                     <li class="height150 paddingtop gray paddingleft20 martop15 marbot20" style="width: 900px;">
                         <a href="<?= Url::to(['merchants/details'])?>?mer_id=<?= Html::encode($value['mer_id']) ?>">
                             <span class="floatleft marright10"><img src="<?= Html::encode($value['mer_logo']) ?>" height="126" width="168"></span>
