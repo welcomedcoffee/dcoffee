@@ -13,6 +13,7 @@ use app\models\part\FinRegion;
 use frontend\models\store\MerType;
 use frontend\models\store\MerchantBase;
 
+use frontend\models\store\ApplyLimit;
 /**
  *  门店
  */
@@ -53,6 +54,7 @@ class StoreController extends BaseController
 										'childtype'=>$childtype,
 										'is_update'=>$is_update
                                     ]);
+
     }
 
     /**
@@ -128,6 +130,32 @@ class StoreController extends BaseController
 		if ($re) {
 			$this->redirect(array('/store/index','re'=>$re));
 		}
+    }
 
+    /**
+     * 商家额度申请
+     */
+    public function actionApplyLimit()
+    {	$ApplyLimit = new ApplyLimit;
+    	$session = Yii::$app->session;
+		$session ->open();
+    	$mer_id     = $session -> get('user_id') ? $session->get('user_id'):1;
+    	$apply_old  = $ApplyLimit->find()->where("mer_id=$mer_id")->orderBy("apply_time desc")->one();
+    	if ($apply_old->is_pass==0){
+    		$re = 1;
+    		$ApplyLimit = $apply_old;
+    	}
+    	if ($data = Yii::$app->request->post()) {
+
+    		//$ApplyLimit = new ApplyLimit;
+    		$ApplyLimit ->setAttributes($data);
+    		$ApplyLimit ->mer_id = $mer_id;
+    		$ApplyLimit ->apply_time = time();
+    		if ($ApplyLimit -> validate()) {
+    			$re = $ApplyLimit ->save();
+    		}
+
+    	}
+    	return $this->render('applylimit',['model'=>$ApplyLimit,'re'=>$re]);
     }
 }
