@@ -160,6 +160,21 @@ class FinJobDetails extends \yii\db\ActiveRecord
         $parts['pages'] = $pages;
         return $parts;             
     }
+
+
+    /**
+     * 查询用户余额
+     */
+    public function getBalance($job_id)
+    {
+        return self::find()
+            ->select("detail.job_money,base.mer_money")
+            ->from("fin_job_details as detail")
+            ->leftJoin("fin_merchant_base as base", "base.mer_id = detail.merchants_id")
+            ->where(['job_id' => $job_id])
+            ->asArray()
+            ->one();
+    }
     /*
      * @inheritdoc 兼职列表页
      */
@@ -177,6 +192,6 @@ class FinJobDetails extends \yii\db\ActiveRecord
                      ->limit($pages->limit)
                      ->orderBy(['add_time'=>SORT_DESC])
                      ->asArray()
-                     ->all();           
+                     ->all();
     }
 }

@@ -115,7 +115,7 @@ class MerchantsController extends BaseController
         $user       = $students->getStuDetails($user_id);
         $Realpay    = $request['costTotal']-$request['money'];
         /*生成订单*/
-        $models->order_sn      = abs(uniqid(time()));
+        $models->order_sn      = abs('110'.uniqid(time()));
         $models->user_id       = $user_id;
         $models->user_name     = $user['stu_name'];
         $models->user_phone    = $session['user_phone'];
