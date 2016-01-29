@@ -68,7 +68,7 @@ $this->title = '商品评论';
                          <span style="font-size: 24px;">您暂时没有订单</span>
                     </li>
                 <?php } ?>
-                </ul>o
+                </ul>
                 <ul id="finished" class="ul" style="display:none">
                 <?php if ($comment) { ?>
                 <?php foreach ($comment as $key => $value) { ?>
