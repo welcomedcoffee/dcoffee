@@ -111,7 +111,7 @@ class FinMerchantBase extends \yii\db\ActiveRecord
     public function getMessage($user_id)
     {
         return self::find()
-                    ->select("mer_id,mer_name,mer_address")
+                    ->select("mer_id,mer_name,mer_address,mer_money,")
                     ->where(['mer_id'=>$user_id])
                     ->asArray()
                     ->one();
