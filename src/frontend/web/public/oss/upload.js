@@ -2,7 +2,7 @@
 function getSign()
 {
 	var result = $.ajax({
-		url: '/index.php?r=student/card',
+		url: '/index.php/student/card',
 		async: false,
 		dataType: 'json',
 	

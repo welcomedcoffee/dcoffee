@@ -69,9 +69,9 @@ $this->title = '商品评论';
                     </li>
                 <?php } ?>
                 </ul>
+                <ul id="finished" class="ul" style="display:none">
                 <?php if ($comment) { ?>
                 <?php foreach ($comment as $key => $value) { ?>
-                <ul id="finished" class="ul" style="display:none">
                     <li class="height150 paddingtop gray paddingleft20 martop15 marbot20" style="width: 900px;">
                         <a href="<?= Url::to(['merchants/details'])?>?mer_id=<?= Html::encode($value['mer_id']) ?>">
                             <span class="floatleft marright10"><img src="<?= Html::encode($value['mer_logo']) ?>" height="126" width="168"></span>
