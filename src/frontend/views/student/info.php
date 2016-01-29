@@ -29,10 +29,12 @@ $this->title = '学生详情';
         textarea{
             padding-left: 10px;
         }
+        .card-img{
+            border: 1px solid #aaa;
+            cursor: pointer;
+        }
     </style>
     <link rel="stylesheet" href="/public/css/calendar.css">
-    <link rel="stylesheet" type="text/css" href="/public/oss/style.css"/>
-    <div class="t_min t_tit">当前位置：<a href="http://www.qutaoxue.net/">首页</a> &gt; 我的趣淘学</div>
     <!--我的趣淘学-->
     <div class="t_min">
 
@@ -66,19 +68,38 @@ $this->title = '学生详情';
                         <p class="mar" style="position:relative;left:-1em">
                             身份证号码：<input id="stu_card" name="stu_card" type="text" value="<?= Html::encode($student['stu_card']) ?>">
                         </p>
-                        <p style="position:relative;left:-1em;margin-top:10px">
-                            <span style="position:relative;top:-4em">身份证照片：</span>
-                            <img class="  " src="/public/images/fanmian.jpg" id="pic2" name="pic2" alt="1" style="width:163px;height:102px">
-                            <img class="  " src="/public/images/zhenmian.png" alt="1" id="pic1" name="pic1" style="width:163px;height:102px">
-                            <div id="ossfile" style="margin-left: 65px;">你的浏览器不支持flash,Silverlight或者HTML5！</div>
-                            <div id="container" style="margin-left: 65px;">
-                                <a id="selectfiles" href="javascript:void(0);" class='btn'>选择照片</a>
-                                 <a id="postfiles" href="javascript:void(0);" class='btn'>开始上传</a>
+                        
+                        <div class="mar" style="position:relative;left:-1em">身份证照片：
+                            <!--身份证正面-->
+                            <div class ="upload-content" style="display: inline-block" id="card-front">
+                                <div class="btn" >
+                                    <input id="front-upload" style="width:163px;height:102px;" type="file" name="file">
+                                    <img class="card-img" src="/public/images/fanmian.jpg" id="front-img" alt="1" style="width:163px;height:102px;">
+                                </div>
+                                <div class="progress" style="width:165px;">
+                                    <span class="bar"></span><span class="percent">0%</span >
+                                </div>
+                            
                             </div>
-                            <pre id="console" style="margin-left: 65px;"></pre>
-                            <p>&nbsp;</p>
-                        </p>
-                         <p class="warm">只能上传jpg、jpeg、png类型的图片，大小不能超过2M</p>
+
+                            <!--身份证反面-->
+                            <div class ="upload-content" style="display: inline-block" id="card-backend">
+                                <div class="btn" >
+
+                                    <input id="backend-upload" style="width:163px;height:102px;" type="file" name="file">
+                                    
+                                    <img class="card-img" src="/public/images/fanmian.jpg" id="backend-img" alt="1" style="width:163px;height:102px;">
+                                </div>
+                                <div class="progress" style="width:165px;">
+                                    <span class="bar"></span><span class="percent">0%</span >
+                                </div>
+                            
+                            </div>
+                            
+                        </div>
+
+
+                        <p class="warm">只能上传jpg、jpeg、png类型的图片，大小不能超过2M</p>
                         <p class="mar" style="text-indent:2em">
                             性别：
                             <select id="stu_sex" name="stu_sex">
@@ -201,8 +222,11 @@ $this->title = '学生详情';
     </div>
 
 <script src="/public/js/calendar.js"></script>
-<script type="text/javascript" src="/public/oss/lib/plupload-2.1.2/js/plupload.full.min.js"></script>
+<!--
+<script type="text/javascript" src="/public/oss/lib/plupload-2.1.2/js/plupload.full.min.js"></script>-->
+<script type="text/javascript" src="/public/oss/jquery.form.js"></script>
 <script type="text/javascript" src="/public/oss/upload.js"></script>
+
 <script>
 
 /*

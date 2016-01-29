@@ -8,9 +8,9 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'request' => [
-            'enableCookieValidation' => true,
-            'cookieValidationKey' => 'banweijun123456',
-        ],
+        //'request' => [
+        //    'enableCookieValidation' => true,
+        //    'cookieValidationKey' => 'banweijun123456',
+        //],
     ],
 ];

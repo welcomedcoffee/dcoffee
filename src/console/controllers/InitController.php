@@ -5,7 +5,7 @@
  * @author chan <maclechan@qq.com> 
  */  
 namespace console\controllers;  
- 
+use backend\models\login\Admin; 
 class InitController extends \yii\console\Controller  
 {  
     /** 
@@ -13,7 +13,7 @@ class InitController extends \yii\console\Controller
      */  
     public function actionAdmin()  
     {  
-         /*
+
         echo "创建一个新用户 ...\n";                  // 提示当前操作  
         $username = $this->prompt('User Name:');        // 接收用户名  
         $email = $this->prompt('Email:');               // 接收Email  
@@ -34,7 +34,6 @@ class InitController extends \yii\console\Controller
             return 1;                                   // 命令行返回1表示有异常  
         }  
         return 0;                                       // 返回0表示一切OK
-        */
-        echo 123;
+
     }  
 } 

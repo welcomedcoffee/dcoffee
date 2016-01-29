@@ -137,7 +137,7 @@ class FinJobDetails extends \yii\db\ActiveRecord
     /*
      * @inheritdoc 兼职列表页
      */
-    public function getParts($keyword)
+    public function getParts($keyword='')
     {
         $cond = '1=1 and job_status=1';
         if($keyword['type']){
@@ -161,17 +161,37 @@ class FinJobDetails extends \yii\db\ActiveRecord
         return $parts;             
     }
 
+
     /**
      * 查询用户余额
      */
     public function getBalance($job_id)
     {
         return self::find()
-                    ->select("detail.job_money,base.mer_money")
-                    ->from("fin_job_details as detail")
-                    ->leftJoin("fin_merchant_base as base","base.mer_id = detail.merchants_id")
-                    ->where(['job_id'=>$job_id])
-                    ->asArray()
-                    ->one();
+            ->select("detail.job_money,base.mer_money")
+            ->from("fin_job_details as detail")
+            ->leftJoin("fin_merchant_base as base", "base.mer_id = detail.merchants_id")
+            ->where(['job_id' => $job_id])
+            ->asArray()
+            ->one();
+    }
+    /*
+     * @inheritdoc 兼职列表页
+     */
+    public function getPart()
+    {
+        $cond = '1=1 and job_status=1';
+        
+        $pages     = new Pagination([
+            'defaultPageSize'   => 5,
+            'totalCount'        => $this->find()->where($cond)->count(),
+        ]);
+        return FinJobDetails::find()
+                     ->where($cond)
+                     ->offset($pages->offset)
+                     ->limit($pages->limit)
+                     ->orderBy(['add_time'=>SORT_DESC])
+                     ->asArray()
+                     ->all();
     }
 }

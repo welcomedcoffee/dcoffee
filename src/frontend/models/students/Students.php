@@ -111,14 +111,24 @@ class Students extends \yii\db\ActiveRecord
     }
 
     /*
-     * @inheritdoc 学生头像
+     * @inheritdoc 学生信息
      */
-    public function getImg($user_id)
+    public function getStuDetails($user_id)
     {
         return Students::find()
                     ->select('stu_id,stu_name,stu_avatar')
                     ->where(['stu_id'=>$user_id])
-                    ->asArray()
-                    ->one();
+                    ->asArray()->one();
+                    
+    }
+
+
+    public function getPassword($user_id)
+    {
+        return Students::find()
+                    ->select('stu_id,stu_money,stu_pwd')
+                    ->where(['stu_id'=>$user_id])
+                    ->asArray()->one();
     }
 }
+

@@ -13,18 +13,7 @@ class SiteController extends BaseController
 {
     
 
-    /**
-     * @inheritdoc
-     */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-        ];
-    }
-
+    
     /**
      * 后台框架
      */

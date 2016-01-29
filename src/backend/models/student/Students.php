@@ -51,13 +51,12 @@ class Students extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-           /* [['stu_name', 'stu_nickname', 'stu_card','stu_sex', 'stu_height', 'stu_school', 'stu_professional', 'stu_code', 'stu_start', 'stu_end', 'province_id', 'city_id', 'area_id', 'stu_addr', 'skills_id', 'stu_parttime'], 'required'],
             [['stu_sex', 'stu_height', 'stu_start', 'stu_end', 'province_id', 'city_id', 'area_id', 'stu_parttime', 'stu_addtime', 'stu_updtime'], 'integer'],
             [['stu_money', 'stu_limit_money'], 'number'],
             [['stu_name', 'stu_nickname', 'stu_card', 'stu_school', 'stu_professional', 'stu_code'], 'string', 'max' => 30],
             [['card_positive', 'card_reverse', 'stu_introduction', 'stu_experience', 'stu_avatar'], 'string', 'max' => 255],
             [['stu_addr', 'skills_id'], 'string', 'max' => 100],
-            [['stu_pwd'], 'string', 'max' => 50]*/
+            [['stu_pwd'], 'string', 'max' => 50]
         ];
     }
 
