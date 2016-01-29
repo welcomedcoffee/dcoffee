@@ -10,6 +10,7 @@ use frontend\models\students\Circles;
 use frontend\models\students\MerBase;
 use frontend\models\students\Region;
 use frontend\models\consumption\Comment;
+use backend\models\student\PayOrder;
 use app\models\students\Students;
 
 /**
@@ -73,7 +74,7 @@ class MerchantsController extends BaseController
             unset($comments['pages']);
             foreach ($comments as $key => $comment) {
                 $user_id         = $comment['user_id'];
-                $comments[$key]['img'] = $modelsUser->getImg($user_id);
+                $comments[$key]['img'] = $modelsUser->getStuDetails($user_id);
             }
             $mer_id        = $mer_details['mer_id'];
             $session       = yii::$app->session;
@@ -104,9 +105,29 @@ class MerchantsController extends BaseController
     /*
      * @inheritdoc 确认支付
      */
-    public function actionConfirmPay()
+    public function actionConfirms()
     {
-        echo "123";die;
-         print_r(yii::$app->request->post());die;  
+        $models     = new PayOrder;  //实例化订单
+        $students   = new Students; //实例化学生
+        $request    = yii::$app->request;
+        $session    = yii::$app->session->get('userinfo');
+        $user_id    = $session['user_id'];
+        $user       = $students->getStuDetails($user_id);
+        $Realpay    = $request['costTotal']-$request['stu_money'];
+        $models->order_sn      = uniqid();
+        $models->user_id       = $user_id;
+        $models->user_name     = $user['stu_name'];
+        $models->user_phone    = $session['user_phone'];
+        $models->merchant_id   = $request['mer_id'];
+        $models->merchant_name = $request['mer_name'];
+        $models->order_amount  = $Realpay;
+        $models->order_addtime = time();
+        $models->order_price   = $request['costTotal'];
+        $res   = $models->save();
+        if ($res) {
+            return ;
+        }
+
+        $this->redirect(['/alipay/index','order_id'=>$order_id]);  
     }
 }

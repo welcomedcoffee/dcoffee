@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
+use yii\widgets\ActiveForm;
 $this->title = '商品订单';
 ?>
 <link rel="stylesheet" href="/public/css/pagecss.css">
@@ -22,6 +23,25 @@ $this->title = '商品订单';
                     <div class="order">
                         <span style="font-size: 16px;">我的订单:</span>
                     </div>
+                    <?php $form = ActiveForm::begin([
+                        'action' => Url::to(['student/goodsorder']),
+                        'method'=>'post',
+                    ])?>
+                        <select name="type" style="width: 100px; height: 30px; margin-left: 0px;">
+                            <?php if ($search['type'] == 'order_sn') { ?>
+                                <option value="order_sn" selected="selected">订单号</option>
+                                <option value="mer_name">商家名称</option>
+                            <?php }elseif ($search['type'] == 'mer_name') { ?>
+                                <option value="order_sn">订单号</option>
+                                <option value="mer_name" selected="selected">商家名称</option>
+                            <?php }else{ ?>
+                                <option value="order_sn">订单号</option>
+                                <option value="mer_name">商家名称</option>
+                            <?php } ?>
+                        </select>
+                        <input type="text" name="search" style="height: 30px; margin-left: 10px; margin-right: 10px;" value="<?= Html::encode($search['search']) ?>">
+                        <input type="submit" value="搜索" style="background-color:#f97c0e;color: white;width: 60px;">
+                    <?php $form = ActiveForm::end()?>
                     <table class="two" cellpadding="0" cellspacing="0" width="960px">
                         <thead>
                             <tr style="background:#E5E5E4 ;border: 0;">
@@ -56,6 +76,8 @@ $this->title = '商品订单';
                                         <?php }else if($value['order_status'] == 3){ ?>
                                             退款
                                         <?php }else if($value['order_status'] == 4){ ?>
+                                            成功
+                                        <?php }else if($value['order_status'] == 5){ ?>
                                             成功
                                         <?php } ?>
                                     </td>

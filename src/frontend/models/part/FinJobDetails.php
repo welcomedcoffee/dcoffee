@@ -137,7 +137,7 @@ class FinJobDetails extends \yii\db\ActiveRecord
     /*
      * @inheritdoc 兼职列表页
      */
-    public function getParts($keyword)
+    public function getParts($keyword='')
     {
         $cond = '1=1 and job_status=1';
         if($keyword['type']){
@@ -159,5 +159,24 @@ class FinJobDetails extends \yii\db\ActiveRecord
                      ->asArray()->all();
         $parts['pages'] = $pages;
         return $parts;             
+    }
+    /*
+     * @inheritdoc 兼职列表页
+     */
+    public function getPart()
+    {
+        $cond = '1=1 and job_status=1';
+        
+        $pages     = new Pagination([
+            'defaultPageSize'   => 5,
+            'totalCount'        => $this->find()->where($cond)->count(),
+        ]);
+        return FinJobDetails::find()
+                     ->where($cond)
+                     ->offset($pages->offset)
+                     ->limit($pages->limit)
+                     ->orderBy(['add_time'=>SORT_DESC])
+                     ->asArray()
+                     ->all();           
     }
 }
