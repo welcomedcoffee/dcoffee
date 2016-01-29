@@ -44,11 +44,11 @@ span {
 			<ul>
 				<li class="img"> <img src="/public/images/us.jpg" width="100" height="100"></li>
 				<li class="wi1">
-					<h1>科科</h1>
-					<p>手机号：18514429975</p></li>
+					<h1><?= Html::encode($model->mer_name) ?></h1>
+					<p>手机号：<?= Html::encode($model->mer_phone) ?></p></li>
 				<li class="wi2">预收余额：1000.00</li>
 				<li class="wi3">
-					<a href="http://www.qutaoxue.net/merchant/merchantQuota">
+					<a href="<?php echo Url::to(['store/apply-limit'])  ?>">
 						<span class="bg1">额度申请</span></a>
 					<a href="http://www.qutaoxue.net/merchant/merchantParttimeList">
 						<span class="bg2">兼职结算</span></a>
@@ -60,16 +60,16 @@ span {
 			</div>
 		</div>
 		<div class="mt_le t_le" id="leftmenus">
-		  <a href="http://www.qutaoxue.net/merchant/merchantIndex" atr="home"><h1>我的门店  </h1></a>
+		  <a href="<?= Url::to(['mystore/part'])?>" atr="home"><h1>我的门店  </h1></a>
 		  <ul>
 		  	<li><a href="http://www.qutaoxue.net/merchant/merchantOrder" atr="order">我的订单</a></li>
 		  	<li><a href="http://www.qutaoxue.net/merchant/merchantComment" atr="comment">我的评论</a></li>
 		  	<h2>我的兼职</h2>
-		  	<li><a href="http://www.qutaoxue.net/merchant/merchantPublish" atr="publish">发布兼职</a></li>
-		  	<li><a href="http://www.qutaoxue.net/merchant/merchantParttimeList" atr="list">兼职列表</a></li>
+		  	<li><a href="<?= Url::to(['mystore/part'])?>" atr="publish">发布兼职</a></li>
+		  	<li><a href="<?= Url::to(['mystore/partlist'])?>" atr="list">兼职列表</a></li>
 		  	<h2>企业设置</h2>
-		  	<li><a href="/public/images/趣淘学.html" atr="base" class="co">基本资料</a></li>
-		  	<li><a href="http://www.qutaoxue.net/merchant/merchantSafe" atr="safe">账户安全</a></li>
+		  	<li><a href="<?= Url::to(['store/index'])?>" atr="base" class="co">基本资料</a></li>
+		  	<li><a href="#" atr="safe">账户安全</a></li>
 		  	<li><a href="http://www.qutaoxue.net/merchant/merchantBalance" atr="account">账户余额</a></li>
 		  </ul>
 		</div>

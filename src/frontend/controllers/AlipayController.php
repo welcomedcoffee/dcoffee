@@ -15,7 +15,7 @@ class AlipayController extends BaseController{
 	public function actionIndex()
 	{
 
-		//header("Content-type:text/html;charset=utf-8");
+		 //header("Content-type:text/html;charset=utf-8");
         require_once('../../vendor/alipay/lib/alipay_core.function.php');
         require_once('../../vendor/alipay/lib/alipay_md5.function.php');
         require_once('../../vendor/alipay/lib/alipay_notify.class.php');
