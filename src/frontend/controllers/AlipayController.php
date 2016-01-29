@@ -161,7 +161,6 @@ class AlipayController extends BaseController{
 			if ($type=='MER_GOODS') {
 				//更改订单状态
 		        $orders = GoodsOrder::sn($out_trade_no);
-		        echo '123';die;
 		        $time = time();
 		        $order_id = $orders->order_id;
 		        $sql1 = "update fin_goods_order set order_status = '4',order_pay_time = '$time' where order_id = $order_id";
@@ -188,7 +187,6 @@ class AlipayController extends BaseController{
 		            echo  $e->getMessage();
 		        }
 			}elseif ($type=='STU_PAY') {
-				echo '456';die;
 				//更改订单状态
 		        $orders = PayOrder::sn($out_trade_no);
 		        $time = time();
@@ -303,10 +301,10 @@ class AlipayController extends BaseController{
 		    }
 
 		    if ($type=='MER_GOODS') {
-		    	echo 'ok123';die;
+		    	echo 'ok123';
 		    	$this->success('支付成功!',['merchants/pay_success']);die;
 		    }elseif ($type=='STU_PAY') {
-		    	echo "ok456";die;
+		    	echo "ok456";
 		    	$this->success('充值成功!',['student/info']);die;
 		    }
 			
@@ -319,10 +317,10 @@ class AlipayController extends BaseController{
 		    //如要调试，请看alipay_notify.php页面的verifyReturn函数
 		    //echo "验证失败";
 		    if ($type=='MER_GOODS') {
-		    	echo "no123";die;
+		    	echo "no123";
 		    	$this->success('支付失败!',['merchants/pay_success']);die;
 		    }elseif ($type=='STU_PAY') {
-		    	echo 'no456';die;	
+		    	echo 'no456';
 		    	$this->success('充值失败!',['student/info']);die;
 		    }	
 		}
