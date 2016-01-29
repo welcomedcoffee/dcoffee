@@ -320,7 +320,7 @@ class AlipayController extends BaseController{
 		    	return $this->render('pay_success',['out_trade_no'=>$out_trade_no]);
 		    }elseif ($type=='100') {
 		    	$this->success('充值失败!',['student/info']);
-		    }	
+		    }
 		}
     }
 }
