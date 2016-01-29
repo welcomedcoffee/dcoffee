@@ -8,7 +8,7 @@ use yii\filters\VerbFilter;
 /**
  * 登陆控制
  */
-class LoginController extends BaseController
+class LoginController extends Controller
 {
 
 
@@ -38,6 +38,12 @@ class LoginController extends BaseController
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
+            //验证码
+			'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'maxLength' => 5,
+                'minLength' => 5
+            ],
 
             
         ];
@@ -48,14 +54,16 @@ class LoginController extends BaseController
      */
     public function actionLogin()
     {
+        
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
+        
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         } else {
+
             return $this->renderAjax('login', [
                 'model' => $model,
             ]);
@@ -70,7 +78,7 @@ class LoginController extends BaseController
     {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        return $this->redirect(['login/login']);
     }
 
 }

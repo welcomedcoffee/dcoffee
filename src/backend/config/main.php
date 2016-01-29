@@ -16,6 +16,7 @@ return [
         'user' => [
             'identityClass' => 'backend\models\login\Admin',
             'enableAutoLogin' => false,
+            'loginUrl' => ['login/login'],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -27,7 +28,7 @@ return [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'login/error',
         ],
     ],
     'params' => $params,

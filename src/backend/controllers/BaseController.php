@@ -12,4 +12,12 @@ class BaseController extends Controller
      * @inheritdoc
      */
     public $layout = false;
+
+    public function init()
+    {
+        if( Yii::$app->user->isGuest ) {
+           
+            Yii::$app->user->loginRequired();
+        }
+    }
 }

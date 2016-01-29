@@ -38,6 +38,7 @@ use yii\helpers\Url;
 				<li><a href="<?= Url::to(['login/login']) ?>">切换账户</a></li>
 				<li>
                 <form id="_form" method="post" action="<?= Url::to(['login/logout']) ?>">
+                    <input type="hidden" value="<?= \Yii::$app->request->csrfToken ?>" name="_csrf" />
                     <a href="javascript:void(0);" onclick="document.getElementById('_form').submit();">退出</a>
                 </form>
                 </li>

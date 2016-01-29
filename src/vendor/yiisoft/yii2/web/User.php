@@ -145,14 +145,16 @@ class User extends Component
      */
     public function init()
     {
+        
         parent::init();
-
+        
         if ($this->identityClass === null) {
             throw new InvalidConfigException('User::identityClass must be set.');
         }
         if ($this->enableAutoLogin && !isset($this->identityCookie['name'])) {
             throw new InvalidConfigException('User::identityCookie must contain the "name" element.');
         }
+        
     }
 
     private $_identity = false;
@@ -444,6 +446,7 @@ class User extends Component
      */
     protected function beforeLogin($identity, $cookieBased, $duration)
     {
+
         $event = new UserEvent([
             'identity' => $identity,
             'cookieBased' => $cookieBased,
